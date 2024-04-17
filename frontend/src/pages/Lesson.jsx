@@ -1,9 +1,14 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from "../components/navbar";
+import LessonOne from '../components/LessonOne';
 
 const Lesson = () => {
   let { id } = useParams();
+
+  if(id === "1"){
+      return <LessonOne />
+  }
 
   return (
     <div>

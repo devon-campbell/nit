@@ -7,6 +7,7 @@ import Lesson from "./pages/Lesson";
 import Quiz from "./pages/Quiz";
 import Grad from "./pages/Grad";
 import Start from "./pages/Start"; // import the component for /play
+import Piano from "./pages/Piano";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/quiz/:id" element={<Quiz />} />
               <Route path="/grad" element={<Grad />} />
               <Route path="/start" element={<Start />} />
+              <Route path="/piano" element={<Piano />} />
           </Routes>
       </div>
     </Router>

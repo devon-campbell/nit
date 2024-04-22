@@ -21,7 +21,7 @@ class SoundfontProvider extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      instrument: null,
+      activeNotes: {},
     };
   }
 
@@ -56,8 +56,34 @@ class SoundfontProvider extends React.Component {
   render() {
     return this.props.render({
       isLoading: !this.state.instrument,
-      playNote: this.state.instrument ? this.state.instrument.play : () => {},
-      stopNote: this.state.instrument ? this.state.instrument.stop : () => {},
+      playNote: (midiNumber) => {
+        if (this.state.instrument) {
+          // Create a new player for the note
+          const player = this.state.instrument.play(midiNumber);
+          // Add the player to the active notes map
+          this.setState((prevState) => ({
+            activeNotes: {
+              ...prevState.activeNotes,
+              [midiNumber]: player,
+            },
+          }));
+        }
+      },
+      stopNote: (midiNumber) => {
+        if (this.state.instrument) {
+          // Stop the player for the note
+          const player = this.state.activeNotes[midiNumber];
+          if (player) {
+            player.stop();
+          }
+          // Remove the player from the active notes map
+          this.setState((prevState) => {
+            const activeNotes = { ...prevState.activeNotes };
+            delete activeNotes[midiNumber];
+            return { activeNotes };
+          });
+        }
+      },
     });
   }
 }

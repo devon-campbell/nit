@@ -22,16 +22,16 @@ const keyboardShortcuts = KeyboardShortcuts.create({
 
 const PianoComponent = () => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const [playedNotes, setPlayedNotes] = useState([]); // New state for played notes
+  const [playedNotes, setPlayedNotes] = useState([]);
 
   const handleResize = (bounds) => {
     setDimensions(bounds);
   };
 
- const handlePlayNote = (midiNumber) => {
-  const noteName = fromMidi(midiNumber);
-  setPlayedNotes((prevNotes) => [...prevNotes, noteName]);
-};
+  const handlePlayNote = (midiNumber) => {
+    const noteName = fromMidi(midiNumber);
+    setPlayedNotes((prevNotes) => [...prevNotes, noteName]);
+  };
 
   return (
     <div>
@@ -58,9 +58,9 @@ const PianoComponent = () => {
             />
             <div style={{ marginLeft: '20px' }}>
               <h2>Played Notes:</h2>
-              <ul>
+              <ul style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', listStyleType: 'none' }}>
                 {playedNotes.map((note, index) => (
-                  <li key={index}>{note}</li>
+                  <li key={index} style={{ marginRight: '10px' }}>{note}</li>
                 ))}
               </ul>
             </div>

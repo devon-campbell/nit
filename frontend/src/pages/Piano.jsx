@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from "../components/navbar";
 import PianoComponent from "../components/PianoComponent";
 import SheetMusicComponent from "../components/SheetMusicComponent";
+import {MidiNumbers} from "react-piano";
 
 const Piano = () => {
   const [musicXML, setMusicXML] = useState(null);
@@ -19,7 +20,10 @@ const Piano = () => {
       <h1>Learn</h1>
       <p>Learn the piano!</p>
       {musicXML && <SheetMusicComponent xml={musicXML}/>}
-      <PianoComponent />
+      <PianoComponent noteRange={{
+          first: MidiNumbers.fromNote('c3'),
+          last: MidiNumbers.fromNote('f4'),
+      }}/>
     </div>
   );
 }

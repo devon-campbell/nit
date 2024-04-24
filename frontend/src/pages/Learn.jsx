@@ -24,26 +24,28 @@ const Learn = () => {
   };
 
   return (
-    <div>
-        <Navbar />
-      <h1>Learn</h1>
-      <p>Learn about the world!</p>
-      <select value={lessonNumber} onChange={handleLessonChange}>
-        {[...Array(7).keys()].map((number) =>
-          <option key={number + 1} value={number + 1}>Lesson {number + 1}</option>
-        )}
-      </select>
-      <button onClick={handleLessonGo}>Go</button>
-      <select value={quizNumber} onChange={handleQuizChange}>
-        {[...Array(9).keys()].map((number) =>
-          <option key={number + 1} value={number + 1}>Quiz {number + 1}</option>
-        )}
-      </select>
-      <button onClick={handleQuizGo}>Go</button>
-        <Link to="/grad">
-          <button style={{ margin: '10px', padding: '10px' }}>Grad</button>
-        </Link>
-    </div>
+      <div>
+          <Navbar/>
+          <h1>Learn</h1>
+          <p>Learn about the world!</p>
+          <select value={lessonNumber} onChange={handleLessonChange} style={{fontSize: '2em', padding: '10px'}}>
+              {[...Array(7).keys()].map((number) =>
+                  <option key={number + 1} value={number + 1}>Lesson {number + 1}</option>
+              )}
+          </select>
+          <button onClick={handleLessonGo} style={{fontSize: '2em', padding: '10px'}}>Go</button>
+          <select value={quizNumber} onChange={handleQuizChange} style={{fontSize: '2em', padding: '10px'}}>
+              {[...Array(9).keys()].map((number) =>
+                  <option key={number + 1} value={number + 1}>Quiz {number + 1}</option>
+              )}
+          </select>
+          <button onClick={handleQuizGo} style={{fontSize: '2em', padding: '10px'}}>Go</button>
+          <div>
+              <Link to="/grad">
+                  <button style={{fontSize: '2em', padding: '10px'}}>Grad</button>
+              </Link>
+          </div>
+      </div>
   );
 }
 

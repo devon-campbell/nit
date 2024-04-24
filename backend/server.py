@@ -17,7 +17,8 @@ def dogs():
 
 @app.route('/get-music')
 def get_music():
-    return send_file('../sheet_music/Test_Score4.musicxml', as_attachment=True)
+    # return send_file('../sheet_music/Test_Score4.musicxml', as_attachment=True)
+    return send_file('../sheet_music/Test_Quiz1.musicxml', as_attachment=True)
 
 
 if __name__ == '__main__':

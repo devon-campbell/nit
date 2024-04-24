@@ -12,7 +12,7 @@ const Navbar = () => {
         <li style={{ display: 'inline' }}><Link to="/" style={{ textDecoration: 'none', color: 'black' }}>home</Link></li>
         <li style={{ display: 'inline' }}><Link to="/learn" style={{ textDecoration: 'none', color: 'black' }}>learn</Link></li>
         <li style={{ display: 'inline' }}><Link to="/play" style={{ textDecoration: 'none', color: 'black' }}>play</Link></li>
-        <li style={{ display: 'inline' }}><Link to="/account" style={{ textDecoration: 'none', color: 'black' }}>account</Link></li>
+        <li style={{ display: 'inline' }}><Link to="/piano" style={{ textDecoration: 'none', color: 'black' }}>piano</Link></li>
       </ul>
     </nav>
   );

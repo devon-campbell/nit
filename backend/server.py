@@ -1,8 +1,7 @@
-from flask import Flask, send_file, request
+from flask import Flask, send_file, request, jsonify
 from flask_cors import CORS
 from random_note_gen import gen_n_notes
-import os
-import jsonify
+import os 
 
 app = Flask(__name__)
 CORS(app)  # Adjust the path and origins as necessary
@@ -29,7 +28,7 @@ def gen_q5():
     return send_file(gen_n_notes(8, False, False), as_attachment=True)
 
 # Directory to save MusicXML files
-MUSIC_XML_DIR = '../utils/user_notes/'
+MUSIC_XML_DIR = f'{os.getcwd()}/../frontend/src/utils/user_notes/'
 
 @app.route('/save-musicxml', methods=['POST'])
 def save_musicxml():
@@ -37,10 +36,17 @@ def save_musicxml():
         os.makedirs(MUSIC_XML_DIR)  # Create the directory if it doesn't exist
     xml_data = request.data.decode('utf-8')
     file_path = os.path.join(MUSIC_XML_DIR, 'user_music.xml')
-    with open(file_path, 'w') as file:
-        file.write(xml_data)
-    return jsonify({'message': 'File saved successfully', 'file_path': file_path})
+    try:
+        with open(file_path, 'w') as file:
+            file.write(xml_data)
+    except Exception as e:
+        app.logger.error(f"Error writing file: {e}")
+        return jsonify({'message': 'Failed to save file', 'error': str(e)}), 500
 
+    # Set CORS headers explicitly
+    response = jsonify({'message': 'File saved successfully', 'file_path': file_path, 'xml_data':xml_data})
+    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+    return response
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000)

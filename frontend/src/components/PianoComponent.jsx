@@ -6,6 +6,7 @@ import DimensionsProvider from '../utils/DimensionProvider';
 import SoundfontProvider from '../utils/SoundfontProvider';
 import { createMusicXML } from '../utils/musicUtils';
 
+
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 const soundfontHostname = 'https://d1pzp51pvbm36p.cloudfront.net';
 
@@ -31,12 +32,30 @@ const PianoComponent = ({ noteRange, bpm, setBpm }) => {
     ));
   };
 
-  const handleExport = () => {
+  const handleExport = async () => {
     const xmlOutput = createMusicXML(playedNotes.map(note => ({
       ...note,
       bpm: bpm // Ensure bpm is part of each note object for accurate duration calculation
     })));
-    console.log(xmlOutput); // For now, just log it or consider downloading it as a file
+  
+    try {
+      const response = await fetch('http://localhost:8000/save-musicxml', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+        body: xmlOutput
+      });
+      if (response.ok) {
+        console.log('MusicXML file saved successfully!');
+        const jsonResponse = await response.json();
+        console.log('File saved to:', jsonResponse.file_path);
+      } else {
+        console.error('Failed to save the MusicXML file.');
+      }
+    } catch (error) {
+      console.error('Error while saving the MusicXML file:', error);
+    }
   };
 
   const keyboardShortcuts = KeyboardShortcuts.create({

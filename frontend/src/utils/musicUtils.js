@@ -5,10 +5,12 @@
  * Returns both the type of note (e.g., quarter, whole) and the numeric duration in divisions.
  * Assumes 1 quarter note = 1 division for simplicity, adjust if using different division settings.
  */
-export function calculateNoteDuration(durationMs, bpm) {
+export function calculateNoteDuration(duration, bpm) {
+    console.log('duration:', duration)
     const beatsPerSecond = bpm / 60;
-    const durationInSeconds = durationMs / 1000;
-    const durationInBeats = durationInSeconds * beatsPerSecond;
+    console.log('bps:', beatsPerSecond)
+    const durationInBeats = duration * beatsPerSecond;
+    console.log('durationInBeats:', durationInBeats)
   
     if (durationInBeats >= 3.5) { // Adjust threshold as needed for more accuracy
       return { type: 'whole', divisions: 4 };

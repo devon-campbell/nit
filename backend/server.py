@@ -35,7 +35,7 @@ def save_musicxml():
     if not os.path.exists(MUSIC_XML_DIR):
         os.makedirs(MUSIC_XML_DIR)  # Create the directory if it doesn't exist
     xml_data = request.data.decode('utf-8')
-    file_path = os.path.join(MUSIC_XML_DIR, 'user_music.xml')
+    file_path = os.path.join(MUSIC_XML_DIR, 'user_music.musicxml')
     try:
         with open(file_path, 'w') as file:
             file.write(xml_data)

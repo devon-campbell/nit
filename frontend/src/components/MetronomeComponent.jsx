@@ -55,7 +55,7 @@ const MetronomeComponent = ({ bpm}) => {
         return (
           <div>
             <button onClick={handleToggle} disabled={isLoading} style={{fontSize: '2em', padding: '10px'}}>
-              {isPlaying ? 'Stop' : bpm + ' BPM'}
+              {isPlaying ? 'Stop Metronome' : 'Start Metronome'}
             </button>
           </div>
         );

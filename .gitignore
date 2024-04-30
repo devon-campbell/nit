@@ -24,3 +24,4 @@ yarn-error.log*
 
 # -------------------- Flask app .gitignore entries -------------------- 
 backend/venv
+backend/__pycache__

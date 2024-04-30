@@ -27,6 +27,15 @@ def gen_q5():
     # Call the function to generate 8 beats of random notes (with no 8th notes and no sharps)
     return send_file(gen_n_notes(8, False, False), as_attachment=True)
 
+@app.route('/get-quiz-musicxml/<int:quiz_number>')
+def get_quiz_music(quiz_number):
+    if quiz_number >= 1 and quiz_number <= 4:
+        return send_file('../sheet_music/Test_Quiz1.musicxml', as_attachment=True)
+    elif quiz_number == 5:
+        return send_file(gen_n_notes(8, False, False), as_attachment=True)
+    else:
+        return "Invalid quiz number", 400
+
 # Directory to save MusicXML files
 MUSIC_XML_DIR = f'{os.getcwd()}/../frontend/src/utils/user_notes/'
 

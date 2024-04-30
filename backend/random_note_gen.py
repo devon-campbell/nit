@@ -1,5 +1,5 @@
 import random
-from music21 import stream, note, metadata, instrument
+from music21 import stream, note, metadata, instrument, clef
 from datetime import datetime
 
 def gen_n_notes(total_duration, include_8th, include_sharps):
@@ -13,6 +13,9 @@ def gen_n_notes(total_duration, include_8th, include_sharps):
     paired_durations = [0.5]  # Eighth 
 
     s = stream.Stream()
+    treble_clef = clef.TrebleClef()
+    s.append(treble_clef) # Set treble clef
+
     s.metadata = metadata.Metadata()
     s.metadata.title = ''
     s.metadata.composer = ''

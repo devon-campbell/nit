@@ -1,11 +1,11 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from "../components/navbar";
-import QuizOne from '../components/QuizOne';
+import Quiz1 from '../components/Quiz1';
 import Quiz5 from '../components/Quiz5';
 
 const quizComponents = {
-  "1": QuizOne,
+  "1": Quiz1,
   "5": Quiz5,
   // map all other quiz components
 };

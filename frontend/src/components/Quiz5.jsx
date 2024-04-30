@@ -12,7 +12,7 @@ const Quiz5 = () => {
   const fetchMusicXML = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:8000/gen_q5');
+      const response = await fetch('http://localhost:8000/get-quiz-musicxml/5');
       const data = await response.text();
       setMusicXML(data);
     } catch (error) {

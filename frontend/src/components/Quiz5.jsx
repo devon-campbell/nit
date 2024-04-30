@@ -39,7 +39,7 @@ const Quiz5 = () => {
       <div style={{ marginTop: '20px', marginBottom: '10px' }}>
         <MetronomeComponent bpm={bpm} setBpm={setBpm}/>
       </div>
-      <PianoComponent noteRange={{ first: MidiNumbers.fromNote('c3'), last: MidiNumbers.fromNote('f4') }} bpm={bpm} setBpm={setBpm}/>
+      <PianoComponent noteRange={{ first: MidiNumbers.fromNote('c4'), last: MidiNumbers.fromNote('f5') }} bpm={bpm} setBpm={setBpm}/>
     </div>
   );
 }

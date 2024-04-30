@@ -6,9 +6,9 @@ import xml.etree.ElementTree as ET
 def gen_n_notes(total_duration, include_8th, include_sharps):
     
     
-    notes_list = ['C3', 'D3', 'E3', 'F3', 'G3', 'A3','B3','C4', 'D4', 'E4', 'F4'] 
+    notes_list = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4','B4','C5', 'D5', 'E5', 'F5'] 
     if include_sharps: 
-        notes_list.extend(['C#3','D#3', 'F#3', 'G#3','A#3', 'C#4','D#4'] )    
+        notes_list.extend(['C#4','D#4', 'F#4', 'G#4','A#4', 'C#5','D#5'] )    
     
     durations_list = [4, 2, 1]  # Whole, Half, Quarter notes
     paired_durations = [0.5]  # Eighth 

@@ -21,8 +21,8 @@ const Piano = () => {
       <p>Learn the piano!</p>
       {musicXML && <SheetMusicComponent xml={musicXML}/>}
       <PianoComponent noteRange={{
-          first: MidiNumbers.fromNote('c3'),
-          last: MidiNumbers.fromNote('f4'),
+          first: MidiNumbers.fromNote('c4'),
+          last: MidiNumbers.fromNote('f5'),
       }}/>
     </div>
   );

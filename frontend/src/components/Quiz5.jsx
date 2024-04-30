@@ -9,21 +9,24 @@ const Quiz5 = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [bpm, setBpm] = useState(80);
 
-  const fetchMusicXML = async () => {
-    setIsLoading(true);
-    try {
-      const response = await fetch('http://localhost:8000/get-quiz-musicxml/5');
-      const data = await response.text();
-      setMusicXML(data);
-    } catch (error) {
-      console.error("Error fetching the music XML: ", error);
-    }
-    setIsLoading(false);
-  };
-
   useEffect(() => {
-    fetchMusicXML();
-  }, []);
+    const fetchMusicXML = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch('http://localhost:8000/get-quiz-musicxml/5');
+        const data = await response.text();
+        setMusicXML(data);
+      } catch (error) {
+        console.error("Error fetching the music XML: ", error);
+      }
+      setIsLoading(false);
+    };
+
+    // Check if musicXML is null before fetching
+    if (!musicXML) {
+      fetchMusicXML();
+    }
+  }, [musicXML]); // Include musicXML in the dependencies array
 
   return (
     <div style={{ padding: '20px' }}>

@@ -1,6 +1,7 @@
 import random
 from music21 import stream, note, metadata, instrument, clef
 from datetime import datetime
+import xml.etree.ElementTree as ET
 
 def gen_n_notes(total_duration, include_8th, include_sharps):
     
@@ -64,5 +65,6 @@ def gen_n_notes(total_duration, include_8th, include_sharps):
 
     # Adjust the file path and name as necessary
     fp = f'./random_notes/random_notes_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.musicxml'
-    s.write('musicxml', fp=fp)
+    s.write('musicxml', fp=fp, storeMetadata=False)
+
     return fp

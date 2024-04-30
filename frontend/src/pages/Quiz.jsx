@@ -1,21 +1,23 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from "../components/navbar";
+import QuizOne from '../components/QuizOne';
+import Quiz5 from '../components/Quiz5';
+
+const quizComponents = {
+  "1": QuizOne,
+  "5": Quiz5,
+  // map all other quiz components
+};
 
 const Quiz = () => {
   let { id } = useParams();
-
-  if(id === "8") {
-      id = "0, the special quiz to skip sight reading";
-  }else if(id === "9") {
-      id = "00, the special quiz to skip piano playing";
-  }
+  const QuizComponent = quizComponents[id];
 
   return (
     <div>
-        <Navbar />
-      <h1>Quiz {id}</h1>
-      <p>This is the content for quiz {id}.</p>
+      <Navbar />
+      {QuizComponent ? <QuizComponent /> : <p>This is the content for quiz {id}.</p>}
     </div>
   );
 }

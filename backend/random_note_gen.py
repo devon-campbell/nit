@@ -1,0 +1,65 @@
+import random
+from music21 import stream, note, metadata, instrument
+from datetime import datetime
+
+def gen_n_notes(total_duration, include_8th, include_sharps):
+    
+    
+    notes_list = ['C3', 'D3', 'E3', 'F3', 'G3', 'A3','B3','C4', 'D4', 'E4', 'F4'] 
+    if include_sharps: 
+        notes_list.extend(['C#3','D#3', 'F#3', 'G#3','A#3', 'C#4','D#4'] )    
+    
+    durations_list = [4, 2, 1]  # Whole, Half, Quarter notes
+    paired_durations = [0.5]  # Eighth 
+
+    s = stream.Stream()
+    s.metadata = metadata.Metadata()
+    s.metadata.title = ''
+    s.metadata.composer = ''
+
+    current_duration = 0
+    paired_duration_used = 0
+
+    while current_duration < total_duration:
+        # Include 8th notes
+        if include_8th:
+            # Update possible durations based on the limit for paired durations
+            if paired_duration_used < total_duration / 4:
+                possible_durations = durations_list + [d for d in paired_durations if (total_duration - current_duration) - 2*d >= 0 and paired_duration_used + 2*d <= total_duration / 2]
+            else:
+                possible_durations = [d for d in durations_list if d <= total_duration - current_duration]
+
+            if not possible_durations:
+                break  # Break if no possible durations fit the remaining duration
+
+            random_duration = random.choice(possible_durations)
+            if random_duration in paired_durations:
+                # If the selected duration requires a pair, generate two notes
+                for _ in range(2):
+                    random_note_name = random.choice(notes_list)
+                    new_note = note.Note(random_note_name, quarterLength=random_duration)
+                    s.append(new_note)
+                current_duration += 2 * random_duration
+                paired_duration_used += 2 * random_duration  # Update the paired duration used
+            else:
+                random_note_name = random.choice(notes_list)
+                new_note = note.Note(random_note_name, quarterLength=random_duration)
+                s.append(new_note)
+                current_duration += random_duration
+        # Only half, whole, quarter
+        else:
+            possible_durations = [d for d in durations_list if d <= total_duration - current_duration]
+
+            if not possible_durations:
+                break  
+
+            random_duration = random.choice(possible_durations)
+            random_note_name = random.choice(notes_list)
+            new_note = note.Note(random_note_name, quarterLength=random_duration)
+            s.append(new_note)
+            current_duration += random_duration
+
+    # Adjust the file path and name as necessary
+    fp = f'./random_notes/random_notes_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.musicxml'
+    s.write('musicxml', fp=fp)
+    return fp

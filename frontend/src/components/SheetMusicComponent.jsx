@@ -28,12 +28,6 @@ const SheetMusicComponent = ({ xml }) => {
     if (xml) {
       loadOsmdInstance();
     }
-
-    return () => {
-      if (osmd) {
-        osmd.close();
-      }
-    };
   }, [xml]);
 
   return (

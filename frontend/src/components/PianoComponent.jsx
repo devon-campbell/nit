@@ -4,13 +4,23 @@ import fromMidi from 'midi-note';
 import 'react-piano/dist/styles.css';
 import DimensionsProvider from '../utils/DimensionProvider';
 import SoundfontProvider from '../utils/SoundfontProvider';
-import { createMusicXML } from '../utils/musicUtils';
 
 
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 const soundfontHostname = 'https://d1pzp51pvbm36p.cloudfront.net';
 
-const PianoComponent = ({ noteRange, bpm, setBpm }) => {
+const PianoComponent = ({ noteRange, bpm, setBpm, maxNumOfNotes, onFinishedPlaying }) => {
+  /**
+   * This component renders a piano interface that allows users to play notes and record the played notes.
+   * 
+   * Props:
+   * - noteRange: Object containing the first and last MIDI numbers for the piano keyboard.
+   * - bpm: The beats per minute (BPM) for the metronome.
+   * - setBpm: Function to update the BPM state.
+   * - maxNumOfNotes: The maximum number of notes that can be played (for a quiz)
+   * - onFinishedPlaying: Function to call when the user has finished playing all notes (for a quiz) — it
+   * ideally is a callback to the quiz state to handle logic after the user has finished playing all notes.
+   */
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [playedNotes, setPlayedNotes] = useState([]);
 
@@ -30,31 +40,8 @@ const PianoComponent = ({ noteRange, bpm, setBpm }) => {
     setPlayedNotes((prevNotes) => prevNotes.map(note =>
       note.name === noteName && !note.duration ? { ...note, duration: (stopTime - note.startTime) / 1000 } : note
     ));
-  };
-
-  const handleExport = async () => {
-    const xmlOutput = createMusicXML(playedNotes.map(note => ({
-      ...note,
-      bpm: bpm // Ensure bpm is part of each note object for accurate duration calculation
-    })));
-  
-    try {
-      const response = await fetch('http://localhost:8000/save-musicxml', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'text/plain',
-        },
-        body: xmlOutput
-      });
-      if (response.ok) {
-        console.log('MusicXML file saved successfully!');
-        const jsonResponse = await response.json();
-        console.log('File saved to:', jsonResponse.file_path);
-      } else {
-        console.error('Failed to save the MusicXML file.');
-      }
-    } catch (error) {
-      console.error('Error while saving the MusicXML file:', error);
+    if (playedNotes.length >= maxNumOfNotes) {
+      onFinishedPlaying(playedNotes); // Send the played notes to the parent component
     }
   };
 
@@ -106,7 +93,6 @@ const PianoComponent = ({ noteRange, bpm, setBpm }) => {
                   </li>
               ))}
           </ul>
-          <button onClick={handleExport}>Export to MusicXML</button>
       </div>
   );
 };

@@ -1,5 +1,4 @@
 // src/utils/musicUtils.js
-
 /**
  * Calculates the musical duration based on the duration in milliseconds and BPM.
  * Returns both the type of note (e.g., quarter, whole) and the numeric duration in divisions.
@@ -24,18 +23,18 @@ export function calculateNoteDuration(duration, bpm) {
   }
   
   /**
-   * Generates MusicXML string from an array of notes.
+   * Generates MusicXML string (with newline characters in between) from an array of notes.
    */
   export function createMusicXML(notes) {
     let xml = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-  <!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
-  <score-partwise version="3.1">
-    <part-list>
-      <score-part id="P1">
-        <part-name>Piano</part-name>
-      </score-part>
-    </part-list>
-    <part id="P1">`;
+    <!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
+    <score-partwise version="3.1">
+      <part-list>
+        <score-part id="P1">
+          <part-name>Piano</part-name>
+        </score-part>
+      </part-list>
+      <part id="P1">`;
   
     xml += `<measure number="1">`; // Simplified example with one measure
   
@@ -53,6 +52,23 @@ export function calculateNoteDuration(duration, bpm) {
     }
   
     xml += `</measure></part></score-partwise>`;
+  
+    // Create a Blob object containing the MusicXML content
+    const blob = new Blob([xml], { type: 'application/xml' });
+  
+    // Generate a URL for the Blob
+    const url = URL.createObjectURL(blob);
+  
+    // Create a link element with the URL as its href attribute
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'music.xml'; // Set the default file name for download
+  
+    // Simulate a click on the link to trigger the download
+    link.click();
+  
+    // Clean up by revoking the URL object to free up memory
+    URL.revokeObjectURL(url);
     return xml;
   }
   

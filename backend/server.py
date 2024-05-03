@@ -1,7 +1,9 @@
 from flask import Flask, send_file, request, jsonify
 from flask_cors import CORS
 from random_note_gen import gen_n_notes
+from diff_checker import compute_diff, annotate_files_for_diffs
 import os 
+import sys
 
 app = Flask(__name__)
 CORS(app)  # Adjust the path and origins as necessary
@@ -28,7 +30,7 @@ def gen_q5():
     return send_file(gen_n_notes(8, False, False), as_attachment=True)
 
 @app.route('/get-quiz-musicxml/<int:quiz_number>')
-def get_quiz_music(quiz_number):
+def get_quiz_musicxml(quiz_number):
     if quiz_number >= 1 and quiz_number <= 4:
         return send_file('../sheet_music/Test_Quiz1.musicxml', as_attachment=True)
     elif quiz_number == 5:
@@ -56,6 +58,53 @@ def save_musicxml():
     response = jsonify({'message': 'File saved successfully', 'file_path': file_path, 'xml_data':xml_data})
     response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
     return response
+
+@app.route('/process-musicxml-diffs', methods=['POST'])
+def process_musicxml_diffs():
+    """
+        Computes the diffs between two MusicXML files and returns
+        two annotated MusicXML files highlighting the differences.
+    """
+    original_file, played_file = request.files['original'], request.files['played']
+    original_filename, played_filename = original_file.filename, played_file.filename
+
+    # Read the content of the files, decode them and split them into lists of lines
+    original_lines = original_file.read().decode('utf-8').splitlines()
+    played_lines = played_file.read().decode('utf-8').splitlines()
+
+    diff_string, lines_in_original_to_annotate, lines_in_played_to_annotate = compute_diff(original_lines, played_lines)
+    original_music_annotated, played_music_annotated = annotate_files_for_diffs(original_lines, played_lines, lines_in_original_to_annotate, lines_in_played_to_annotate)
+
+    # Save annotated files to disk
+    original_path = 'original_annotated.musicxml'
+    played_path = 'played_annotated.musicxml'
+
+    with open(original_path, 'w') as f:
+        f.write(original_music_annotated)
+    with open(played_path, 'w') as f:
+        f.write(played_music_annotated)
+
+    #print(original_music_annotated, "hey ....", played_music_annotated)
+    #sys.stdout.flush()
+
+    response_data = {
+        'original_annotated': original_music_annotated,
+        'played_annotated': played_music_annotated
+    }
+
+    # Download the files to local machine
+    download_path = os.path.join(os.getcwd(), 'downloads')
+    os.makedirs(download_path, exist_ok=True)
+
+    original_download_path = os.path.join(download_path, original_filename)
+    played_download_path = os.path.join(download_path, played_filename)
+
+    with open(original_download_path, 'w') as f:
+        f.write(original_music_annotated)
+    with open(played_download_path, 'w') as f:
+        f.write(played_music_annotated)
+
+    return jsonify(response_data)
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000)

@@ -8,6 +8,7 @@ import Quiz from "./pages/Quiz";
 import Grad from "./pages/Grad";
 import Start from "./pages/Start"; // import the component for /play
 import Piano from "./pages/Piano";
+import './App.css';
 
 function App() {
   return (

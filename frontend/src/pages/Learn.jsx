@@ -27,7 +27,7 @@ const Learn = () => {
       <div>
           <Navbar/>
           <h1>Learn</h1>
-          <p>Learn about the world!</p>
+          <p className="text-red">Learn about the world!</p>
           <select value={lessonNumber} onChange={handleLessonChange} style={{fontSize: '2em', padding: '10px'}}>
               {[...Array(7).keys()].map((number) =>
                   <option key={number + 1} value={number + 1}>Lesson {number + 1}</option>

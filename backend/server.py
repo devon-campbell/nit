@@ -1,7 +1,6 @@
 from flask import Flask, send_file, request, jsonify
 from flask_cors import CORS
 from random_note_gen import gen_n_notes
-from diff_checker import compute_diff, annotate_files_for_diffs
 import os 
 import sys
 

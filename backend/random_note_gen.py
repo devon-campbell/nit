@@ -67,4 +67,20 @@ def gen_n_notes(total_duration, include_8th, include_sharps):
     fp = f'./random_notes/random_notes_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.musicxml'
     s.write('musicxml', fp=fp, storeMetadata=False)
 
+    '''
+        SOMETIMES MUSIC21 GENERATES A SCORE WITH EXTRANEOUS CONTENT AFTER THE CLOSING </score-partwise> TAG
+        THE FOLLOWING CODE REMOVES ANY EXTRA CONTENT AFTER THE CLOSING TAG!
+    '''
+    # Read the generated MusicXML file to remove any extra content 
+    with open(fp, 'r') as f:
+        musicxml_content = f.read()
+    
+    # Remove any extra content after the closing </score-partwise> tag
+    index = musicxml_content.find('</score-partwise>') + len('</score-partwise>')
+    musicxml_content = musicxml_content[:index]
+    
+    # Write the modified MusicXML content back to the file
+    with open(fp, 'w') as f:
+        f.write(musicxml_content)
+
     return fp

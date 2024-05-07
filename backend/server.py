@@ -1,6 +1,7 @@
 from flask import Flask, send_file, request, jsonify
 from flask_cors import CORS
 from random_note_gen import gen_n_notes
+from user_evaluation import compare_sheet_music_to_user_notes
 import os 
 import sys
 import json
@@ -69,7 +70,7 @@ def evaluate_user_playing():
         the correctly and incorrectly played notes.
     """
     sheet_music_file = request.files['sheetMusic']
-    sheet_music_content = sheet_music_file.read()
+    sheet_music_content = sheet_music_file.read().decode('utf-8')
     print("Received MusicXML file content:", sheet_music_content)
 
     played_notes_file = request.files['playedNotes']
@@ -77,6 +78,8 @@ def evaluate_user_playing():
     played_notes_objects = json.loads(played_notes_content)
     print("Received played notes objects:", played_notes_objects)
     sys.stdout.flush()
+
+    compare_sheet_music_to_user_notes(sheet_music_content, played_notes_objects)
 
     response_data = {
         'message': 'Hey man wht up, its kent'

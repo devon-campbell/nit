@@ -1,29 +1,23 @@
-import React, {useState, useEffect, useCallback, useMemo} from 'react';
-import { useTransition, animated, config } from 'react-spring';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import Navbar from "./navbar";
-import noteLengthsDiagram from '../assets/note-lengths-diagram.jpg';
-import quarterNoteSymbol from '../assets/quarter-note-symbol.jpg';
+import React, {useCallback, useEffect, useMemo, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {animated, config, useTransition} from "react-spring";
 import DimensionsProvider from "../utils/DimensionProvider";
-import PianoComponent from "./PianoComponent";
-import { MidiNumbers } from 'react-piano';
+import Navbar from "./navbar";
+import halfNoteSymbol from "../assets/half-note-symbol.jpg";
 import SpacebarComponent from "./SpacebarComponent";
 
-const LessonOne = () => {
-    const navigate = useNavigate();
+const Lesson2 = () => {
+   const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [inTransition, setInTransition] = useState(false);
-  const steps = useMemo(() => ['(Use the spacebar, arrow keys, or buttons)',
-                          'Before we get into the fun stuff, we must first understand some terminology and ideas',
-                          'Firstly, sight-reading is the art of reading and performing music at first sight, without prior rehearsal',
-                          'Think about reading a book aloud for the first time, but with musical notes instead of words',
-                          'In this lesson, we\'ll focus on the basic building blocks of music notation: notes',
-                          'A note is a symbol that represents a sound',
-                          'By mastering the rhythm and duration of quarter, half, and whole notes, you\'ll lay a solid foundation for sight-reading',
-      'The quarter note is like the heartbeat of music',
-      ' It generally represents one beat, or a quarter of a whole note\'s duration',
-      'In fact, most music we listen to revolves around the idea of a quarter note',
-      'When you see a quarter note, think of it as lasting for one count, or one beat, let\'s practice tapping along to get a feel for the rhythm of the quarter note',
+  const steps = useMemo(() => [
+      '(Use the spacebar, arrow keys, or buttons)',
+      'Now that we understand the basic idea of a quarter note, let\'s see how it relates to other note durations.',
+      'In music, notes can be divided into smaller parts, or fractions, of a whole note.',
+      'This is the half note, which is half of a whole note\'s duration or four beats total.',
+      'Another way to think about the half note is that it is two quarter notes combined.',
+      'A quarter note typically lasts for one second, so a half note would last for two seconds.',
+      'Let\'s practice playing half and quarter notes together!'
   ], []);
 
   const transitions = useTransition(step, {
@@ -41,7 +35,7 @@ const LessonOne = () => {
       setStep((prevStep) => {
         const nextStep = (prevStep + 1) % steps.length;
         if (nextStep === 0) { // If nextStep is 0, we've looped back to the start
-          navigate('/quiz/1'); // Navigate to /quiz/1
+          navigate('/quiz/2'); // Navigate to /quiz/1
         }
         return nextStep;
       });
@@ -75,6 +69,7 @@ const LessonOne = () => {
   };
 
 
+
   return (
   <div style={{ overflow: 'hidden', maxHeight: '100vh', maxWidth: '100vw' }}>
       <div style={{ position: 'relative', height: '90vh'}}> {/* Set height to 100vh to fill the screen */}
@@ -99,10 +94,8 @@ const LessonOne = () => {
                 <animated.div style={{...style, textAlign: 'center'}}>
                   <>
                     <p style={{margin: 'auto', width: '100%'}}>{steps[item]}</p>
-                    {item >= 2 && item <= 6 && <img src={noteLengthsDiagram} alt="Note Lengths Diagram"
+                    {item >= 3 && item <= 6 && <img src={halfNoteSymbol} alt="Half Note Symbol"
                                                     style={{paddingTop: '24px', width: '25%'}}/>}
-                    {item >= 7 && <img src={quarterNoteSymbol} alt="Quarter Note Symbol"
-                                       style={{paddingTop: '24px', width: '25%'}}/>}
                     <div>
                       {item === 10 && <button onClick={handleNext}>Quiz Me</button>}
                     </div>
@@ -124,7 +117,7 @@ const LessonOne = () => {
       overflow: 'hidden',
     }}>
       <div style={{width: '50%', height: '10%', paddingLeft: '50vw'}}>
-        <SpacebarComponent onKeyPress={handleKeyPress}/>
+        <SpacebarComponent onKeyPress={handleKeyPress} noteDuration={2000} />
       </div>
     </div>
     <button onClick={handlePrevious}
@@ -135,6 +128,7 @@ const LessonOne = () => {
     </button>
   </div>
 );
+
 }
 
-export default LessonOne;
+export default Lesson2;

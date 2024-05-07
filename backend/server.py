@@ -22,6 +22,10 @@ def get_music():
     # return send_file('../sheet_music/Test_Score4.musicxml', as_attachment=True)
     return send_file('../sheet_music/Test_Quiz1.musicxml', as_attachment=True)
 
+@app.route('/get-music2')
+def get_music2():
+    return send_file('../sheet_music/Test_Quiz2.musicxml', as_attachment=True)
+
 @app.route('/gen_q5')
 def gen_q5():
     # Call the function to generate 8 beats of random notes (with no 8th notes and no sharps)

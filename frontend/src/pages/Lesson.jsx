@@ -1,12 +1,12 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from "../components/navbar";
-import LessonOne from '../components/LessonOne';
-import LessonTwo from "../components/LessonTwo";
+import Lesson1 from '../components/Lesson1';
+import Lesson2 from "../components/Lesson2";
 
 const lessonComponents = {
-  "1": LessonOne,
-  "2": LessonTwo,
+  "1": Lesson1,
+  "2": Lesson2,
 };
 
 const Lesson = () => {

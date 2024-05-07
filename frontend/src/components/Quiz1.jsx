@@ -5,7 +5,7 @@ import SheetMusicComponent from "./SheetMusicComponent";
 
 const audioContext = new (window.AudioContext)();
 
-const QuizOne = () => {
+const Quiz1 = () => {
   const [musicXML, setMusicXML] = useState(null);
   const [isStarted, setIsStarted] = useState(false);
   const [pressTimes, setPressTimes] = useState([]);
@@ -44,7 +44,7 @@ const QuizOne = () => {
     }
 
     // After 32 notes are played, calculate the results
-    if (pressTimes.length >= 8) {
+    if (pressTimes.length >= 16) {
       const results = pressTimes.map((pressTime, index) => {
         // Calculate the relative press time and the expected beat time
         const relativePressTime = pressTime - firstPressTime;
@@ -81,7 +81,7 @@ const QuizOne = () => {
                         width: '90%',
                     }}>
                         <div style={{width: '50%', height: '10%', paddingLeft: '50vw'}}>
-                            <SpacebarComponent onKeyPress={handleSpacebarPress}/>
+                            <SpacebarComponent onKeyPress={handleSpacebarPress} noteDuration={0}/>
                         </div>
                     </div>
                     {results && results.map((result, index) => (
@@ -97,4 +97,4 @@ const QuizOne = () => {
   );
 }
 
-export default QuizOne;
+export default Quiz1;

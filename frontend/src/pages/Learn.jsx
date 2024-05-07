@@ -35,7 +35,7 @@ const Learn = () => {
           </select>
           <button onClick={handleLessonGo} style={{fontSize: '2em', padding: '10px'}}>Go</button>
           <select value={quizNumber} onChange={handleQuizChange} style={{fontSize: '2em', padding: '10px'}}>
-              {[...Array(9).keys()].map((number) =>
+              {[...Array(10).keys()].map((number) =>
                   <option key={number + 1} value={number + 1}>Quiz {number + 1}</option>
               )}
           </select>

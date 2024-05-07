@@ -4,7 +4,7 @@ import SheetMusicComponent from "./SheetMusicComponent";
 import MetronomeComponent from "./MetronomeComponent";
 import { MidiNumbers } from "react-piano";
 
-const Quiz5 = () => {
+const Quiz55 = () => {
   const [musicXML, setMusicXML] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [bpm, setBpm] = useState(80);
@@ -41,4 +41,4 @@ const Quiz5 = () => {
   );
 }
 
-export default Quiz5;
+export default Quiz55;

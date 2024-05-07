@@ -3,7 +3,7 @@ import PianoComponent from "./PianoComponent";
 import SheetMusicComponent from "./SheetMusicComponent";
 import MetronomeComponent from "./MetronomeComponent";
 import { MidiNumbers } from "react-piano";
-import { createMusicXML } from '../utils/musicUtils';
+import { calculateNoteDuration } from '../utils/musicUtils';
 
 const Quiz5 = () => {
   const [musicXML, setMusicXML] = useState(null);
@@ -36,24 +36,26 @@ const Quiz5 = () => {
     /** Send the notes to backend, get back two new musicXML files, one for original sheet music and one for user's
         played notes —- both with colored diff annotations */
     setFinishedPlaying(true);
-    console.log("playedNotes: ", playedNotes)
         
     const getDiffedMusicFiles = async () => {
-      const playedNotesAsMusicXML = createMusicXML(playedNotes.map(note => ({
-        ...note,
-        bpm: bpm // Ensure bpm is part of each note object for accurate duration calculation
-      }))); 
+      const playedNotesExpanded = playedNotes.map(note => {
+        const { type, divisions } = calculateNoteDuration(note.duration, bpm);
+        const { startTime, duration, ...rest} = note;
+        return { ...rest, type, divisions };
+      })
     
       try {
         const formData = new FormData();
-        // Both musicXML and playedNotesAsMusicXML are MusicXML strings
-        const musicXMLBlob = new Blob([musicXML], { type: 'application/xml' });
-        const playedNotesAsMusicXMLBlob = new Blob([playedNotesAsMusicXML], { type: 'application/xml' });
 
-        formData.append('original', musicXMLBlob, 'original.musicxml');
-        formData.append('played', playedNotesAsMusicXMLBlob, 'played.musicxml');
+        // musicXML is a MusicXML string
+        const musicXMLBlob = new Blob([musicXML], { type: 'application/xml' });
+        // playedNotesExpanded is an array of note objects
+        const playedNotesBlob = new Blob([JSON.stringify(playedNotesExpanded)], { type: 'application/json' });
+
+        formData.append('sheetMusic', musicXMLBlob, 'sheetMusic.musicxml');
+        formData.append('playedNotes', playedNotesBlob, 'playedNotes.json');
     
-        const response = await fetch('http://localhost:8000/process-musicxml-diffs', {
+        const response = await fetch('http://localhost:8000/evaluate-user-playing', {
           method: 'POST',
           body: formData
         });

@@ -3,6 +3,7 @@ from flask_cors import CORS
 from random_note_gen import gen_n_notes
 import os 
 import sys
+import json
 
 app = Flask(__name__)
 CORS(app)  # Adjust the path and origins as necessary
@@ -58,12 +59,25 @@ def save_musicxml():
     response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
     return response
 
-@app.route('/process-musicxml-diffs', methods=['POST'])
-def process_musicxml_diffs():
+@app.route('/evaluate-user-playing', methods=['POST'])
+def evaluate_user_playing():
     """
-        Computes the diffs between two MusicXML files and returns
-        two annotated MusicXML files highlighting the differences.
+        Evaluates the users playing by comparing the user's played notes with the notes from the
+        musicXML file. 
+
+        Returns a musicXML file denoting the notes the user played, with color annotations for
+        the correctly and incorrectly played notes.
     """
+    sheet_music_file = request.files['sheetMusic']
+    sheet_music_content = sheet_music_file.read()
+    print("Received MusicXML file content:", sheet_music_content)
+
+    played_notes_file = request.files['playedNotes']
+    played_notes_content = played_notes_file.read()
+    played_notes_objects = json.loads(played_notes_content)
+    print("Received played notes objects:", played_notes_objects)
+    sys.stdout.flush()
+
     response_data = {
         'message': 'Hey man wht up, its kent'
     }

@@ -79,10 +79,10 @@ def evaluate_user_playing():
     print("Received played notes objects:", played_notes_objects)
     sys.stdout.flush()
 
-    compare_sheet_music_to_user_notes(sheet_music_content, played_notes_objects)
+    user_notes_annotated_as_xml = compare_sheet_music_to_user_notes(sheet_music_content, played_notes_objects)
 
     response_data = {
-        'message': 'Hey man wht up, its kent'
+        'user_notes_annotated_as_xml': user_notes_annotated_as_xml
     }
 
     return jsonify(response_data)

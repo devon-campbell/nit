@@ -10,8 +10,7 @@ const Quiz5 = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [bpm, setBpm] = useState(80);
   const [finishedPlaying, setFinishedPlaying] = useState(false);
-  const [sheetMusicWithDiffs, setSheetMusicWithDiffs] = useState(null);
-  const [playedMusicWithDiffs, setPlayedMusicWithDiffs] = useState(null);
+  const [playedMusicWithEvaluations, setPlayedMusicWithEvaluations] = useState(null);
 
   useEffect(() => {
     const fetchMusicXML = async () => {
@@ -63,7 +62,9 @@ const Quiz5 = () => {
         if (response.ok) {
           // Get back two musicXML files with diff annotations
           const responseJSON = await response.json();
-          console.log(responseJSON.message);
+          console.log(responseJSON.user_notes_annotated_as_xml);
+          setPlayedMusicWithEvaluations(responseJSON.user_notes_annotated_as_xml);
+
         } else {
           // Handle failure
           console.log("Failed to get diffed music files")
@@ -99,10 +100,10 @@ const Quiz5 = () => {
         ) : (
           <React.Fragment>
             {/* Render the new sheet music components here */}
-            {sheetMusicWithDiffs && playedMusicWithDiffs ? (
+            {playedMusicWithEvaluations ? (
               <React.Fragment>
-                <SheetMusicComponent xml={sheetMusicWithDiffs}/>
-                <SheetMusicComponent xml={playedMusicWithDiffs}/>
+                <SheetMusicComponent xml={musicXML}/>
+                <SheetMusicComponent xml={playedMusicWithEvaluations}/>
               </React.Fragment>
             ) : (
               <p>Loading your results...</p>

@@ -1,4 +1,7 @@
 from xml.etree import ElementTree as ET
+from music21 import stream, note as m21_note, clef, converter
+from music21.musicxml import m21ToXml
+import pickle
 import sys
 
 def compare_sheet_music_to_user_notes(musicXML: str, user_notes: list):
@@ -57,5 +60,47 @@ def compare_sheet_music_to_user_notes(musicXML: str, user_notes: list):
     for i in range(user_notes_ptr, len(user_notes)):
         user_notes[i]['color'] = 'red' # Extraneous notes played by user after the sheet music ended
 
-    print("User notes with color: ", user_notes)
-    sys.stdout.flush()
+    # Write the rest of the function here: take the list of user notes and write them to a new musicXML file
+    # Create a new stream for the user notes
+    user_notes_stream = stream.Stream()
+    treble_clef = clef.TrebleClef()
+    user_notes_stream.append(treble_clef)  # Set treble clef
+    
+    # Add notes with colors to the user notes stream
+    for user_note in user_notes:
+        # Create a music21 Note object
+        duration = user_note['divisions']
+        name = user_note['name']
+        note_obj = m21_note.Note(name)
+        note_obj.duration.quarterLength = duration
+        # Set the color attribute properly
+        note_obj.style.color = user_note['color']  
+        user_notes_stream.append(note_obj)
+    
+    # Convert the user notes stream into a MusicXML string
+    user_notes_xml = m21ToXml.GeneralObjectExporter().parse(user_notes_stream).decode('utf-8')
+    user_notes_xml = remove_extraneous_xml(user_notes_xml)
+    print("User notes xml string: ", user_notes_xml)
+    sys.stdout.flush()  
+
+    return user_notes_xml
+
+def remove_extraneous_xml(xml_string):
+    '''
+        Music21 Sometimes adds extraneous XML after the first occurrence of '</score-partwise>'
+        This function removes any extraneous XML after the first occurrence of '</score-partwise>'
+
+        Returns the original XML string if '</score-partwise>' is not found
+    '''
+    # Find the index of the first occurrence of '</score-partwise>'
+    index = xml_string.find('</score-partwise>')
+    
+    # If '</score-partwise>' is found
+    if index != -1:
+        # Remove any extraneous XML after the first occurrence of '</score-partwise>'
+        return xml_string[:index + len('</score-partwise>')]
+    
+    # If '</score-partwise>' is not found, return the original XML string
+    return xml_string
+
+    

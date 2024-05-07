@@ -1,5 +1,5 @@
 import React from 'react';
-import LearnAndPlayButtons from '../components/buttons/LearnAndPlay.jsx';  // Assuming the component is in the same directory
+import LearnAndPlayButtons from '../components/buttons/LearnAndPlay.jsx'; 
 
 const Home = () => {
   return (

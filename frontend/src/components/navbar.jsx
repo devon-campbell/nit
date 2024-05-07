@@ -1,24 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <nav className="fixed top-0 w-full bg-gray-100">
-      <ul className="list-none m-0 p-0 overflow-hidden flex justify-evenly">
-        <div className="font-bold text-2xl my-auto">
+    <nav className="fixed top-0 w-full bg-gray-100" style={{ height: isOpen ? 'auto' : '50px' }}>
+      <div className="flex justify-between items-center p-1">
+        <button onClick={toggleMenu} className="text-3xl cursor-pointer pb-1 ml-2">
+          ☰
+        </button>
+        <Link to="/" className="text-2xl font-bold text-gray-800 font-sans flex-grow ml-2">
           nit
-        </div>
-        <li className="inline">
-          <Link to="/" className="no-underline">home</Link>
+        </Link>
+      </div>
+      <ul className={`${isOpen ? 'flex' : 'hidden'} flex-col items-start pl-4 w-full mt-2`}>
+        <li>
+          <Link to="/learn" className="no-underline text-gray-500 hover:text-gray-800 py-2 block">learn</Link>
         </li>
-        <li className="inline">
-          <Link to="/learn" className="no-underline">learn</Link>
+        <li>
+          <Link to="/play" className="no-underline text-gray-500 hover:text-gray-800 py-2 block">play</Link>
         </li>
-        <li className="inline">
-          <Link to="/play" className="no-underline text-black">play</Link>
-        </li>
-        <li className="inline">
-          <Link to="/piano" className="no-underline text-black">piano</Link>
+        <li>
+          <Link to="/piano" className="no-underline text-gray-500 hover:text-gray-800 py-2 block">piano</Link>
         </li>
       </ul>
     </nav>

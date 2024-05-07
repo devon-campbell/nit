@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({ onToggle }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+    if (onToggle) {
+      onToggle(!isOpen);  // Notify the parent about the state change
+    }
   };
 
   return (
-    <nav className="fixed top-0 w-full bg-gray-100" style={{ height: isOpen ? 'auto' : '50px' }}>
+    <nav className="fixed top-0 w-full bg-gray-100 z-10" style={{ height: isOpen ? 'auto' : '50px' }}>
       <div className="flex justify-between items-center p-1">
         <button onClick={toggleMenu} className="text-3xl cursor-pointer pb-1 ml-2">
           ☰

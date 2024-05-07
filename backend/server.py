@@ -64,44 +64,9 @@ def process_musicxml_diffs():
         Computes the diffs between two MusicXML files and returns
         two annotated MusicXML files highlighting the differences.
     """
-    original_file, played_file = request.files['original'], request.files['played']
-    original_filename, played_filename = original_file.filename, played_file.filename
-
-    # Read the content of the files, decode them and split them into lists of lines
-    original_lines = original_file.read().decode('utf-8').splitlines()
-    played_lines = played_file.read().decode('utf-8').splitlines()
-
-    diff_string, lines_in_original_to_annotate, lines_in_played_to_annotate = compute_diff(original_lines, played_lines)
-    original_music_annotated, played_music_annotated = annotate_files_for_diffs(original_lines, played_lines, lines_in_original_to_annotate, lines_in_played_to_annotate)
-
-    # Save annotated files to disk
-    original_path = 'original_annotated.musicxml'
-    played_path = 'played_annotated.musicxml'
-
-    with open(original_path, 'w') as f:
-        f.write(original_music_annotated)
-    with open(played_path, 'w') as f:
-        f.write(played_music_annotated)
-
-    #print(original_music_annotated, "hey ....", played_music_annotated)
-    #sys.stdout.flush()
-
     response_data = {
-        'original_annotated': original_music_annotated,
-        'played_annotated': played_music_annotated
+        'message': 'Hey man wht up, its kent'
     }
-
-    # Download the files to local machine
-    download_path = os.path.join(os.getcwd(), 'downloads')
-    os.makedirs(download_path, exist_ok=True)
-
-    original_download_path = os.path.join(download_path, original_filename)
-    played_download_path = os.path.join(download_path, played_filename)
-
-    with open(original_download_path, 'w') as f:
-        f.write(original_music_annotated)
-    with open(played_download_path, 'w') as f:
-        f.write(played_music_annotated)
 
     return jsonify(response_data)
 

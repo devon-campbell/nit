@@ -52,23 +52,6 @@ export function calculateNoteDuration(duration, bpm) {
     }
   
     xml += `</measure></part></score-partwise>`;
-  
-    // Create a Blob object containing the MusicXML content
-    const blob = new Blob([xml], { type: 'application/xml' });
-  
-    // Generate a URL for the Blob
-    const url = URL.createObjectURL(blob);
-  
-    // Create a link element with the URL as its href attribute
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'music.xml'; // Set the default file name for download
-  
-    // Simulate a click on the link to trigger the download
-    link.click();
-  
-    // Clean up by revoking the URL object to free up memory
-    URL.revokeObjectURL(url);
     return xml;
   }
   

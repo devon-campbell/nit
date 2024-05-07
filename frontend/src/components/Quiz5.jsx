@@ -60,10 +60,8 @@ const Quiz5 = () => {
     
         if (response.ok) {
           // Get back two musicXML files with diff annotations
-          const { original_annotated, played_annotated } = await response.json();
-          setSheetMusicWithDiffs(original_annotated);
-          setPlayedMusicWithDiffs(played_annotated);
-          console.log(original_annotated)
+          const responseJSON = await response.json();
+          console.log(responseJSON.message);
         } else {
           // Handle failure
           console.log("Failed to get diffed music files")

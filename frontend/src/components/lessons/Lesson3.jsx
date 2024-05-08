@@ -1,23 +1,18 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {animated, config, useTransition} from "react-spring";
-import DimensionsProvider from "../utils/DimensionProvider";
-import Navbar from "./navbar";
-import halfNoteSymbol from "../assets/half-note-symbol.jpg";
-import SpacebarComponent from "./SpacebarComponent";
+import DimensionsProvider from "../../utils/DimensionProvider";
+import NavbarComponent from "../NavbarComponent";
+import halfNoteSymbol from "../../assets/half-note-symbol.jpg";
+import SpacebarComponent from "../SpacebarComponent";
 
-const Lesson2 = () => {
+const Lesson3 = () => {
    const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [inTransition, setInTransition] = useState(false);
   const steps = useMemo(() => [
-      '(Use the spacebar, arrow keys, or buttons)',
-      'Now that we understand the basic idea of a quarter note, let\'s see how it relates to other note durations.',
-      'In music, notes can be divided into smaller parts, or fractions, of a whole note.',
-      'This is the half note, which is half of a whole note\'s duration or four beats total.',
-      'Another way to think about the half note is that it is two quarter notes combined.',
-      'A quarter note typically lasts for one second, so a half note would last for two seconds.',
-      'Let\'s practice playing half and quarter notes together!'
+      '(Use your keyboard or mouse to navigate)',
+      'Let\s continue to slow things down and talk about the whole note.'
   ], []);
 
   const transitions = useTransition(step, {
@@ -87,7 +82,7 @@ const Lesson2 = () => {
               textAlign: 'center',
               width: '100%', /* Set width to 100% of the parent */
             }}>
-              <Navbar/>
+              <NavbarComponent/>
             <h1>Lesson 1: Basic Notes</h1>
             <div style={{width: '100%', height: '10%'}}>
               {transitions((style, item) => (
@@ -131,4 +126,4 @@ const Lesson2 = () => {
 
 }
 
-export default Lesson2;
+export default Lesson3;

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import PianoComponent from "./PianoComponent";
-import SheetMusicComponent from "./SheetMusicComponent";
-import MetronomeComponent from "./MetronomeComponent";
+import PianoComponent from "../PianoComponent";
+import SheetMusicComponent from "../SheetMusicComponent";
+import MetronomeComponent from "../MetronomeComponent";
 import { MidiNumbers } from "react-piano";
-import { calculateNoteDuration } from '../utils/musicUtils';
+import { calculateNoteDuration } from '../../utils/musicUtils';
+import {useNavigate} from "react-router-dom";
 
-const Quiz55 = () => {
+const Quiz1 = () => {
+  const navigate = useNavigate();
   const [musicXML, setMusicXML] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [bpm, setBpm] = useState(80);
@@ -16,7 +18,7 @@ const Quiz55 = () => {
     const fetchMusicXML = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch('http://localhost:8000/get-quiz-musicxml/5');
+        const response = await fetch('http://localhost:8000/get-quiz-musicxml/1');
         const data = await response.text();
         setMusicXML(data);
       } catch (error) {
@@ -35,14 +37,14 @@ const Quiz55 = () => {
     /** Send the notes to backend, get back two new musicXML files, one for original sheet music and one for user's
         played notes —- both with colored diff annotations */
     setFinishedPlaying(true);
-        
+
     const getDiffedMusicFiles = async () => {
       const playedNotesExpanded = playedNotes.map(note => {
         const { type, divisions } = calculateNoteDuration(note.duration, bpm);
         const { startTime, duration, ...rest} = note;
         return { ...rest, type, divisions };
       })
-    
+
       try {
         const formData = new FormData();
 
@@ -53,12 +55,12 @@ const Quiz55 = () => {
 
         formData.append('sheetMusic', musicXMLBlob, 'sheetMusic.musicxml');
         formData.append('playedNotes', playedNotesBlob, 'playedNotes.json');
-    
+
         const response = await fetch('http://localhost:8000/evaluate-user-playing', {
           method: 'POST',
           body: formData
         });
-    
+
         if (response.ok) {
           // Get back two musicXML files with diff annotations
           const responseJSON = await response.json();
@@ -78,7 +80,7 @@ const Quiz55 = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Quiz 5 - Music Practice</h1>
+      <h1>Quiz 1 - Quarter Note Quiz</h1>
       {isLoading ? (
         <p>Loading sheet music...</p>
       ) : (
@@ -89,24 +91,41 @@ const Quiz55 = () => {
               <MetronomeComponent bpm={bpm} setBpm={setBpm}/>
             </div>
             <PianoComponent
-              noteRange={{ first: MidiNumbers.fromNote('c4'), last: MidiNumbers.fromNote('f5') }}
+              noteRange={{ first: MidiNumbers.fromNote('c4'), last: MidiNumbers.fromNote('c4') }}
               bpm={bpm}
               setBpm={setBpm}
               maxNumOfNotes={16}
               onFinishedPlaying={handleFinishedPlaying}
+              oneNote={true}
             />
           </React.Fragment>
         ) : (
           <React.Fragment>
-            {/* Render the new sheet music components here */}
-            {playedMusicWithEvaluations ? (
+          {/* Render the new sheet music components here */}
+          {playedMusicWithEvaluations ? (
               <React.Fragment>
                 <SheetMusicComponent xml={musicXML}/>
                 <SheetMusicComponent xml={playedMusicWithEvaluations}/>
+                <div style={{textAlign: 'left', marginTop: '20px'}}>
+                  <h2>Great Job!</h2>
+                  <button onClick={() => navigate('/lesson/2')}
+                          style={{backgroundColor: 'green', color: 'white', padding: '10px', margin: '10px'}}>Next
+                    Lesson
+                  </button>
+                  <h2>Let's Practice Some More!</h2>
+                  <button onClick={() => window.location.reload()}
+                          style={{backgroundColor: 'red', color: 'white', padding: '10px', margin: '10px'}}>Try Again
+                  </button>
+                  <h2></h2>
+                  <button onClick={() => navigate('/learn')}
+                          style={{backgroundColor: 'gray', color: 'white', padding: '10px', margin: '10px'}}>Back to
+                    Lesson Map
+                  </button>
+                </div>
               </React.Fragment>
-            ) : (
+          ) : (
               <p>Loading your results...</p>
-            )}
+          )}
           </React.Fragment>
         )
       )}
@@ -114,4 +133,4 @@ const Quiz55 = () => {
   );
 }
 
-export default Quiz55;
+export default Quiz1;

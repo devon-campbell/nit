@@ -1,29 +1,26 @@
-import React, {useState, useEffect, useCallback, useMemo} from 'react';
-import { useTransition, animated, config } from 'react-spring';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import Navbar from "./navbar";
-import noteLengthsDiagram from '../assets/note-lengths-diagram.jpg';
-import quarterNoteSymbol from '../assets/quarter-note-symbol.jpg';
-import DimensionsProvider from "../utils/DimensionProvider";
-import PianoComponent from "./PianoComponent";
-import { MidiNumbers } from 'react-piano';
-import SpacebarComponent from "./SpacebarComponent";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {animated, config, useTransition} from "react-spring";
+import DimensionsProvider from "../../utils/DimensionProvider";
+import NavbarComponent from "../NavbarComponent";
+import musicStaff from "../../assets/music-staff.jpg";
+import trebleClefSymbol from "../../assets/Treble-Clef-Symbol.jpg";
+import SpacebarComponent from "../SpacebarComponent";
 
-const Lesson1 = () => {
-    const navigate = useNavigate();
+const Lesson6 = () => {
+   const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [inTransition, setInTransition] = useState(false);
-  const steps = useMemo(() => ['(Use the spacebar, arrow keys, or buttons)',
-                          'Before we get into the fun stuff, we must first understand some terminology and ideas',
-                          'Firstly, sight-reading is the art of reading and performing music at first sight, without prior rehearsal',
-                          'Think about reading a book aloud for the first time, but with musical notes instead of words',
-                          'In this lesson, we\'ll focus on the basic building blocks of music notation: notes',
-                          'A note is a symbol that represents a sound',
-                          'By mastering the rhythm and duration of quarter, half, and whole notes, you\'ll lay a solid foundation for sight-reading',
-      'The quarter note is like the heartbeat of music',
-      ' It generally represents one beat, or a quarter of a whole note\'s duration',
-      'In fact, most music we listen to revolves around the idea of a quarter note',
-      'When you see a quarter note, think of it as lasting for one count, or one beat, let\'s practice tapping along to get a feel for the rhythm of the quarter note',
+  const steps = useMemo(() => [
+      '(Use your keyboard or mouse to navigate)',
+      'Now let’s add some color to what we’ve learned so far.',
+      'We\'ll explore two crucial elements of music notation: the staff and the treble clef. Let\'s dive in!',
+      'This is called \"staff.\"',
+      'Think of it as the musical canvas, comprising five lines and four spaces. These serve as our playground for placing notes to indicate pitch.',
+      'This is the treble clef.',
+      'Think of it as our musical compass, guiding us to higher-pitched notes.',
+      'When you see it, it generally signals to focus on the higher registers of your instrument or voice.',
+      'Together, the staff and treble clef provide a visual roadmap for understanding pitch in music.',
   ], []);
 
   const transitions = useTransition(step, {
@@ -41,7 +38,7 @@ const Lesson1 = () => {
       setStep((prevStep) => {
         const nextStep = (prevStep + 1) % steps.length;
         if (nextStep === 0) { // If nextStep is 0, we've looped back to the start
-          navigate('/quiz/1'); // Navigate to /quiz/1
+          navigate('/quiz/2'); // Navigate to /quiz/1
         }
         return nextStep;
       });
@@ -75,6 +72,7 @@ const Lesson1 = () => {
   };
 
 
+
   return (
   <div style={{ overflow: 'hidden', maxHeight: '100vh', maxWidth: '100vw' }}>
       <div style={{ position: 'relative', height: '90vh'}}> {/* Set height to 100vh to fill the screen */}
@@ -92,19 +90,19 @@ const Lesson1 = () => {
               textAlign: 'center',
               width: '100%', /* Set width to 100% of the parent */
             }}>
-              <Navbar/>
+              <NavbarComponent/>
             <h1>Lesson 1: Basic Notes</h1>
             <div style={{width: '100%', height: '10%'}}>
               {transitions((style, item) => (
                 <animated.div style={{...style, textAlign: 'center'}}>
                   <>
                     <p style={{margin: 'auto', width: '100%'}}>{steps[item]}</p>
-                    {item >= 2 && item <= 6 && <img src={noteLengthsDiagram} alt="Note Lengths Diagram"
+                    {item >=3 && item <= 4 && <img src={musicStaff} alt="Music Staff"
                                                     style={{paddingTop: '24px', width: '25%'}}/>}
-                    {item >= 7 && <img src={quarterNoteSymbol} alt="Quarter Note Symbol"
+                    {item >=5 && item <= 8 && <img src={trebleClefSymbol} alt="Treble Clef Symbol"
                                        style={{paddingTop: '24px', width: '25%'}}/>}
                     <div>
-                      {item === 10 && <button onClick={handleNext}>Quiz Me</button>}
+                      {item === 8 && <button onClick={handleNext}>Quiz Me</button>}
                     </div>
                   </>
                 </animated.div>
@@ -124,7 +122,7 @@ const Lesson1 = () => {
       overflow: 'hidden',
     }}>
       <div style={{width: '50%', height: '10%', paddingLeft: '50vw'}}>
-        <SpacebarComponent onKeyPress={handleKeyPress} noteDuration={1000} />
+        <SpacebarComponent onKeyPress={handleKeyPress} noteDuration={2000} />
       </div>
     </div>
     <button onClick={handlePrevious}
@@ -135,6 +133,7 @@ const Lesson1 = () => {
     </button>
   </div>
 );
+
 }
 
-export default Lesson1;
+export default Lesson6;

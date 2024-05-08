@@ -9,7 +9,7 @@ import SoundfontProvider from '../utils/SoundfontProvider';
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 const soundfontHostname = 'https://d1pzp51pvbm36p.cloudfront.net';
 
-const PianoComponent = ({ noteRange, bpm, setBpm, maxNumOfNotes, onFinishedPlaying }) => {
+const PianoComponent = ({ noteRange, bpm, setBpm, maxNumOfNotes, onFinishedPlaying, oneNote, isLesson, onNotesUpdate }) => {
   /**
    * This component renders a piano interface that allows users to play notes and record the played notes.
    * 
@@ -29,10 +29,16 @@ const PianoComponent = ({ noteRange, bpm, setBpm, maxNumOfNotes, onFinishedPlayi
   };
 
   const handlePlayNote = (midiNumber) => {
-    const noteName = fromMidi(midiNumber);
-    const startTime = new Date().getTime(); // Record start time in milliseconds
-    setPlayedNotes((prevNotes) => [...prevNotes, { name: noteName, startTime }]);
-  };
+  const noteName = fromMidi(midiNumber);
+  const startTime = new Date().getTime(); // Record start time in milliseconds
+  setPlayedNotes((prevNotes) => {
+    const newNotes = [...prevNotes, { name: noteName, startTime }];
+    if (onNotesUpdate) {
+      onNotesUpdate(newNotes);
+    }
+    return newNotes;
+  });
+};
 
   const handleStopNote = (midiNumber) => {
     const noteName = fromMidi(midiNumber);
@@ -51,49 +57,87 @@ const PianoComponent = ({ noteRange, bpm, setBpm, maxNumOfNotes, onFinishedPlayi
     keyboardConfig: KeyboardShortcuts.HOME_ROW,
   });
 
-  return (
-      <div style={{ textAlign: 'center', width: '100%', margin: 'auto' }}>
-      <label htmlFor="bpm-select" style={{ fontWeight: 'bold', marginRight: '10px' }}>Select BPM:</label>
-      <select id="bpm-select" value={bpm} onChange={(e) => setBpm(Number(e.target.value))} style={{ margin: '10px', padding: '5px' }}>
-        <option value={60}>60 BPM</option>
-        <option value={80}>80 BPM</option>
-        <option value={100}>100 BPM</option>
-        <option value={120}>120 BPM</option>
-      </select>
-          <DimensionsProvider onResize={handleResize}>
-              {({containerWidth}) => (
-                  <SoundfontProvider
-                      instrumentName="acoustic_grand_piano"
-                      audioContext={audioContext}
-                      hostname={soundfontHostname}
-                      render={({isLoading, playNote, stopNote}) => (
-                              <Piano
-                              noteRange={noteRange}
-                              width={containerWidth / 2}
-                              playNote={(midiNumber) => {
-                                  playNote(midiNumber);
-                                  handlePlayNote(midiNumber);
-                              }}
-                              stopNote={(midiNumber) => {
-                                stopNote(midiNumber);
-                                handleStopNote(midiNumber);
-                              }}
-                              disabled={isLoading}
-                              keyboardShortcuts={keyboardShortcuts}
-                          />
-                      )}
-                  />
+  const handleWidth = (oneNote) => {
+      if (oneNote){
+            return 75;
+      }else{
+            return dimensions.width / 2;
+      }
+  }
+
+ return (
+    <div style={{ textAlign: 'center', width: '100%', margin: 'auto' }}>
+      {isLesson ? (
+        <DimensionsProvider onResize={handleResize}>
+          {({containerWidth}) => (
+            <SoundfontProvider
+              instrumentName="acoustic_grand_piano"
+              audioContext={audioContext}
+              hostname={soundfontHostname}
+              render={({isLoading, playNote, stopNote}) => (
+                <Piano
+                  noteRange={noteRange}
+                  width={handleWidth(oneNote)}
+                  playNote={(midiNumber) => {
+                    playNote(midiNumber);
+                    handlePlayNote(midiNumber);
+                  }}
+                  stopNote={(midiNumber) => {
+                    stopNote(midiNumber);
+                    handleStopNote(midiNumber);
+                  }}
+                  disabled={isLoading}
+                  keyboardShortcuts={keyboardShortcuts}
+                />
               )}
+            />
+          )}
+        </DimensionsProvider>
+      ) : (
+        <>
+          <label htmlFor="bpm-select" style={{ fontWeight: 'bold', marginRight: '10px' }}>Select BPM:</label>
+          <select id="bpm-select" value={bpm} onChange={(e) => setBpm(Number(e.target.value))} style={{ margin: '10px', padding: '5px' }}>
+            <option value={60}>60 BPM</option>
+            <option value={80}>80 BPM</option>
+            <option value={100}>100 BPM</option>
+            <option value={120}>120 BPM</option>
+          </select>
+          <DimensionsProvider onResize={handleResize}>
+            {({containerWidth}) => (
+              <SoundfontProvider
+                instrumentName="acoustic_grand_piano"
+                audioContext={audioContext}
+                hostname={soundfontHostname}
+                render={({isLoading, playNote, stopNote}) => (
+                  <Piano
+                    noteRange={noteRange}
+                    width={handleWidth(oneNote)}
+                    playNote={(midiNumber) => {
+                      playNote(midiNumber);
+                      handlePlayNote(midiNumber);
+                    }}
+                    stopNote={(midiNumber) => {
+                      stopNote(midiNumber);
+                      handleStopNote(midiNumber);
+                    }}
+                    disabled={isLoading}
+                    keyboardShortcuts={keyboardShortcuts}
+                  />
+                )}
+              />
+            )}
           </DimensionsProvider>
           <h2>Played Notes:</h2>
           <ul style={{display: 'flex', flexWrap: 'wrap', padding: 0, justifyContent: 'center', listStyleType: 'none'}}>
-              {playedNotes.map((note, index) => (
-                  <li key={index} style={{marginRight: '10px'}}>
-                      {note.name} ({note.duration ? note.duration + 's' : 'Playing...'})
-                  </li>
-              ))}
+            {playedNotes.map((note, index) => (
+              <li key={index} style={{marginRight: '10px'}}>
+                {note.name} ({note.duration ? note.duration + 's' : 'Playing...'})
+              </li>
+            ))}
           </ul>
-      </div>
+        </>
+      )}
+    </div>
   );
 };
 

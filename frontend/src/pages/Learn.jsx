@@ -1,50 +1,51 @@
-
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from "../components/navbar";
 
 const Learn = () => {
   const sections = [
     {
-      title: "fundamentals",
+      title: "fundamentals of sheet music (fundies)",
       content: [
-        { lesson: "Lesson 1: Basic Notes", quiz: "Quiz 1: Basic Notes" },
-        { lesson: "Lesson 2: Rests", quiz: "Quiz 2: Rests" },
-        { lesson: "Lesson 3: More Notes and Rests", quiz: "Quiz 3: Advanced Notes and Rests" },
+        { lesson: "Lesson 1: Your First Note", quiz: "Quiz 1: The Quarter Note", num: 1 },
+        { lesson: "Lesson 2: We're Halfway There", quiz: "Quiz 2: Half Notes", num: 2 },
+        { lesson: "Lesson 3: Filling the Holes in Sound", quiz: "Quiz 3: Whole Notes", num: 3 },
+        { lesson: "Lesson 4: The Silent Partners", quiz: "Quiz 4: Rests", num: 4 },
+        { lesson: "Lesson 5: The Great Eight and Beyond", quiz: "Quiz 5: Intro to the Eighth Note", num: 5}
       ]
     },
     {
-      title: "advanced",
+      title: "advanced piano and sight reading (ap)",
       content: [
-        { lesson: "Lesson 4: Introduction to Staff and Treble Clef", quiz: "Quiz 4: Staff and Treble Clef" },
-        { lesson: "Lesson 5: Introduction to Pitches", quiz: "Quiz 5: Pitches" },
+        { lesson: "Lesson 6: Dynamic Duo: Staff and Treble Clef", quiz: "Quiz 6: Quarter Notes on the G Clef", num: 6},
+        { lesson: "Lesson 7: Pitch Perfect", quiz: "Quiz 7: Pitch Please", num: 7},
+        { lesson: "Lesson 8: 88 Reasons to Learn Sight Reading", quiz: "Quiz 8: All Together Now", num: 8},
       ]
     },
+    {
+      title: "final exam",
+      content: [
+        { lesson: "I'm Ready.", quiz: "", num: "final" }
+      ]
+    }
   ];
 
-  const [isNavbarExpanded, setIsNavbarExpanded] = useState(false);
 
-  const handleNavbarToggle = () => {
-    setIsNavbarExpanded(!isNavbarExpanded);
-  };
 
   return (
     <div>
-      <Navbar onToggle={setIsNavbarExpanded} />
-      <div className={`container mx-auto ${isNavbarExpanded ? 'mt-100' : 'mt-8'}`}>
-        <h1 className=" text-3xl font-bold text-gray-800 mt-8 mb-5 pt-5">lesson map</h1>
-        <div className="mx-auto px-8">
+      <div className={`container mx-auto mt-8`}>
+        <div className="mx-auto px-8 mt-8 mb-5 pt-5">
           {sections.map((section, idx) => (
             <div key={idx} className="mb-10">
               <h2 className="text-3xl font-semibold text-gray-600 mb-4 pl-3">{section.title}</h2>
               <div className="space-y-4">
                 {section.content.map((item, index) => (
                   <div key={index} className="flex justify-between items-center bg-gray-100 p-4 rounded-lg shadow">
-                    <Link to={`/lesson/${index + 1}`} className="flex-grow text-lg font-medium text-blue-700 hover:text-blue-900">
+                    <Link to={`/lesson/${item.num}`} className="flex-grow text-lg font-medium text-blue-700 hover:text-blue-900">
                       {item.lesson}
                     </Link>
                     <div className="flex-grow text-right">
-                      <Link to={`/quiz/${index + 1}`} className="ml-4 text-lg font-medium text-green-700 hover:text-green-900">
+                      <Link to={`/quiz/${item.num}`} className="ml-4 text-lg font-medium text-green-700 hover:text-green-900">
                         {item.quiz}
                       </Link>
                     </div>

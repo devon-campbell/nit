@@ -3,17 +3,28 @@ from music21 import stream, note, metadata, instrument, clef
 from datetime import datetime
 import xml.etree.ElementTree as ET
 
-def gen_n_notes(total_duration, include_8th, include_sharps):
-    notes_list = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4','B4','C5', 'D5', 'E5', 'F5'] 
-    if include_sharps: 
-        notes_list.extend(['C#4','D#4', 'F#4', 'G#4','A#4', 'C#5','D#5'] )    
-    
-    durations_list = [4, 2, 1]  # Whole, Half, Quarter notes
+
+def gen_n_notes(total_duration, include_8th, include_sharps, note_types, one_note):
+    if not one_note:  # Is the quiz for the SpacebarComponent or the PianoComponent
+        notes_list = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5']
+    else:
+        notes_list = ['C4']
+
+    if include_sharps:
+        notes_list.extend(['C#4', 'D#4', 'F#4', 'G#4', 'A#4', 'C#5', 'D#5'])
+
+    durations_list = [1]  # Quarter notes
+
+    if note_types == 'half':  # Up to which note type to include
+        durations_list.append(2)
+    elif note_types == 'whole':
+        durations_list.append(4)
+
     paired_durations = [0.5]  # Eighth 
 
     s = stream.Stream()
     treble_clef = clef.TrebleClef()
-    s.append(treble_clef) # Set treble clef
+    s.append(treble_clef)  # Set treble clef
 
     s.metadata = metadata.Metadata()
     s.metadata.title = ''
@@ -27,7 +38,8 @@ def gen_n_notes(total_duration, include_8th, include_sharps):
         if include_8th:
             # Update possible durations based on the limit for paired durations
             if paired_duration_used < total_duration / 4:
-                possible_durations = durations_list + [d for d in paired_durations if (total_duration - current_duration) - 2*d >= 0 and paired_duration_used + 2*d <= total_duration / 2]
+                possible_durations = durations_list + [d for d in paired_durations if (
+                        total_duration - current_duration) - 2 * d >= 0 and paired_duration_used + 2 * d <= total_duration / 2]
             else:
                 possible_durations = [d for d in durations_list if d <= total_duration - current_duration]
 
@@ -53,7 +65,7 @@ def gen_n_notes(total_duration, include_8th, include_sharps):
             possible_durations = [d for d in durations_list if d <= total_duration - current_duration]
 
             if not possible_durations:
-                break  
+                break
 
             random_duration = random.choice(possible_durations)
             random_note_name = random.choice(notes_list)
@@ -72,11 +84,11 @@ def gen_n_notes(total_duration, include_8th, include_sharps):
     # Read the generated MusicXML file to remove any extra content 
     with open(fp, 'r') as f:
         musicxml_content = f.read()
-    
+
     # Remove any extra content after the closing </score-partwise> tag
     index = musicxml_content.find('</score-partwise>') + len('</score-partwise>')
     musicxml_content = musicxml_content[:index]
-    
+
     # Write the modified MusicXML content back to the file
     with open(fp, 'w') as f:
         f.write(musicxml_content)

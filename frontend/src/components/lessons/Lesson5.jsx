@@ -1,20 +1,20 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {animated, config, useTransition} from "react-spring";
-import DimensionsProvider from "../utils/DimensionProvider";
-import Navbar from "./navbar";
-import eighthNoteSymbol from "../assets/eighth-note-symbol.jpeg";
-import eighthRestSymbol from "../assets/Eighth-Rest-Symbol.jpg";
-import sixteenthNoteSymbol from "../assets/sixteenth-note-symbol.jpeg";
-import sixteenthRestSymbol from "../assets/Sixteenth-Rest-Symbol.jpg";
-import SpacebarComponent from "./SpacebarComponent";
+import DimensionsProvider from "../../utils/DimensionProvider";
+import NavbarComponent from "../NavbarComponent";
+import eighthNoteSymbol from "../../assets/eighth-note-symbol.jpeg";
+import eighthRestSymbol from "../../assets/Eighth-Rest-Symbol.jpg";
+import sixteenthNoteSymbol from "../../assets/sixteenth-note-symbol.jpeg";
+import sixteenthRestSymbol from "../../assets/Sixteenth-Rest-Symbol.jpg";
+import SpacebarComponent from "../SpacebarComponent";
 
-const Lesson4 = () => {
+const Lesson41 = () => {
    const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [inTransition, setInTransition] = useState(false);
   const steps = useMemo(() => [
-      '(Use the spacebar, arrow keys, or buttons)',
+      '(Use your keyboard or mouse to navigate)',
       'Making good progress I see! Now that we have some basic notes and rests under our belt, let’s introduce a few more.',
       'After this lesson, you should be able to recognize pretty much any type of note and rest you come across! You won\'t be quizzed on this, but this is good knowledge to have!',
       'As you can probably guess from the name, the eighth note lasts an eighth of the length of a whole note (half of a beat).',
@@ -96,7 +96,7 @@ const Lesson4 = () => {
               textAlign: 'center',
               width: '100%', /* Set width to 100% of the parent */
             }}>
-              <Navbar/>
+              <NavbarComponent/>
             <h1>Lesson 1: Basic Notes</h1>
             <div style={{width: '100%', height: '10%'}}>
               {transitions((style, item) => (
@@ -146,4 +146,4 @@ const Lesson4 = () => {
 
 }
 
-export default Lesson4;
+export default Lesson41;

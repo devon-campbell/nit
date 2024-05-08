@@ -2,25 +2,32 @@ from flask import Flask, send_file, request, jsonify
 from flask_cors import CORS
 from random_note_gen import gen_n_notes
 from user_evaluation import compare_sheet_music_to_user_notes
-import os 
+import os
 import sys
 import json
 
 app = Flask(__name__)
 CORS(app)  # Adjust the path and origins as necessary
 
+
 @app.route('/')
 def hello():
     return 'Hello, World!'
 
+
 @app.route('/get-quiz-musicxml/<int:quiz_number>')
 def get_quiz_musicxml(quiz_number):
-    if quiz_number >= 1 and quiz_number <= 4:
+    if quiz_number == 1:
+        return send_file(gen_n_notes(8, False, False, 'none', True), as_attachment=True)
+    elif quiz_number == 2:
+        return send_file(gen_n_notes(16, False, False, 'half', True), as_attachment=True)
+    elif 3 <= quiz_number <= 4:
         return send_file('../sheet_music/Test_Quiz1.musicxml', as_attachment=True)
     elif quiz_number == 5:
-        return send_file(gen_n_notes(8, False, False), as_attachment=True)
+        return send_file(gen_n_notes(8, False, False, 'whole', False), as_attachment=True)
     else:
         return "Invalid quiz number", 400
+
 
 @app.route('/evaluate-user-playing', methods=['POST'])
 def evaluate_user_playing():
@@ -45,6 +52,7 @@ def evaluate_user_playing():
     }
 
     return jsonify(response_data)
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000)

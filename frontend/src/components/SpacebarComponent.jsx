@@ -5,10 +5,10 @@ import SoundfontProvider from '../utils/SoundfontProvider';
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 const soundfontHostname = 'https://d1pzp51pvbm36p.cloudfront.net';
 
-const SpacebarComponent = ({ onKeyPress, noteDuration }) => {
+const SpacebarComponent = ({ onKeyPress, noteDuration, onClick }) => {
   const noteRange = {
-    first: MidiNumbers.fromNote('c3'),
-    last: MidiNumbers.fromNote('c3'),
+    first: MidiNumbers.fromNote('c4'),
+    last: MidiNumbers.fromNote('c4'),
   };
 
   const [activeNotes, setActiveNotes] = useState([]);
@@ -29,6 +29,7 @@ const SpacebarComponent = ({ onKeyPress, noteDuration }) => {
         }, noteDuration);
 
         onKeyPress(); // Call the onKeyPress prop when the spacebar is pressed
+        onClick(); // Call the onClick prop when the spacebar is pressed
       }
     };
 
@@ -36,7 +37,7 @@ const SpacebarComponent = ({ onKeyPress, noteDuration }) => {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [onKeyPress, noteDuration]);
+  }, [onKeyPress, noteDuration, onClick]);
 
   return (
     <SoundfontProvider
@@ -47,7 +48,7 @@ const SpacebarComponent = ({ onKeyPress, noteDuration }) => {
         playNoteRef.current = playNote;
         stopNoteRef.current = stopNote;
         return (
-            <div style={{}}>
+            <div style={{}} onClick={onClick}>
                 <Piano
             noteRange={noteRange}
             width={75}

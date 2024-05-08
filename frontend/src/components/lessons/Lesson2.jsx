@@ -1,29 +1,25 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {animated, config, useTransition} from "react-spring";
-import DimensionsProvider from "../utils/DimensionProvider";
-import Navbar from "./navbar";
-import quarterRestSymbol from "../assets/quarter-rest-symbol.jpeg";
-import halfRestSymbol from "../assets/Half-Rest-Symbol.jpg";
-import wholeRestSymbol from "../assets/Whole-Rest-Symbol.jpeg";
-import SpacebarComponent from "./SpacebarComponent";
+import DimensionsProvider from "../../utils/DimensionProvider";
+import halfNoteSymbol from "../../assets/half-note-symbol.jpg";
+import SpacebarComponent from "../SpacebarComponent";
+import {MidiNumbers} from "react-piano";
+import PianoComponent from "../PianoComponent";
 
-const Lesson3 = () => {
+
+const Lesson2 = () => {
    const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [inTransition, setInTransition] = useState(false);
   const steps = useMemo(() => [
-      '(Use the spacebar, arrow keys, or buttons)',
-      'Now that we have a basic understanding of the components of music that makes sound, let’s learn about the parts that are silent.',
-      'In Lesson 2, we delved into the world of notes and learned how different durations create rhythm and melody.',
-      'But what about the moments of silence in music?',
-      'Just as notes have their lengths, rests provide essential pauses and moments of silence within a piece.',
-      'Let\'s discover the counterparts to our note durations: rests.',
-      'Rests are symbols in music notation that indicate periods of silence. Just like notes, rests come in various lengths, each corresponding to a specific duration.',
-      'Similar to its quarter note counterpart, the quarter rest represents one beat of silence.',
-      'Similar to its half note counterpart, the half rest represents two beats of silence.',
-      'Similar to its whole note counterpart, the whole rest represents four beats of silence. To differentiate between this and the half rest, we can say \"whole hangs heavy\" since it hangs from the upper line!',
-      'Let\'s practice putting everything we\'ve learned together!'
+      '(Use your keyboard or mouse to navigate)',
+      'Now that we understand the basic idea of a quarter note, let\'s see how it relates to other note durations.',
+      'In music, notes can be divided into smaller parts, or fractions, of a whole note.',
+      'This is the half note, which is half of a whole note\'s duration or four beats total.',
+      'Another way to think about the half note is that it is two quarter notes combined.',
+      'A quarter note typically lasts for one second, so a half note would last for two seconds.',
+      'Let\'s practice playing half and quarter notes together!'
   ], []);
 
   const transitions = useTransition(step, {
@@ -54,30 +50,26 @@ const Lesson3 = () => {
     }
   }, [inTransition, steps]);
 
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.code === 'Space' || event.code === 'ArrowRight') {
-        handleNext();
-      } else if (event.code === 'ArrowLeft') {
-        handlePrevious();
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [handleNext, handlePrevious]);
-
-  const handleKeyPress = () => {
-    console.log('hi');
+ useEffect(() => {
+  const handleKeyDown = (event) => {
+    if (event.code === 'KeyA' || event.code === 'ArrowRight') {
+      handleNext();
+    } else if (event.code === 'ArrowLeft') {
+      handlePrevious();
+    }
   };
+
+  window.addEventListener('keydown', handleKeyDown);
+
+  return () => {
+    window.removeEventListener('keydown', handleKeyDown);
+  };
+}, [handleNext, handlePrevious]);
 
 
 
   return (
-  <div style={{ overflow: 'hidden', maxHeight: '100vh', maxWidth: '100vw' }}>
+  <div style={{maxHeight: '100vh', maxWidth: '100vw' }}>
       <div style={{ position: 'relative', height: '90vh'}}> {/* Set height to 100vh to fill the screen */}
         <DimensionsProvider onResize={({ containerWidth, containerHeight }) => {}}>
           {({ containerWidth, containerHeight }) => (
@@ -93,19 +85,17 @@ const Lesson3 = () => {
               textAlign: 'center',
               width: '100%', /* Set width to 100% of the parent */
             }}>
-              <Navbar/>
-            <h1>Lesson 1: Basic Notes</h1>
+            <h1>Lesson 2: Half Notes</h1>
             <div style={{width: '100%', height: '10%'}}>
               {transitions((style, item) => (
                 <animated.div style={{...style, textAlign: 'center'}}>
                   <>
-                    <p style={{margin: 'auto', width: '100%'}}>{steps[item]}</p>
-                    {item === 7 && <img src={quarterRestSymbol} alt="Quarter Rest Symbol"
-                                                    style={{paddingTop: '24px', width: '25%'}}/>}
-                    {item === 8 && <img src={halfRestSymbol} alt="Half Rest Symbol"
-                                       style={{paddingTop: '24px', width: '25%'}}/>}
-                    {item === 9 && <img src={wholeRestSymbol} alt="Whole Rest Symbol"
-                                       style={{paddingTop: '24px', width: '25%'}}/>}
+                    <p className="w-max m-auto">{steps[item]}</p>
+                    {item >= 2 && item <= 6 &&
+                      <div style={{display: 'flex', justifyContent: 'center'}}>
+                        <img src={halfNoteSymbol} alt="Note Lengths Diagram" style={{paddingTop: '24px', width: '25%'}}/>
+                      </div>
+                    }
                     <div>
                       {item === 10 && <button onClick={handleNext}>Quiz Me</button>}
                     </div>
@@ -123,11 +113,15 @@ const Lesson3 = () => {
       alignItems: 'center',
       position: 'absolute',
       bottom: '20px',
-      width: '90%',
+      width: '100%',
       overflow: 'hidden',
     }}>
-      <div style={{width: '50%', height: '10%', paddingLeft: '50vw'}}>
-        <SpacebarComponent onKeyPress={handleKeyPress} noteDuration={2000} />
+      <div>
+        <PianoComponent
+              noteRange={{ first: MidiNumbers.fromNote('c4'), last: MidiNumbers.fromNote('c4') }}
+              oneNote={true}
+              isLesson={true}
+            />
       </div>
     </div>
     <button onClick={handlePrevious}
@@ -141,4 +135,4 @@ const Lesson3 = () => {
 
 }
 
-export default Lesson3;
+export default Lesson2;

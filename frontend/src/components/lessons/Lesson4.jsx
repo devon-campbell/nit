@@ -1,26 +1,29 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {animated, config, useTransition} from "react-spring";
-import DimensionsProvider from "../utils/DimensionProvider";
-import Navbar from "./navbar";
-import musicStaff from "../assets/music-staff.jpg";
-import trebleClefSymbol from "../assets/Treble-Clef-Symbol.jpg";
-import SpacebarComponent from "./SpacebarComponent";
+import DimensionsProvider from "../../utils/DimensionProvider";
+import NavbarComponent from "../NavbarComponent";
+import quarterRestSymbol from "../../assets/quarter-rest-symbol.jpeg";
+import halfRestSymbol from "../../assets/Half-Rest-Symbol.jpg";
+import wholeRestSymbol from "../../assets/Whole-Rest-Symbol.jpeg";
+import SpacebarComponent from "../SpacebarComponent";
 
-const Lesson5 = () => {
+const Lesson4 = () => {
    const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [inTransition, setInTransition] = useState(false);
   const steps = useMemo(() => [
-      '(Use the spacebar, arrow keys, or buttons)',
-      'Now let’s add some color to what we’ve learned so far.',
-      'We\'ll explore two crucial elements of music notation: the staff and the treble clef. Let\'s dive in!',
-      'This is called \"staff.\"',
-      'Think of it as the musical canvas, comprising five lines and four spaces. These serve as our playground for placing notes to indicate pitch.',
-      'This is the treble clef.',
-      'Think of it as our musical compass, guiding us to higher-pitched notes.',
-      'When you see it, it generally signals to focus on the higher registers of your instrument or voice.',
-      'Together, the staff and treble clef provide a visual roadmap for understanding pitch in music.',
+      '(Use your keyboard or mouse to navigate)',
+      'Now that we have a basic understanding of the components of music that makes sound, let’s learn about the parts that are silent.',
+      'In Lessons 2 \& 3, we delved into the world of notes and learned how different durations create rhythm and melody.',
+      'But what about the moments of silence in music?',
+      'Just as notes have their lengths, rests provide essential pauses and moments of silence within a piece.',
+      'Let\'s discover the counterparts to our note durations: rests.',
+      'Rests are symbols in music notation that indicate periods of silence. Just like notes, rests come in various lengths, each corresponding to a specific duration.',
+      'Similar to its quarter note counterpart, the quarter rest represents one beat of silence.',
+      'Similar to its half note counterpart, the half rest represents two beats of silence.',
+      'Similar to its whole note counterpart, the whole rest represents four beats of silence. To differentiate between this and the half rest, we can say \"whole hangs heavy\" since it hangs from the upper line!',
+      'Let\'s practice putting everything we\'ve learned together!'
   ], []);
 
   const transitions = useTransition(step, {
@@ -90,19 +93,21 @@ const Lesson5 = () => {
               textAlign: 'center',
               width: '100%', /* Set width to 100% of the parent */
             }}>
-              <Navbar/>
+              <NavbarComponent/>
             <h1>Lesson 1: Basic Notes</h1>
             <div style={{width: '100%', height: '10%'}}>
               {transitions((style, item) => (
                 <animated.div style={{...style, textAlign: 'center'}}>
                   <>
                     <p style={{margin: 'auto', width: '100%'}}>{steps[item]}</p>
-                    {item >=3 && item <= 4 && <img src={musicStaff} alt="Music Staff"
+                    {item === 7 && <img src={quarterRestSymbol} alt="Quarter Rest Symbol"
                                                     style={{paddingTop: '24px', width: '25%'}}/>}
-                    {item >=5 && item <= 8 && <img src={trebleClefSymbol} alt="Treble Clef Symbol"
+                    {item === 8 && <img src={halfRestSymbol} alt="Half Rest Symbol"
+                                       style={{paddingTop: '24px', width: '25%'}}/>}
+                    {item === 9 && <img src={wholeRestSymbol} alt="Whole Rest Symbol"
                                        style={{paddingTop: '24px', width: '25%'}}/>}
                     <div>
-                      {item === 8 && <button onClick={handleNext}>Quiz Me</button>}
+                      {item === 10 && <button onClick={handleNext}>Quiz Me</button>}
                     </div>
                   </>
                 </animated.div>
@@ -136,4 +141,4 @@ const Lesson5 = () => {
 
 }
 
-export default Lesson5;
+export default Lesson4;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navbar from "../components/navbar";
+import NavbarComponent from "../components/NavbarComponent";
 <img src={require("../assets/buffJellyFishing.gif")} alt="Fun GIF" className="mb-4"/>
 
 
@@ -33,7 +33,7 @@ const Play = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
-      <Navbar />
+      <NavbarComponent />
       <div className="w-full max-w-md p-8 bg-white shadow-md rounded-lg">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">Let's Play!</h1>
         <p className="text-gray-700 mb-4 text-center">Customize your playing settings:</p>

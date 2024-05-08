@@ -36,7 +36,7 @@ const Learn = () => {
         <div className="mx-auto px-8">
           {sections.map((section, idx) => (
             <div key={idx} className="mb-10">
-              <h2 className="text-3xl font-semibold text-blue-600 mb-4">{section.title}</h2>
+              <h2 className="text-3xl font-semibold text-gray-600 mb-4 pl-3">{section.title}</h2>
               <div className="space-y-4">
                 {section.content.map((item, index) => (
                   <div key={index} className="flex justify-between items-center bg-gray-100 p-4 rounded-lg shadow">

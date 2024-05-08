@@ -11,6 +11,7 @@ const Navbar = ({ onToggle }) => {
     }
   };
 
+
   return (
     <nav className="fixed top-0 w-full bg-gray-100 z-10" style={{ height: isOpen ? 'auto' : '50px' }}>
       <div className="flex justify-between items-center p-1">
@@ -23,13 +24,13 @@ const Navbar = ({ onToggle }) => {
       </div>
       <ul className={`${isOpen ? 'flex' : 'hidden'} flex-col items-start pl-4 w-full mt-2`}>
         <li>
-          <Link to="/learn" className="no-underline text-gray-500 hover:text-gray-800 py-2 block">learn</Link>
+          <Link to="/learn" className="no-underline text-gray-500 hover:text-gray-950 hover:font-bold py-2 block">learn</Link>
         </li>
         <li>
-          <Link to="/play" className="no-underline text-gray-500 hover:text-gray-800 py-2 block">play</Link>
+          <Link to="/play" className="no-underline text-gray-500 hover:text-gray-950 hover:font-bold py-2 block">play</Link>
         </li>
         <li>
-          <Link to="/piano" className="no-underline text-gray-500 hover:text-gray-800 py-2 block">piano</Link>
+          <Link to="/piano" className="no-underline text-gray-500 hover:text-gray-950 hover:font-bold py-2 block">piano</Link>
         </li>
       </ul>
     </nav>

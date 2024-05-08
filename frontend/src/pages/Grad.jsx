@@ -1,11 +1,11 @@
 import React from 'react';
-import Navbar from "../components/navbar";
+import NavbarComponent from "../components/NavbarComponent";
 import { Link } from "react-router-dom";
 
 const Grad = () => {
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
-            <Navbar />
+            <NavbarComponent />
             <div className="text-center p-4">
                 <h1 className="text-3xl font-bold text-gray-800 mt-2 mb-4">Congratulations!</h1>
                 <p className="text-xl text-gray-700">You have completed all of the lessons and quizzes.</p>

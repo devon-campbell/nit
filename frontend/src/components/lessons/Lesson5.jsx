@@ -1,29 +1,32 @@
-import React, {useState, useEffect, useCallback, useMemo} from 'react';
-import { useTransition, animated, config } from 'react-spring';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import Navbar from "./navbar";
-import noteLengthsDiagram from '../assets/note-lengths-diagram.jpg';
-import quarterNoteSymbol from '../assets/quarter-note-symbol.jpg';
-import DimensionsProvider from "../utils/DimensionProvider";
-import PianoComponent from "./PianoComponent";
-import { MidiNumbers } from 'react-piano';
-import SpacebarComponent from "./SpacebarComponent";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {animated, config, useTransition} from "react-spring";
+import DimensionsProvider from "../../utils/DimensionProvider";
+import NavbarComponent from "../NavbarComponent";
+import eighthNoteSymbol from "../../assets/eighth-note-symbol.jpeg";
+import eighthRestSymbol from "../../assets/Eighth-Rest-Symbol.jpg";
+import sixteenthNoteSymbol from "../../assets/sixteenth-note-symbol.jpeg";
+import sixteenthRestSymbol from "../../assets/Sixteenth-Rest-Symbol.jpg";
+import SpacebarComponent from "../SpacebarComponent";
 
-const LessonOne = () => {
-    const navigate = useNavigate();
+const Lesson41 = () => {
+   const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [inTransition, setInTransition] = useState(false);
-  const steps = useMemo(() => ['(Use the spacebar, arrow keys, or buttons)',
-                          'Before we get into the fun stuff, we must first understand some terminology and ideas',
-                          'Firstly, sight-reading is the art of reading and performing music at first sight, without prior rehearsal',
-                          'Think about reading a book aloud for the first time, but with musical notes instead of words',
-                          'In this lesson, we\'ll focus on the basic building blocks of music notation: notes',
-                          'A note is a symbol that represents a sound',
-                          'By mastering the rhythm and duration of quarter, half, and whole notes, you\'ll lay a solid foundation for sight-reading',
-      'The quarter note is like the heartbeat of music',
-      ' It generally represents one beat, or a quarter of a whole note\'s duration',
-      'In fact, most music we listen to revolves around the idea of a quarter note',
-      'When you see a quarter note, think of it as lasting for one count, or one beat, let\'s practice tapping along to get a feel for the rhythm of the quarter note',
+  const steps = useMemo(() => [
+      '(Use your keyboard or mouse to navigate)',
+      'Making good progress I see! Now that we have some basic notes and rests under our belt, let’s introduce a few more.',
+      'After this lesson, you should be able to recognize pretty much any type of note and rest you come across! You won\'t be quizzed on this, but this is good knowledge to have!',
+      'As you can probably guess from the name, the eighth note lasts an eighth of the length of a whole note (half of a beat).',
+      'On its own, notice that it has a singular flag and when it comes with other eighth notes, it is connected with a SINGULAR bar. This will come in handy later.',
+      'If you’ve been following along, you probably guessed that the eighth rest represents a silence that is an eighth of a whole note, or half of a beat.',
+      'Notice that it looks like a seven with a dot at the tip!',
+      'Okay, so this is where things start to get fun. At this point, you are probably seeing a pattern.',
+      'The 16th note is very quick: two make up one eighth note, four make up one quarter note, so on and so forth.',
+      'Note that the eighth note representation is similar to that for the eighth note, the only difference being that there are two flags for an individual note, and TWO bars for groups of 16th notes.',
+      'With this, what do you think a 32nd note looks like? What about a 64th note?',
+      'The 16th rest does not need much explanation: it represents a moment of silence the same length as its counterpart the 16th note.',
+      'It bears resemblance to the eighth rest, only with two flags! Imagine how many flags the 128th rest has!'
   ], []);
 
   const transitions = useTransition(step, {
@@ -41,7 +44,7 @@ const LessonOne = () => {
       setStep((prevStep) => {
         const nextStep = (prevStep + 1) % steps.length;
         if (nextStep === 0) { // If nextStep is 0, we've looped back to the start
-          navigate('/quiz/1'); // Navigate to /quiz/1
+          navigate('/quiz/2'); // Navigate to /quiz/1
         }
         return nextStep;
       });
@@ -75,6 +78,7 @@ const LessonOne = () => {
   };
 
 
+
   return (
   <div style={{ overflow: 'hidden', maxHeight: '100vh', maxWidth: '100vw' }}>
       <div style={{ position: 'relative', height: '90vh'}}> {/* Set height to 100vh to fill the screen */}
@@ -92,19 +96,23 @@ const LessonOne = () => {
               textAlign: 'center',
               width: '100%', /* Set width to 100% of the parent */
             }}>
-              <Navbar/>
+              <NavbarComponent/>
             <h1>Lesson 1: Basic Notes</h1>
             <div style={{width: '100%', height: '10%'}}>
               {transitions((style, item) => (
                 <animated.div style={{...style, textAlign: 'center'}}>
                   <>
                     <p style={{margin: 'auto', width: '100%'}}>{steps[item]}</p>
-                    {item >= 2 && item <= 6 && <img src={noteLengthsDiagram} alt="Note Lengths Diagram"
+                    {item >=3 && item <= 4 && <img src={eighthNoteSymbol} alt="Eighth Note Symbol"
                                                     style={{paddingTop: '24px', width: '25%'}}/>}
-                    {item >= 7 && <img src={quarterNoteSymbol} alt="Quarter Note Symbol"
+                    {item >=5 && item <= 6 && <img src={eighthRestSymbol} alt="Eighth Rest Symbol"
                                        style={{paddingTop: '24px', width: '25%'}}/>}
+                    {item >=7 && item <= 9 && <img src={sixteenthNoteSymbol} alt="Sixteenth Note Symbol"
+                                       style={{paddingTop: '24px', width: '25%'}}/>}
+                    {item >=10 && item <= 11 && <img src={sixteenthRestSymbol} alt="Sixteenth Rest Symbol"
+                                                   style={{paddingTop: '24px', width: '25%'}}/>}
                     <div>
-                      {item === 10 && <button onClick={handleNext}>Quiz Me</button>}
+                      {item === 12 && <button onClick={handleNext}>Quiz Me</button>}
                     </div>
                   </>
                 </animated.div>
@@ -124,7 +132,7 @@ const LessonOne = () => {
       overflow: 'hidden',
     }}>
       <div style={{width: '50%', height: '10%', paddingLeft: '50vw'}}>
-        <SpacebarComponent onKeyPress={handleKeyPress}/>
+        <SpacebarComponent onKeyPress={handleKeyPress} noteDuration={2000} />
       </div>
     </div>
     <button onClick={handlePrevious}
@@ -135,6 +143,7 @@ const LessonOne = () => {
     </button>
   </div>
 );
+
 }
 
-export default LessonOne;
+export default Lesson41;

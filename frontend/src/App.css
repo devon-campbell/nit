@@ -40,3 +40,8 @@
     transform: rotate(360deg);
   }
 }
+
+.freak-mode {
+  cursor: url("assets/freak-mode.jpg"), auto;
+  background-color: #282c34;
+}

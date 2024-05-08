@@ -37,6 +37,10 @@ def compare_sheet_music_to_user_notes(musicXML: str, user_notes: list):
         time_elapsed = 0
 
         while time_elapsed < note['divisions']:
+
+            if user_notes_ptr >= len(user_notes):
+                break
+
             user_note = user_notes[user_notes_ptr]
             user_note_divisions = user_note['divisions']
 

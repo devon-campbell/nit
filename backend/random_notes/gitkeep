@@ -1,1 +1,0 @@
-This is a dummy file! The 'random_notes' directory is necessary for random note generation, but  Git does not allow empty directories to be part of commits. We thus keep this dummy file within.

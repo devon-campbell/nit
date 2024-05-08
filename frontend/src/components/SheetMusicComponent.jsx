@@ -1,25 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { OpenSheetMusicDisplay } from 'opensheetmusicdisplay';
 
 const SheetMusicComponent = ({ xml }) => {
   const [osmd, setOsmd] = useState(null);
   const [loading, setLoading] = useState(true);
+  const osmdContainerRef = useRef(null);
 
   useEffect(() => {
-    const div = document.createElement('div');
-    const osmdInstance = new OpenSheetMusicDisplay(div, {
-      // options here (optional)
-    });
-    setOsmd(osmdInstance);
-    osmdInstance.load(xml).then(() => {
-      osmdInstance.render();
-      setLoading(false);
-    });
+    const loadOsmdInstance = async () => {
+      const div = osmdContainerRef.current;
+      const osmdInstance = new OpenSheetMusicDisplay(div, {
+        drawPartNames: false, // Don't display part and score names
+        drawTitle: false,     // Don't display the title
+        drawMeasureNumbers: false, // Don't display measure numbers
+      });
+
+      setOsmd(osmdInstance);
+
+      try {
+        await osmdInstance.load(xml);
+        osmdInstance.render();
+        setLoading(false);
+      } catch (error) {
+        console.error("Error loading the music XML: ", error);
+        setLoading(false);
+      }
+    };
+
+    if (xml) {
+      loadOsmdInstance();
+    }
   }, [xml]);
 
   return (
-    <div>
-      {loading ? <div>Loading...</div> : <div ref={el => el && el.appendChild(osmd.container)} />}
+    <div ref={osmdContainerRef}>
+      {loading && <div>Loading...</div>}
     </div>
   );
 };

@@ -1,18 +1,22 @@
 import random
-from music21 import stream, note, metadata, instrument
+from music21 import stream, note, metadata, instrument, clef
 from datetime import datetime
+import xml.etree.ElementTree as ET
 
 def gen_n_notes(total_duration, include_8th, include_sharps):
     
     
-    notes_list = ['C3', 'D3', 'E3', 'F3', 'G3', 'A3','B3','C4', 'D4', 'E4', 'F4'] 
+    notes_list = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4','B4','C5', 'D5', 'E5', 'F5'] 
     if include_sharps: 
-        notes_list.extend(['C#3','D#3', 'F#3', 'G#3','A#3', 'C#4','D#4'] )    
+        notes_list.extend(['C#4','D#4', 'F#4', 'G#4','A#4', 'C#5','D#5'] )    
     
     durations_list = [4, 2, 1]  # Whole, Half, Quarter notes
     paired_durations = [0.5]  # Eighth 
 
     s = stream.Stream()
+    treble_clef = clef.TrebleClef()
+    s.append(treble_clef) # Set treble clef
+
     s.metadata = metadata.Metadata()
     s.metadata.title = ''
     s.metadata.composer = ''
@@ -61,5 +65,22 @@ def gen_n_notes(total_duration, include_8th, include_sharps):
 
     # Adjust the file path and name as necessary
     fp = f'./random_notes/random_notes_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.musicxml'
-    s.write('musicxml', fp=fp)
+    s.write('musicxml', fp=fp, storeMetadata=False)
+
+    '''
+        SOMETIMES MUSIC21 GENERATES A SCORE WITH EXTRANEOUS CONTENT AFTER THE CLOSING </score-partwise> TAG
+        THE FOLLOWING CODE REMOVES ANY EXTRA CONTENT AFTER THE CLOSING TAG!
+    '''
+    # Read the generated MusicXML file to remove any extra content 
+    with open(fp, 'r') as f:
+        musicxml_content = f.read()
+    
+    # Remove any extra content after the closing </score-partwise> tag
+    index = musicxml_content.find('</score-partwise>') + len('</score-partwise>')
+    musicxml_content = musicxml_content[:index]
+    
+    # Write the modified MusicXML content back to the file
+    with open(fp, 'w') as f:
+        f.write(musicxml_content)
+
     return fp

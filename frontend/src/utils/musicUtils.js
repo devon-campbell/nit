@@ -1,5 +1,4 @@
 // src/utils/musicUtils.js
-
 /**
  * Calculates the musical duration based on the duration in milliseconds and BPM.
  * Returns both the type of note (e.g., quarter, whole) and the numeric duration in divisions.
@@ -24,18 +23,18 @@ export function calculateNoteDuration(duration, bpm) {
   }
   
   /**
-   * Generates MusicXML string from an array of notes.
+   * Generates MusicXML string (with newline characters in between) from an array of notes.
    */
   export function createMusicXML(notes) {
     let xml = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-  <!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
-  <score-partwise version="3.1">
-    <part-list>
-      <score-part id="P1">
-        <part-name>Piano</part-name>
-      </score-part>
-    </part-list>
-    <part id="P1">`;
+    <!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
+    <score-partwise version="3.1">
+      <part-list>
+        <score-part id="P1">
+          <part-name>Piano</part-name>
+        </score-part>
+      </part-list>
+      <part id="P1">`;
   
     xml += `<measure number="1">`; // Simplified example with one measure
   

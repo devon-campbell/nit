@@ -15,7 +15,7 @@ const QuizOne = () => {
 
 
 
-  const musicXMLUrl = 'http://localhost:8000/get-music';
+  const musicXMLUrl = 'http://localhost:8000/get-quiz-musicxml/1';
 
   useEffect(() => {
     fetch(musicXMLUrl)

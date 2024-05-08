@@ -7,13 +7,13 @@ const LearnAndPlayButtons = () => {
 
   return (
     <div className="flex justify-center space-x-4">
-      <Link to="/learn" className="block w-64 h-64 border-4 border-gray-100 shadow-md hover:shadow-lg transition-shadow cursor-pointer">
+      <Link to="/learn" className="block w-64 h-64 border-4 border-gray-100 shadow-md hover:shadow-lg hover:opacity-70 transition-shadow cursor-pointer">
         <img src={learnImg} alt="Learn" className="w-full h-3/4 object-cover" />
-        <p className="bg-gray-100 text-center text-xl font-bold py-2 h-1/4 hover:bg-gray-300 transition-colors cursor-pointer">learn sheet music!</p>
+        <p className="bg-gray-100 text-center text-xl font-bold py-2 h-1/4 transition-colors cursor-pointer">learn sheet music!</p>
       </Link>
-      <Link to="/play" className="block w-64 h-64 border-4 border-gray-100 shadow-md hover:shadow-lg transition-shadow cursor-pointer">
+      <Link to="/play" className="block w-64 h-64 border-4 border-gray-100 shadow-md hover:shadow-lg hover:opacity-70 transition-shadow cursor-pointer">
         <img src={playImg} alt="Play" className="w-full h-3/4 object-cover" />
-        <p className="bg-gray-100 text-center text-xl font-bold py-2 h-1/4 hover:bg-gray-300 hover:border-gray-300 transition-colors cursor-pointer">play sheet music!</p>
+        <p className="bg-gray-100 text-center text-xl font-bold py-2 h-1/4 transition-colors cursor-pointer">play sheet music!</p>
       </Link>
     </div>
   );

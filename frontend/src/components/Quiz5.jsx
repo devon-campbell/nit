@@ -62,7 +62,6 @@ const Quiz5 = () => {
         if (response.ok) {
           // Get back two musicXML files with diff annotations
           const responseJSON = await response.json();
-          console.log(responseJSON.user_notes_annotated_as_xml);
           setPlayedMusicWithEvaluations(responseJSON.user_notes_annotated_as_xml);
 
         } else {

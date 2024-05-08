@@ -1,18 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const Navbar = () => {
-  return (
-    <nav style={{ position: 'fixed', top: 0, width: '100%', backgroundColor: '#f8f9fa' }}>
+const Navbar = ({ onToggle }) => {
+  const [isOpen, setIsOpen] = useState(false);
 
-      <ul style={{ listStyleType: 'none', margin: 0, padding: 0, overflow: 'hidden', display: 'flex', justifyContent: 'space-evenly' }}>
-          <div style={{ fontWeight: 'bold', fontSize: '1.5em', top: '10px' }}>
-        nit
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+    if (onToggle) {
+      onToggle(!isOpen);  // Notify the parent about the state change
+    }
+  };
+
+  return (
+    <nav className="fixed top-0 w-full bg-gray-100 z-10" style={{ height: isOpen ? 'auto' : '50px' }}>
+      <div className="flex justify-between items-center p-1">
+        <button onClick={toggleMenu} className="text-3xl cursor-pointer pb-1 ml-2">
+          ☰
+        </button>
+        <Link to="/" className="text-2xl font-bold text-gray-800 font-sans flex-grow ml-2">
+          nit
+        </Link>
       </div>
-        <li style={{ display: 'inline' }}><Link to="/" style={{ textDecoration: 'none', color: 'black' }}>home</Link></li>
-        <li style={{ display: 'inline' }}><Link to="/learn" style={{ textDecoration: 'none', color: 'black' }}>learn</Link></li>
-        <li style={{ display: 'inline' }}><Link to="/play" style={{ textDecoration: 'none', color: 'black' }}>play</Link></li>
-        <li style={{ display: 'inline' }}><Link to="/piano" style={{ textDecoration: 'none', color: 'black' }}>piano</Link></li>
+      <ul className={`${isOpen ? 'flex' : 'hidden'} flex-col items-start pl-4 w-full mt-2`}>
+        <li>
+          <Link to="/learn" className="no-underline text-gray-500 hover:text-gray-800 py-2 block">learn</Link>
+        </li>
+        <li>
+          <Link to="/play" className="no-underline text-gray-500 hover:text-gray-800 py-2 block">play</Link>
+        </li>
+        <li>
+          <Link to="/piano" className="no-underline text-gray-500 hover:text-gray-800 py-2 block">piano</Link>
+        </li>
       </ul>
     </nav>
   );

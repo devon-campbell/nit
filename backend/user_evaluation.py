@@ -31,7 +31,6 @@ def compare_sheet_music_to_user_notes(musicXML: str, user_notes: list):
     # Compare the sheet music notes to the user notes, adding 'color' key to each note object
     # based on whether the user played the note correctly, partially correctly, or incorrectly.
     user_notes_ptr = 0
-    print("Sheet music notes: ", sheet_music_notes)
 
     for note in sheet_music_notes:
         curr_divisions = note['divisions']
@@ -60,37 +59,53 @@ def compare_sheet_music_to_user_notes(musicXML: str, user_notes: list):
     for i in range(user_notes_ptr, len(user_notes)):
         user_notes[i]['color'] = 'red' # Extraneous notes played by user after the sheet music ended
 
-    # Write the rest of the function here: take the list of user notes and write them to a new musicXML file
+    # Assuming user_notes is a list of dictionaries representing user notes
+    for note in user_notes:
+        if 'color' not in note:
+            print("One of the user notes does not have the 'color' attribute.")
+            break  # Stop checking once you find a note without the color attribute
+
+
     # Create a new stream for the user notes
     user_notes_stream = stream.Stream()
     treble_clef = clef.TrebleClef()
     user_notes_stream.append(treble_clef)  # Set treble clef
     
-    # Add notes with colors to the user notes stream
+    # Add colored notes to a musicXML stream
     for user_note in user_notes:
         # Create a music21 Note object
         duration = user_note['divisions']
         name = user_note['name']
         note_obj = m21_note.Note(name)
         note_obj.duration.quarterLength = duration
-        # Set the color attribute properly
-        note_obj.style.color = user_note['color']  
+
+        # Set the color attribute only for the note head
+        noteColorHexCodes = {
+            'red': '#f40c00',
+            'green': '#008000',
+            'yellow': '#fce205'
+        }
+        note_obj.style.color = noteColorHexCodes[user_note['color']] 
         user_notes_stream.append(note_obj)
     
     # Convert the user notes stream into a MusicXML string
     user_notes_xml = m21ToXml.GeneralObjectExporter().parse(user_notes_stream).decode('utf-8')
-    user_notes_xml = remove_extraneous_xml(user_notes_xml)
-    print("User notes xml string: ", user_notes_xml)
-    sys.stdout.flush()  
+    user_notes_xml = remove_extraneous_xml(user_notes_xml) # Remove potentially extraneous XML at end of string
+    user_notes_xml = remove_note_color_attribute(user_notes_xml) # Remove color from non-notehead parts of the note
 
     return user_notes_xml
 
 def remove_extraneous_xml(xml_string):
     '''
-        Music21 Sometimes adds extraneous XML after the first occurrence of '</score-partwise>'
-        This function removes any extraneous XML after the first occurrence of '</score-partwise>'
+    Remove any extraneous XML after the first occurrence of '</score-partwise>',
+    and exclude lines starting with '<movement-title' and '<creator '. 
 
-        Returns the original XML string if '</score-partwise>' is not found
+    <movement-title> and <creator> elements display the actual title and creator once the
+    musicXML is passed into the sheetMusic element, and we don't want that.
+    
+    Also removes the <part-name /> element.
+
+    Returns the modified XML string.
     '''
     # Find the index of the first occurrence of '</score-partwise>'
     index = xml_string.find('</score-partwise>')
@@ -98,9 +113,48 @@ def remove_extraneous_xml(xml_string):
     # If '</score-partwise>' is found
     if index != -1:
         # Remove any extraneous XML after the first occurrence of '</score-partwise>'
-        return xml_string[:index + len('</score-partwise>')]
+        modified_xml = xml_string[:index + len('</score-partwise>')]
+        
+        # Put the XML string into a list of lines
+        xml_lines = modified_xml.split('\n')
+        
+        # Remove lines starting with '<movement-title' and '<creator '
+        xml_lines = [line for line in xml_lines if not line.strip().startswith('<movement-title') and not line.strip().startswith('<creator ')]
+        
+        # Remove the <part-name /> element
+        xml_lines = [line for line in xml_lines if not '<part-name />' in line]
+        
+        # Join the lines back together into the modified XML string
+        modified_xml_string = '\n'.join(xml_lines)
+        
+        return modified_xml_string
     
     # If '</score-partwise>' is not found, return the original XML string
     return xml_string
 
-    
+
+
+def remove_note_color_attribute(xml_string):
+    '''
+        To date, Aaron does not know of any way to set the color of the note head in Music21.
+        Specifying the note's style.color attribute changes the entire note's color, including the stem.
+
+        This function removes the 'color' attribute from all <note> elements in the musicXML string, leaving 
+        only the note head color unchanged (notehead color is specified in a different musicXML element.)
+
+        It returns the modified XML string with the 'color' attribute removed.
+    '''
+    # Convert the musicXML string into a list of lines
+    xml_lines = xml_string.split('\n')
+
+    # Iterate through each line in the list
+    for i, line in enumerate(xml_lines):
+        # Find all <note> elements
+        index_note = line.find('<note color=')
+        if index_note != -1:
+            xml_lines[i] = xml_lines[i][0: index_note + 5] + '>' # Remove color attribute from <note> element
+
+    # Join the lines back together into the modified musicXML string
+    modified_xml_string = '\n'.join(xml_lines)
+
+    return modified_xml_string

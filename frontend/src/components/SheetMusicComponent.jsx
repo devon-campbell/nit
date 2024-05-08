@@ -11,6 +11,8 @@ const SheetMusicComponent = ({ xml }) => {
       const div = osmdContainerRef.current;
       const osmdInstance = new OpenSheetMusicDisplay(div, {
         drawPartNames: false, // Don't display part and score names
+        drawTitle: false,     // Don't display the title
+        drawMeasureNumbers: false, // Don't display measure numbers
       });
 
       setOsmd(osmdInstance);

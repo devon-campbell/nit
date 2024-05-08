@@ -33,13 +33,10 @@ def evaluate_user_playing():
     """
     sheet_music_file = request.files['sheetMusic']
     sheet_music_content = sheet_music_file.read().decode('utf-8')
-    print("Received MusicXML file content:", sheet_music_content)
 
     played_notes_file = request.files['playedNotes']
     played_notes_content = played_notes_file.read()
     played_notes_objects = json.loads(played_notes_content)
-    print("Received played notes objects:", played_notes_objects)
-    sys.stdout.flush()
 
     user_notes_annotated_as_xml = compare_sheet_music_to_user_notes(sheet_music_content, played_notes_objects)
 

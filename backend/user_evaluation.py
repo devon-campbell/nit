@@ -54,17 +54,11 @@ def compare_sheet_music_to_user_notes(musicXML: str, user_notes: list):
                 note['color'] = 'red'
 
             time_elapsed += user_note_divisions
-            user_notes_ptr += 1 # Move onto next note that user played
+            user_notes_ptr += 1  # Move onto the next note that the user played
 
+    # If there are remaining user notes after the sheet music ends, mark them as red
     for i in range(user_notes_ptr, len(user_notes)):
-        user_notes[i]['color'] = 'red' # Extraneous notes played by user after the sheet music ended
-
-    # Assuming user_notes is a list of dictionaries representing user notes
-    for note in user_notes:
-        if 'color' not in note:
-            print("One of the user notes does not have the 'color' attribute.")
-            break  # Stop checking once you find a note without the color attribute
-
+        user_notes[i]['color'] = 'red'
 
     # Create a new stream for the user notes
     user_notes_stream = stream.Stream()

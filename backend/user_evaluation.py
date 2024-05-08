@@ -51,7 +51,7 @@ def compare_sheet_music_to_user_notes(musicXML: str, user_notes: list):
                 else:
                     user_note['color'] = 'red'
             else:
-                note['color'] = 'red'
+                user_note['color'] = 'red'
 
             time_elapsed += user_note_divisions
             user_notes_ptr += 1  # Move onto the next note that the user played

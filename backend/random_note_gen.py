@@ -4,8 +4,6 @@ from datetime import datetime
 import xml.etree.ElementTree as ET
 
 def gen_n_notes(total_duration, include_8th, include_sharps):
-    
-    
     notes_list = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4','B4','C5', 'D5', 'E5', 'F5'] 
     if include_sharps: 
         notes_list.extend(['C#4','D#4', 'F#4', 'G#4','A#4', 'C#5','D#5'] )    

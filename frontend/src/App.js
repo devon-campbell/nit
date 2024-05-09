@@ -19,8 +19,8 @@ function App() {
   };
 
   return (
-    <Router>
-        <div className={`app ${freakMode ? 'freak-mode' : ''}`}>
+          <Router>
+        <div className={`app ${freakMode ? 'freak-mode' : 'bg-base-100'}`}>
             <NavbarComponent freakMode={freakMode} toggleFreakMode={toggleFreakMode} />
             <Routes>
                 <Route path="/" element={<Home/>}/>
@@ -34,6 +34,7 @@ function App() {
             </Routes>
         </div>
     </Router>
+
   );
 }
 

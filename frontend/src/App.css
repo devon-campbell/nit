@@ -41,7 +41,19 @@
   }
 }
 
+.root{
+  background-color: oklch(var(--b1))
+}
+
 .freak-mode {
   cursor: url("assets/freak-mode.jpg"), auto;
-  background-color: #282c34;
+  background-color: oklch(var(--erc));
+  min-height: 100vh
 }
+
+.box {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+

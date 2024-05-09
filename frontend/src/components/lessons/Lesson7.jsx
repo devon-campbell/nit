@@ -135,6 +135,7 @@ const Lesson7 = () => {
             </div>
 
             <button onClick={handlePrevious}
+                    className={`border border-gray-500 px-6 py-3 text-xl rounded-lg hover:bg-blue-200`}
                     style={{
                         position: 'absolute',
                         bottom: 0,
@@ -145,6 +146,7 @@ const Lesson7 = () => {
                     }}>Previous
             </button>
             <button onClick={handleNext}
+                    className={`border border-gray-500 px-6 py-3 text-xl rounded-lg hover:bg-blue-200`}
                     style={{
                         position: 'absolute',
                         bottom: 0,

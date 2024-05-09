@@ -1,11 +1,11 @@
-import React, {useState, useEffect, useCallback, useMemo} from 'react';
-import { useTransition, animated, config } from 'react-spring';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {animated, config, useTransition} from 'react-spring';
+import {useNavigate} from 'react-router-dom'; // Import useNavigate
 import noteLengthsDiagram from '../../assets/note-lengths-diagram.jpg';
 import quarterNoteSymbol from '../../assets/quarter-note-symbol.svg';
 import DimensionsProvider from "../../utils/DimensionProvider";
 import PianoComponent from "../PianoComponent";
-import { MidiNumbers } from 'react-piano';
+import {MidiNumbers} from 'react-piano';
 
 const Lesson1 = () => {
     const navigate = useNavigate();
@@ -130,9 +130,11 @@ const Lesson1 = () => {
       </div>
     </div>
     <button onClick={handlePrevious}
+            className={`border border-gray-500 px-6 py-3 text-xl rounded-lg hover:bg-blue-200`}
             style={{position: 'absolute', bottom: 0, left: '10px', fontSize: '2em', overflow: 'hidden', padding: '10px'}}>Previous
     </button>
     <button onClick={handleNext}
+            className={`border border-gray-500 px-6 py-3 text-xl rounded-lg hover:bg-blue-200`}
             style={{position: 'absolute', bottom: 0, right: '10px', fontSize: '2em', overflow: 'hidden', padding: '10px'}}>Next
     </button>
   </div>

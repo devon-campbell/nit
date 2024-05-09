@@ -2,8 +2,8 @@ import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {animated, config, useTransition} from "react-spring";
 import DimensionsProvider from "../../utils/DimensionProvider";
-import eighthNoteSymbol from "../../assets/eighth-note-symbol.jpeg";
-import sixteenthNoteSymbol from "../../assets/sixteenth-note-symbol.jpeg";
+import eighthNoteSymbol from "../../assets/corbeau_Eighth_note.svg";
+
 import PianoComponent from "../PianoComponent";
 import {MidiNumbers} from "react-piano";
 
@@ -103,8 +103,8 @@ const Lesson4 = () => {
                                                       style={{paddingTop: '24px', width: '15%'}}/>}
                       {/*{item >= 5 && item <= 6 && <img src={eighthRestSymbol} alt="Eighth Rest Symbol"*/}
                       {/*                                style={{paddingTop: '24px', width: '25%'}}/>}*/}
-                      {item >= 5 && item <= 9 && <img src={sixteenthNoteSymbol} alt="Sixteenth Note Symbol"
-                                                      style={{paddingTop: '24px', width: '15%'}}/>}
+                      {item >= 5 && item <= 9 && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Sixteenth_note_with_upwards_stem.svg/682px-Sixteenth_note_with_upwards_stem.svg.png?20201122062532" alt="Sixteenth Note"
+                                                      style={{paddingTop: '24px', width: '15%', fill: 'white'}}/>}
                       {/*{item >= 10 && item <= 11 && <img src={sixteenthRestSymbol} alt="Sixteenth Rest Symbol"*/}
                       {/*                                 style={{paddingTop: '24px', width: '25%'}}/>}*/}
                       </div>

@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {animated, config, useTransition} from "react-spring";
 import DimensionsProvider from "../../utils/DimensionProvider";
-import wholeNoteSymbol from "../../assets/Whole-note-symbol.jpg";
+import wholeNoteSymbol from "../../assets/Whole-note-symbol.svg";
 import {MidiNumbers} from "react-piano";
 import PianoComponent from "../PianoComponent";
 

@@ -135,9 +135,9 @@ const Lesson6 = () => {
                 </DimensionsProvider>
             </div>
 
-            <div style={{position: 'absolute', bottom: '50px', width: '100%', display: 'flex', justifyContent: 'center'}}>
+            <div style={{position: 'absolute', bottom: '50px', width: '50%', display: 'flex', justifyContent: 'center'}}>
                 <PianoComponent
-                    noteRange={{first: MidiNumbers.fromNote('c5'), last: MidiNumbers.fromNote('c6')}}
+                    noteRange={{first: MidiNumbers.fromNote('c5'), last: MidiNumbers.fromNote('f5')}}
                     oneNote={false}
                     isLesson={true}
                     playedNotes={playedNotes}

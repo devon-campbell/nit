@@ -46,12 +46,47 @@
   background-color: #282c34;
 }
 
-.center-with-large-left-margin-sheetmusic {
-  margin-left: 28rem; /* Adjust the value as needed */
+.center-with-large-left-margin-sheetmusic-1 {
+  margin-left: 28.5rem; /* Adjust the value as needed */
+  margin-right: auto;
+}
+
+.center-with-large-left-margin-sheetmusic-2 {
+  margin-left: 24rem; /* Adjust the value as needed */
+  margin-right: auto;
+}
+
+.center-with-large-left-margin-sheetmusic-3 {
+  margin-left: 25rem; /* Adjust the value as needed */
+  margin-right: auto;
+}
+
+.center-with-large-left-margin-sheetmusic-4 {
+  margin-left: 22rem; /* Adjust the value as needed */
+  margin-right: auto;
+}
+
+.center-with-large-left-margin-sheetmusic-5 {
+  margin-left: 22rem; /* Adjust the value as needed */
+  margin-right: auto;
+}
+
+.center-with-large-left-margin-sheetmusic-6 {
+  margin-left: 28.5rem; /* Adjust the value as needed */
+  margin-right: auto;
+}
+
+.center-with-large-left-margin-sheetmusic-5 {
+  margin-left: 22rem; /* Adjust the value as needed */
+  margin-right: auto;
+}
+
+.center-with-large-left-margin-sheetmusic-7 {
+  margin-left: 17rem; /* Adjust the value as needed */
   margin-right: auto;
 }
 
 .center-with-large-left-margin-pianokey {
-  margin-left: 42rem; /* Adjust the value as needed */
+  margin-left: 31rem; /* Adjust the value as needed */
   margin-right: auto;
 }

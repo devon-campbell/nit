@@ -13,14 +13,10 @@ import NavbarComponent from "./components/NavbarComponent";
 
 function App() {
 
-  const [freakMode, setFreakMode] = useState(false);
-  const toggleFreakMode = () => {
-      setFreakMode(!freakMode);
-  };
-
   return (
     <Router>
-        <div className={`app ${freakMode ? 'freak-mode' : ''}`}>
+        <NavbarComponent/>
+
             <Routes>
                 <Route path="/" element={<Home/>}/>
                 <Route path="/learn" element={<Learn/>}/>
@@ -31,7 +27,6 @@ function App() {
                 <Route path="/start" element={<Start/>}/>
                 <Route path="/piano" element={<Piano/>}/>
             </Routes>
-        </div>
     </Router>
   );
 }

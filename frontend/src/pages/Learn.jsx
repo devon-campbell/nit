@@ -27,15 +27,14 @@ const Learn = () => {
 
   return (
     <div>
-      <NavbarComponent />
       <div className={`container mx-auto mt-8`}>
         <div className="mx-auto px-8 mt-8 mb-5 pt-5">
           {sections.map((section, idx) => (
             <div key={idx} className="mb-10">
-              <h2 className="text-3xl font-semibold text-gray-600 mb-4 pl-3">{section.title}</h2>
+              <h2 className="text-3xl font-semibold text-neutral-content mb-4 pl-3">{section.title}</h2>
               <div className="space-y-4">
                 {section.content.map((item, index) => (
-                  <div key={index} className="flex justify-between items-center bg-gray-100 p-4 rounded-lg shadow">
+                  <div key={index} className="flex justify-between items-center bg-base-300 p-4 rounded-lg shadow">
                     <Link to={`/lesson/${item.num}`} className="flex-grow text-lg font-medium text-blue-700 hover:text-blue-900">
                       {item.lesson}
                     </Link>

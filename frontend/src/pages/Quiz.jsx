@@ -176,12 +176,18 @@ const Quiz = () => {
             {/* Render the new sheet music components here */}
             {playedMusicWithEvaluations ? (
               <React.Fragment>
-                <div className="mt-4 flex justify-center">
-                  <h2 className="text-2xl">Your results:</h2>
+                <div className="flex flex-col center-with-large-left-evaluated-music">
+                  <div className="mt-4 ml-12">
+                    <h2 className="text-2xl">The sheet music:</h2>
+                  </div>
+                  <SheetMusicComponent xml={musicXML}/>
+                  <div className="mt-4 ml-12">
+                    <h2 className="text-2xl">What you played:</h2>
+                  </div>
+                  <SheetMusicComponent xml={playedMusicWithEvaluations}/>
                 </div>
-                <SheetMusicComponent xml={musicXML}/>
-                <SheetMusicComponent xml={playedMusicWithEvaluations}/>
-                <div className="flex justify-center mt-2">
+                
+                <div className="flex justify-center mt-2 space-x-2">
                   <div className="mb-4">
                     <button onClick={() => navigate('/lesson/2')} className="border border-gray-500 px-6 py-3 text-xl rounded-lg hover:bg-blue-200">
                       Next Lesson

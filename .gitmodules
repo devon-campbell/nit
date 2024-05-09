@@ -1,0 +1,3 @@
+[submodule "piano_ui"]
+	path = piano_ui
+	url = https://github.com/KilledByAPixel/1Keys.git

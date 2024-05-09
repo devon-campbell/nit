@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Reddit+Mono:wght@200..900&display=swap');
+
+html {
+  font-family: 'Reddit Mono', monospace;
+} 
+
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+.center-with-large-left-margin-sheetmusic-1 {
+  margin-left: 28.5rem; /* Adjust the value as needed */
+  margin-right: auto;
+}
+
+.center-with-large-left-margin-sheetmusic-2 {
+  margin-left: 24rem; /* Adjust the value as needed */
+  margin-right: auto;
+}
+
+.center-with-large-left-margin-sheetmusic-3 {
+  margin-left: 25rem; /* Adjust the value as needed */
+  margin-right: auto;
+}
+
+.center-with-large-left-margin-sheetmusic-4 {
+  margin-left: 22rem; /* Adjust the value as needed */
+  margin-right: auto;
+}
+
+.center-with-large-left-margin-sheetmusic-5 {
+  margin-left: 22rem; /* Adjust the value as needed */
+  margin-right: auto;
+}
+
+.center-with-large-left-margin-sheetmusic-6 {
+  margin-left: 28.5rem; /* Adjust the value as needed */
+  margin-right: auto;
+}
+
+.center-with-large-left-margin-sheetmusic-5 {
+  margin-left: 22rem; /* Adjust the value as needed */
+  margin-right: auto;
+}
+
+.center-with-large-left-margin-sheetmusic-7 {
+  margin-left: 17rem; /* Adjust the value as needed */
+  margin-right: auto;
+}
+
+.center-with-large-left-margin-one-pianokey {
+  margin-left: 42.75rem; /* Adjust the value as needed */
+  margin-right: auto;
+}
+
+.center-with-large-left-margin-four-pianokeys {
+  margin-left: 37rem; /* Adjust the value as needed */
+  margin-right: auto;
+}
+
+.center-with-large-left-margin-piano {
+  margin-left: 25rem; /* Adjust the value as needed */
+}
+
+.center-with-large-left-evaluated-music {
+  margin-left: 30rem; /* Adjust the value as needed */
+}

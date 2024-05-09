@@ -113,7 +113,7 @@ const Quiz = () => {
         !finishedPlaying ? (
           <React.Fragment>
             <div>
-              <div className="center-with-large-left-margin-sheetmusic">
+              <div className={`center-with-large-left-margin-sheetmusic-${id}`}>
                 <SheetMusicComponent xml={musicXML} />
               </div>
             </div>

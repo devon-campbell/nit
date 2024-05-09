@@ -10,6 +10,7 @@ import PianoComponent from "../PianoComponent";
 
 const Lesson6 = () => {
     const navigate = useNavigate();
+    const [playedNotes, setPlayedNotes] = useState([]);
     const [musicXML, setMusicXML] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [step, setStep] = useState(0);
@@ -134,15 +135,18 @@ const Lesson6 = () => {
                 </DimensionsProvider>
             </div>
 
-            <div style={{position: 'absolute', bottom: '50px', width: '100%', display: 'flex', justifyContent: 'center'}}>
+            <div style={{position: 'absolute', bottom: '50px', width: '50%', display: 'flex', justifyContent: 'center'}}>
                 <PianoComponent
-                    noteRange={{first: MidiNumbers.fromNote('c5'), last: MidiNumbers.fromNote('c6')}}
+                    noteRange={{first: MidiNumbers.fromNote('c5'), last: MidiNumbers.fromNote('f5')}}
                     oneNote={false}
                     isLesson={true}
+                    playedNotes={playedNotes}
+                    setPlayedNotes={setPlayedNotes}
                 />
             </div>
 
             <button onClick={handlePrevious}
+                    className={`border border-gray-500 px-6 py-3 text-xl rounded-lg hover:bg-blue-200`}
                     style={{
                         position: 'absolute',
                         bottom: 0,
@@ -153,6 +157,7 @@ const Lesson6 = () => {
                     }}>Previous
             </button>
             <button onClick={handleNext}
+                    className={`border border-gray-500 px-6 py-3 text-xl rounded-lg hover:bg-blue-200`}
                     style={{
                         position: 'absolute',
                         bottom: 0,

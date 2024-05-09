@@ -9,6 +9,7 @@ import PianoComponent from "../PianoComponent";
 
 const Lesson3 = () => {
    const navigate = useNavigate();
+  const [playedNotes, setPlayedNotes] = useState([]);
   const [step, setStep] = useState(0);
   const [inTransition, setInTransition] = useState(false);
   const steps = useMemo(() => [
@@ -120,13 +121,17 @@ const Lesson3 = () => {
               noteRange={{ first: MidiNumbers.fromNote('c4'), last: MidiNumbers.fromNote('c4') }}
               oneNote={true}
               isLesson={true}
+              playedNotes={playedNotes}
+              setPlayedNotes={setPlayedNotes}
             />
       </div>
     </div>
     <button onClick={handlePrevious}
+            className={`border border-gray-500 px-6 py-3 text-xl rounded-lg hover:bg-blue-200`}
             style={{position: 'absolute', bottom: 0, left: '10px', fontSize: '2em', overflow: 'hidden', padding: '10px'}}>Previous
     </button>
     <button onClick={handleNext}
+            className={`border border-gray-500 px-6 py-3 text-xl rounded-lg hover:bg-blue-200`}
             style={{position: 'absolute', bottom: 0, right: '10px', fontSize: '2em', overflow: 'hidden', padding: '10px'}}>Next
     </button>
   </div>

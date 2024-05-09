@@ -1,5 +1,6 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import NavbarComponent from "../components/NavbarComponent";
 
 const Learn = () => {
   const sections = [
@@ -26,6 +27,7 @@ const Learn = () => {
 
   return (
     <div>
+      <NavbarComponent />
       <div className={`container mx-auto mt-8`}>
         <div className="mx-auto px-8 mt-8 mb-5 pt-5">
           {sections.map((section, idx) => (

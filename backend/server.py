@@ -24,11 +24,13 @@ def get_quiz_musicxml(quiz_number):
     elif quiz_number == 3:
         return send_file(gen_n_notes(16, False, False, 'whole', True, False), as_attachment=True)
     elif quiz_number == 4:
-        return send_file(gen_n_notes(16, False, False, 'whole', True, False), as_attachment=True)
+        return send_file(gen_n_notes(16, True, False, 'whole', True, False), as_attachment=True)
     elif quiz_number == 5:
         return send_file(gen_n_notes(16, True, False, 'whole', True, False), as_attachment=True)
     elif quiz_number == 6:
         return send_file(gen_n_notes(8, False, False, 'none', False, True), as_attachment=True)
+    elif quiz_number == 7:
+        return send_file(gen_n_notes(16, True, False, 'none', False, False), as_attachment=True)
     else:
         return "Invalid quiz number", 400
 

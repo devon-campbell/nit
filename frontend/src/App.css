@@ -45,3 +45,13 @@
   cursor: url("assets/freak-mode.jpg"), auto;
   background-color: #282c34;
 }
+
+.center-with-large-left-margin-sheetmusic {
+  margin-left: 28rem; /* Adjust the value as needed */
+  margin-right: auto;
+}
+
+.center-with-large-left-margin-pianokey {
+  margin-left: 42rem; /* Adjust the value as needed */
+  margin-right: auto;
+}

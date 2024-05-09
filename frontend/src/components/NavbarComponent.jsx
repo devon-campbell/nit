@@ -29,7 +29,7 @@ const NavbarComponent = ({ onToggle, freakMode, toggleFreakMode }) => {
   }, [onToggle]);
 
   return (
-    <nav ref={navbarRef} className="fixed top-0 w-full bg-gray-100 z-10" style={{ height: isOpen ? 'auto' : '50px' }}>
+    <nav ref={navbarRef} className="top-0 w-full bg-gray-100 z-10" style={{ height: isOpen ? 'auto' : '50px' }}>
       <div className="flex justify-between items-center p-1">
         <button onClick={toggleMenu} className="text-3xl cursor-pointer pb-1 ml-2">
           ☰
@@ -41,16 +41,18 @@ const NavbarComponent = ({ onToggle, freakMode, toggleFreakMode }) => {
           {freakMode ? 'Exit Freak Mode' : 'Enter Freak Mode 👅'}
         </button>
       </div>
-      <ul className={`${isOpen ? 'flex' : 'hidden'} flex-col items-start pl-4 w-full mt-2`}>
-        <li>
-          <Link to="/learn" className="no-underline text-gray-500 hover:text-gray-950 hover:font-bold py-2 block">learn</Link>
-        </li>
-        <li>
-          <Link to="/play" className="no-underline text-gray-500 hover:text-gray-950 hover:font-bold py-2 block">play</Link>
-        </li>
-        <li>
-          <Link to="/piano" className="no-underline text-gray-500 hover:text-gray-950 hover:font-bold py-2 block">piano (dev)</Link>
-        </li>
+      <ul className={`${isOpen ? 'flex' : 'hidden'} flex-col items-start pl-4 mt-2`}>
+        <div className="inline-block">
+          <li>
+            <Link to="/learn" className="no-underline text-gray-500 hover:text-gray-950 hover:font-bold py-2 block">learn</Link>
+          </li>
+          <li>
+            <Link to="/play" className="no-underline text-gray-500 hover:text-gray-950 hover:font-bold py-2 block">play</Link>
+          </li>
+          <li>
+            <Link to="/piano" className="no-underline text-gray-500 hover:text-gray-950 hover:font-bold py-2 block">piano (dev)</Link>
+          </li>
+        </div>
       </ul>
     </nav>
   );

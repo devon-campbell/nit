@@ -1,37 +1,185 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import {useParams} from 'react-router-dom';
 import NavbarComponent from "../components/NavbarComponent";
-import Quiz1 from '../components/quizzes/Quiz1';
-import Quiz55 from '../components/quizzes/Quiz55';
-import Quiz2 from "../components/quizzes/Quiz2";
-import Quiz3 from "../components/quizzes/Quiz3";
-import Quiz4 from "../components/quizzes/Quiz4";
-import Quiz5 from "../components/quizzes/Quiz5";
-import Quiz6 from "../components/quizzes/Quiz6";
-import Quiz7 from "../components/quizzes/Quiz7";
-import Quiz8 from "../components/quizzes/Quiz8";
 
-const quizComponents = {
-  "1": Quiz1,
-  "2": Quiz2,
-  "3": Quiz3,
-  "4": Quiz5,
-  "5": Quiz5,
-  "6": Quiz6,
-  "7": Quiz7,
-  "8": Quiz8,
-  "55": Quiz55,
-  // map all other quiz components
+import PianoComponent from "../components/PianoComponent";
+import SheetMusicComponent from "../components/SheetMusicComponent";
+import MetronomeComponent from "../components/MetronomeComponent";
+import { MidiNumbers } from "react-piano";
+import { calculateNoteDuration } from '../utils/musicUtils';
+import {useNavigate} from "react-router-dom";
+
+const quizPianoRanges = {
+  1: ['c4', 'c4'],
+  2: ['c4', 'c4'],
+  3: ['c4', 'c4'],
+  4: ['c4', 'c4'],
+  5: ['c4', 'c4'],
+  6: ['c5', 'f5'],
+  7: ['c4', 'f5'],
+  55: ['c4', 'f5'],
 };
 
 const Quiz = () => {
   let { id } = useParams();
-  const QuizComponent = quizComponents[id];
+  const navigate = useNavigate();
+  const [musicXML, setMusicXML] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [bpm, setBpm] = useState(80);
+  const [finishedPlaying, setFinishedPlaying] = useState(false);
+  const [playedMusicWithEvaluations, setPlayedMusicWithEvaluations] = useState(null);
+  const [quizStarted, setQuizStarted] = useState(false);
+
+  useEffect(() => {
+    const fetchMusicXML = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(`http://localhost:8000/get-quiz-musicxml/${id}`);
+        const data = await response.text();
+        setMusicXML(data);
+      } catch (error) {
+        console.error("Error fetching the music XML: ", error);
+      }
+      setIsLoading(false);
+    };
+
+    // Check if musicXML is null before fetching
+    if (!musicXML) {
+      fetchMusicXML();
+    }
+  }, [musicXML]); // Include musicXML in the dependencies array
+
+  const handleStartQuiz = () => {
+    setQuizStarted(true);
+  };
+
+  const handleFinishedPlaying = (playedNotes) => {
+    /** Send the notes to backend, get back two new musicXML files, one for original sheet music and one for user's
+        played notes —- both with colored diff annotations */
+    setFinishedPlaying(true);
+
+    const getDiffedMusicFiles = async () => {
+      const playedNotesExpanded = playedNotes.map(note => {
+        const { type, divisions } = calculateNoteDuration(note.duration, bpm);
+        const { startTime, duration, ...rest} = note;
+        return { ...rest, type, divisions };
+      })
+
+      try {
+        const formData = new FormData();
+
+        // musicXML is a MusicXML string
+        const musicXMLBlob = new Blob([musicXML], { type: 'application/xml' });
+        // playedNotesExpanded is an array of note objects
+        const playedNotesBlob = new Blob([JSON.stringify(playedNotesExpanded)], { type: 'application/json' });
+
+        formData.append('sheetMusic', musicXMLBlob, 'sheetMusic.musicxml');
+        formData.append('playedNotes', playedNotesBlob, 'playedNotes.json');
+
+        const response = await fetch('http://localhost:8000/evaluate-user-playing', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (response.ok) {
+          // Get back two musicXML files with diff annotations
+          const responseJSON = await response.json();
+          setPlayedMusicWithEvaluations(responseJSON.user_notes_annotated_as_xml);
+
+        } else {
+          // Handle failure
+          console.log("Failed to get diffed music files")
+        }
+      } catch (error) {
+        // Handle error
+        console.log("Error occurred while submitting original and played music files: ", error)
+      }
+    };
+    getDiffedMusicFiles();
+  }
 
   return (
     <div>
       <NavbarComponent />
-      {QuizComponent ? <QuizComponent /> : <p>This should be the content for quiz {id}.</p>}
+      <div className="flex justify-center">
+        <div>
+          <div className="text-4xl font-semibold mt-8">Quiz {id}</div>
+        </div>
+      </div>
+      {quizStarted && !finishedPlaying && <MetronomeComponent bpm={bpm}/>}
+      {isLoading ? (
+        <p>Loading sheet music...</p>
+      ) : (
+        !finishedPlaying ? (
+          <React.Fragment>
+            <div>
+              <div className="center-with-large-left-margin-sheetmusic">
+                <SheetMusicComponent xml={musicXML} />
+              </div>
+            </div>
+            {quizStarted ? ( // If quizStarted is true, render the piano component
+              <div className="center-with-large-left-margin-pianokey">
+                <PianoComponent
+                  noteRange={{ first: MidiNumbers.fromNote(quizPianoRanges[id][0]), last: MidiNumbers.fromNote(quizPianoRanges[id][1]) }}
+                  bpm={bpm}
+                  setBpm={setBpm}
+                  maxNumOfNotes={16}
+                  onFinishedPlaying={handleFinishedPlaying}
+                  oneNote={false}
+            />
+              </div>
+            ) : ( // If quizStarted is false, render the metronome, label, and button
+              <div className="flex justify-center">
+                <div className="border border-gray-500 rounded p-4 mb-2 inline-block">
+                  <div className="grid place-items-center w-52">
+                    <div className="mb-2">
+                      <label htmlFor="bpm-select">Select BPM:</label>
+                    </div>
+                    <div className="mb-4">
+                      <select id="bpm-select" className="text-md px-2 block appearance-none w-full bg-white border border-gray-500 rounded py-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-600" value={bpm} onChange={(e) => setBpm(Number(e.target.value))}>
+                        <option value={60}>60 BPM</option>
+                        <option value={80}>80 BPM</option>
+                        <option value={100}>100 BPM</option>
+                        <option value={120}>120 BPM</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="mb-4 flex justify-center">
+                    <button onClick={handleStartQuiz} className="border border-gray-500 px-6 py-3 text-xl rounded-lg">Start</button>
+                    {quizStarted && <MetronomeComponent bpm={bpm}/>}
+                  </div>
+                </div>
+              </div>
+            )}
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            {/* Render the new sheet music components here */}
+            {playedMusicWithEvaluations ? (
+              <React.Fragment>
+                <SheetMusicComponent xml={musicXML}/>
+                <SheetMusicComponent xml={playedMusicWithEvaluations}/>
+                <div className="text-left mt-20">
+                  <h2>Great Job!</h2>
+                  <button onClick={() => navigate('/lesson/2')} className="bg-green-500 text-white px-4 py-2 mt-4 mr-4">
+                    Next Lesson
+                  </button>
+                  <h2>Let's Practice Some More!</h2>
+                  <button onClick={() => window.location.reload()} className="bg-red-500 text-white px-4 py-2 mt-4 mr-4">
+                    Try Again
+                  </button>
+                  <h2></h2>
+                  <button onClick={() => navigate('/learn')} className="bg-gray-500 text-white px-4 py-2 mt-4 mr-4">
+                    Back to Lesson Map
+                  </button>
+                </div>
+              </React.Fragment>
+            ) : (
+              <p>Loading your results...</p>
+            )}
+          </React.Fragment>
+        )
+      )}
     </div>
   );
 }

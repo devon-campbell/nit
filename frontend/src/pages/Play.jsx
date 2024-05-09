@@ -41,7 +41,6 @@ const Play = () => {
     setIsEndless(randomIsEndless);
     setBars(randomBars);
 
-    // Navigate after state is set
     navigate('/start', { state: { bpm: randomBpm, longestNote: randomNote, isEndless: randomIsEndless, bars: randomBars } });
   };
 
@@ -49,45 +48,43 @@ const Play = () => {
     <div>
       <NavbarComponent />
       <div className="min-h-screen flex flex-col items-center justify-center">
-      <div className="w-full max-w-md p-8 bg-white shadow-md rounded-lg">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">Let's Play!</h1>
-        <p className="text-gray-700 mb-4 text-center">Customize your playing settings:</p>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            BPM (Beats Per Minute)
-          </label>
-          <input type="number" value={bpm} onChange={handleBpmChange} min="20" max="240" 
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Longest Note Duration
-          </label>
-          <select value={longestNote} onChange={handleNoteChange} className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
-            <option value="Whole">Whole</option>
-            <option value="Half">Half</option>
-            <option value="Quarter">Quarter</option>
-          </select>
-        </div>
-        <div className="mb-4 flex items-center">
-        </div>
-        {!isEndless && (
+        <div className="w-full max-w-md p-8 bg-base-300 shadow-md rounded-lg">
+          <h1 className="text-3xl font-bold text-primary mb-6 text-center">Let's Play!</h1>
+          <p className="text-base-content mb-4 text-center">Customize your playing settings:</p>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Number of Bars
+            <label className="block text-base-content text-sm font-bold mb-2">
+              BPM (Beats Per Minute)
             </label>
-            <input type="number" value={bars} onChange={handleBarsChange} min="1"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <input type="number" value={bpm} onChange={handleBpmChange} min="20" max="240" 
+              className="shadow input input-bordered input-primary w-full" />
           </div>
-        )}
-        <button onClick={handlePlay} className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline transition-colors duration-300">
-          Let's Play
-        </button>
-        <button onClick={surpriseMe} className="mt-4 w-full bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-700 focus:outline-none focus:shadow-outline transition-colors duration-300">
-          Surprise Me!
-        </button>
+          <div className="mb-4">
+            <label className="block text-base-content text-sm font-bold mb-2">
+              Longest Note Duration
+            </label>
+            <select value={longestNote} onChange={handleNoteChange} className="select select-bordered select-primary w-full">
+              <option value="Whole">Whole</option>
+              <option value="Half">Half</option>
+              <option value="Quarter">Quarter</option>
+            </select>
+          </div>
+          {!isEndless && (
+            <div className="mb-4">
+              <label className="block text-base-content text-sm font-bold mb-2">
+                Number of Bars
+              </label>
+              <input type="number" value={bars} onChange={handleBarsChange} min="1"
+                className="input input-bordered input-primary w-full" />
+            </div>
+          )}
+          <button onClick={handlePlay} className="btn btn-primary w-full">
+            Let's Play
+          </button>
+          <button onClick={surpriseMe} className="btn btn-accent mt-4 w-full">
+            Surprise Me!
+          </button>
+        </div>
       </div>
-    </div>
     </div>
     
   );

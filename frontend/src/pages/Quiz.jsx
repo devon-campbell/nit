@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import NavbarComponent from "../components/NavbarComponent";
 import Quiz1 from '../components/quizzes/Quiz1';
 import Quiz55 from '../components/quizzes/Quiz55';
@@ -15,7 +15,7 @@ const quizComponents = {
   "1": Quiz1,
   "2": Quiz2,
   "3": Quiz3,
-  "4": Quiz5,
+  "4": Quiz4,
   "5": Quiz5,
   "6": Quiz6,
   "7": Quiz7,

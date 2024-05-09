@@ -20,6 +20,7 @@ def gen_n_notes(total_duration, include_8th, include_sharps, note_types, one_not
     if note_types == 'half':  # Up to which note type to include
         durations_list.append(2)
     elif note_types == 'whole':
+        durations_list.append(2)
         durations_list.append(4)
 
     paired_durations = [0.5]  # Eighth 

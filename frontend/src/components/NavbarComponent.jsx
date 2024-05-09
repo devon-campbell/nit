@@ -47,7 +47,7 @@ const NavbarComponent = ({ onToggle, freakMode, toggleFreakMode }) => {
             <Link to="/play" className="no-underline text-neutral-content hover:text-neutral-content/70 hover:font-bold py-2 block">play</Link>
           </li>
           <li>
-            <Link to="/piano" className="no-underline text-neutral-content hover:text-neutral-content/70 hover:font-bold py-2 block">piano (dev)</Link>
+            <Link to="/piano" className="no-underline text-neutral-content hover:text-neutral-content/70 hover:font-bold py-2 block">piano</Link>
           </li>
         </div>
       </ul>

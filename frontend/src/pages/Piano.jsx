@@ -16,17 +16,19 @@ const Piano = () => {
   }, [musicXMLUrl]);
 
   return (
-    <div>
-      <NavbarComponent />
-      <h1>Learn</h1>
-      <p>Learn the piano!</p>
-      {musicXML && <SheetMusicComponent xml={musicXML}/>}
-      <PianoComponent noteRange={{
-          first: MidiNumbers.fromNote('c4'),
-          last: MidiNumbers.fromNote('f5'),
-      }} oneNote={false} isLesson={false}/>
-      <Link to="/quiz/55" className=" text-3xl font-bold text-gray-800 border-2 rounded text-center bg-gray-300">Dev Quiz</Link>
-    </div>
+      <div>
+          <NavbarComponent/>
+          <div className={`justify-center items-center`}><p>Learn the piano!</p></div>
+          <div className={'center-with-large-left-margin-piano max-w-lg max-h-lg mx-auto'}>
+              {musicXML && <SheetMusicComponent xml={musicXML}/>}
+              <PianoComponent noteRange={{
+                  first: MidiNumbers.fromNote('c4'),
+                  last: MidiNumbers.fromNote('f5'),
+              }} oneNote={false} isLesson={false}/>
+          </div>
+
+
+      </div>
   );
 }
 

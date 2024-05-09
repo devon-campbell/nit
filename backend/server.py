@@ -17,6 +17,8 @@ def hello():
 
 @app.route('/get-quiz-musicxml/<int:quiz_number>')
 def get_quiz_musicxml(quiz_number):
+    notes_per_bar = 16  # Assuming each bar has 16 notes as a default
+    longestNote = 'whole'
     if quiz_number == 1:
         return send_file(gen_n_notes(8, False, False, 'none', True, False), as_attachment=True)
     elif quiz_number == 2:
@@ -31,6 +33,12 @@ def get_quiz_musicxml(quiz_number):
         return send_file(gen_n_notes(8, False, False, 'none', False, True), as_attachment=True)
     elif quiz_number == 7:
         return send_file(gen_n_notes(16, True, False, 'none', False, False), as_attachment=True)
+        return send_file(gen_n_notes(8, False, False, 'whole', False), as_attachment=True)
+    elif quiz_number == 999:
+        bars = request.args.get('bars', default=1, type=int)  # Get 'bars' from query params
+        longestNote = request.args.get('longestNote', default='whole', type=str)  # Get 'longestNote' from query params
+        print(bars, longestNote)
+        return send_file(gen_n_notes(notes_per_bar * bars, False, False, longestNote.lower(), False), as_attachment=True)
     else:
         return "Invalid quiz number", 400
 

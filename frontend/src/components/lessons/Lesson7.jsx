@@ -42,7 +42,7 @@ const Lesson7 = () => {
             setStep((prevStep) => {
                 const nextStep = (prevStep + 1) % steps.length;
                 if (nextStep === 0) { // If nextStep is 0, we've looped back to the start
-                    navigate('/quiz/6'); // Navigate to /quiz/1
+                    navigate('/quiz/7'); // Navigate to /quiz/1
                 }
                 return nextStep;
             });
@@ -127,7 +127,7 @@ const Lesson7 = () => {
                 </DimensionsProvider>
             </div>
 
-            <div style={{position: 'absolute', bottom: '50px', width: '50%', display: 'flex', justifyContent: 'center'}}>
+            <div style={{position: 'absolute', bottom: '50px', width: '30%', display: 'flex', justifyContent: 'center'}}>
                 <PianoComponent
                     noteRange={{first: MidiNumbers.fromNote('c5'), last: MidiNumbers.fromNote('c6')}}
                     oneNote={false}

@@ -1,40 +1,41 @@
-import React, {useCallback, useEffect, useMemo, useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {animated, config, useTransition} from "react-spring";
+
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { animated, config, useTransition } from "react-spring";
 import DimensionsProvider from "../../utils/DimensionProvider";
-import musicStaff from "../../assets/Music-staff.svg";
+import musicStaff from "../../assets/music-staff.svg";
 import trebleClefSymbol from "../../assets/Treble-Clef-Symbol.svg";
-import {MidiNumbers} from "react-piano";
+import { MidiNumbers } from "react-piano";
 import PianoComponent from "../PianoComponent";
 import SheetMusicComponent from "../SheetMusicComponent";
 
 const Lesson5 = () => {
-   const navigate = useNavigate();
-    const [playedNotes, setPlayedNotes] = useState([]);
-     const [musicXML, setMusicXML] = useState(null);
-       const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+  const [playedNotes, setPlayedNotes] = useState([]);
+  const [musicXML, setMusicXML] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [step, setStep] = useState(0);
   const [inTransition, setInTransition] = useState(false);
   const steps = useMemo(() => [
-      '(Use your keyboard or mouse to navigate)',
-      'Now let’s add some color to what we’ve learned so far.',
-      'We\'ll explore two crucial elements of music notation: the staff and the treble clef. Let\'s dive in!',
-      'This is called \"staff.\"',
-      'Think of it as the musical canvas, comprising five lines and four spaces. These serve as our playground for placing notes to indicate pitch.',
-      'This is the treble clef.',
-      'Think of it as our musical compass, guiding us to higher-pitched notes.',
-      'When you see it, it generally signals to focus on the higher registers of your instrument or voice.',
-      'Together, the staff and treble clef provide a visual roadmap for understanding pitch in music.',
-      'Let\'s practice using the music in front of you!.',
-      'Without worrying about pitch and what consider the four keys in front of you and this piece of sheet music',
-      'This would be played as:',
-      'D, S, A, S, D, F, S, F (Press space to continue)',
-      'Now for a quiz!',
+    "(Use your keyboard or mouse to navigate)",
+    "Now let’s add some color to what we’ve learned so far.",
+    'We\'ll explore two crucial elements of music notation: the staff and the treble clef. Let\'s dive in!',
+    'This is called "staff."',
+    'Think of it as the musical canvas, comprising five lines and four spaces. These serve as our playground for placing notes to indicate pitch.',
+    'This is the treble clef.',
+    'Think of it as our musical compass, guiding us to higher-pitched notes.',
+    'When you see it, it generally signals to focus on the higher registers of your instrument or voice.',
+    'Together, the staff and treble clef provide a visual roadmap for understanding pitch in music.',
+    "Let's practice using the music in front of you!.",
+    "Without worrying about pitch and what consider the four keys in front of you and this piece of sheet music",
+    "This would be played as:",
+    "D, S, A, S, D, F, S, F (Press space to continue)",
+    "Now for a quiz!",
   ], []);
 
   const transitions = useTransition(step, {
-    keys: item => item,
-    from: { opacity: 0, position: 'absolute', textAlign: 'start', width: '100%'},
+    keys: (item) => item,
+    from: { opacity: 0, position: "absolute", textAlign: "start", width: "100%" },
     enter: { opacity: 1 },
     leave: { opacity: 0 },
     config: config.stiff,
@@ -46,8 +47,8 @@ const Lesson5 = () => {
     if (!inTransition) {
       setStep((prevStep) => {
         const nextStep = (prevStep + 1) % steps.length;
-        if (nextStep === 0) { // If nextStep is 0, we've looped back to the start
-          navigate('/quiz/6'); // Navigate to /quiz/1
+        if (nextStep === 0) {
+          navigate("/quiz/6");
         }
         return nextStep;
       });
@@ -61,10 +62,10 @@ const Lesson5 = () => {
   }, [inTransition, steps]);
 
   useEffect(() => {
-      const fetchMusicXML = async () => {
+    const fetchMusicXML = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch('http://localhost:8000/get-lesson-6-example');
+        const response = await fetch("http://localhost:8000/get-lesson-6-example");
         const data = await response.text();
         setMusicXML(data);
       } catch (error) {
@@ -72,84 +73,111 @@ const Lesson5 = () => {
       }
       setIsLoading(false);
     };
-      fetchMusicXML();
-  const handleKeyDown = (event) => {
-    // If the user is on step 12, ignore the keys A, S, D, F
-    if (step === 12 && ['KeyA', 'KeyS', 'KeyD', 'KeyF'].includes(event.code)) {
-      return;
-    }
+    fetchMusicXML();
 
-      if (event.code === 'KeyA' || event.code === 'KeyS' || event.code === 'KeyD' ||  event.code === 'KeyF' || event.code === 'ArrowRight' || event.code === 'Space') {
-      handleNext();
-    } else if (event.code === 'ArrowLeft') {
-      handlePrevious();
-    }
-  };
+    const handleKeyDown = (event) => {
+      if (step === 12 && ["KeyA", "KeyS", "KeyD", "KeyF"].includes(event.code)) {
+        return;
+      }
 
-  window.addEventListener('keydown', handleKeyDown);
+      if (
+        event.code === "KeyA" ||
+        event.code === "KeyS" ||
+        event.code === "KeyD" ||
+        event.code === "KeyF" ||
+        event.code === "ArrowRight" ||
+        event.code === "Space"
+      ) {
+        handleNext();
+      } else if (event.code === "ArrowLeft") {
+        handlePrevious();
+      }
+    };
 
-  return () => {
-    window.removeEventListener('keydown', handleKeyDown);
-  };
-}, [handleNext, handlePrevious, step]);
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleNext, handlePrevious, step]);
 
   return (
-      <div style={{overflow:'hidden', maxHeight: '100vh', maxWidth: '100vw'}}>
-        <div style={{position: 'relative', height: '90vh'}}> {/* Set height to 100vh to fill the screen */}
-          <DimensionsProvider onResize={({containerWidth, containerHeight}) => {
-          }}>
-            {({containerWidth, containerHeight}) => (
-                <div style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    height: '100%',
-                    position: 'relative',
-                    top: '0',
-                    left: '0',
-                    textAlign: 'center',
-                    width: '100%', /* Set width to 100% of the parent */
-                }}>
-                    <h1>Lesson 5: Staff and Treble Clef</h1>
-                    <h2>Try Playing the Sheet Music!</h2>
-                    <div style={{width: '100%', height: '10%'}}>
-                        {transitions((style, item) => (
-                            <animated.div style={{...style, textAlign: 'center'}}>
-                                <>
-                                    <p style={{margin: 'auto', width: '100%'}}>{steps[item]}</p>
-                                    <div style={{display: 'flex', justifyContent: 'center'}}>
-                                        {item >= 3 && item <= 4 && <img src={musicStaff} alt="Music Staff"
-                                                                        style={{paddingTop: '24px', width: '15%'}}/>}
-                                        {item >= 5 && item <= 7 && <img src={trebleClefSymbol} alt="Treble Clef Symbol"
-                                                                        style={{paddingTop: '24px', width: '15%'}}/>}
+    <div style={{ overflow: "hidden", maxHeight: "100vh", maxWidth: "100vw" }}>
+      <div style={{ position: "relative", height: "90vh" }}>
+        <DimensionsProvider
+          onResize={({ containerWidth, containerHeight }) => {}}
+        >
+          {({ containerWidth, containerHeight }) => (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100%",
+                position: "relative",
+                top: "0",
+                left: "0",
+                textAlign: "center",
+                width: "100%",
+              }}
+            >
+              <h1>Lesson 5: Staff and Treble Clef</h1>
+              <h2>Try Playing the Sheet Music!</h2>
+              <div style={{ width: "100%", height: "10%" }}>
+                {transitions((style, item) => (
+                  <animated.div style={{ ...style, textAlign: "center" }}>
+                    <>
+                      <p style={{ margin: "auto", width: "100%" }}>{steps[item]}</p>
+                      <div style={{ display: "flex", justifyContent: "center" }}>
+                        {item >= 3 && item <= 4 && (
+                          <animated.img
+                            src={musicStaff}
+                            alt="Music Staff"
+                            style={{
+                              ...style,
+                              paddingTop: "24px",
+                              width: "15%",
+                            }}
+                          />
+                        )}
+                        {item >= 5 && item <= 7 && (
+                          <animated.img
+                            src={trebleClefSymbol}
+                            alt="Treble Clef Symbol"
+                            style={{
+                              ...style,
+                              paddingTop: "24px",
+                              width: "15%",
+                            }}
+                          />
+                        )}
+                      </div>
+                    </>
+                  </animated.div>
+                ))}
+              </div>
+            </div>
+          )}
+        </DimensionsProvider>
+      </div>
 
-                                    </div>
-                                </>
-                            </animated.div>
-                        ))}
-                    </div>
-                </div>
-            )}
-          </DimensionsProvider>
-        </div>
+      <div style={{ position: "absolute", bottom: "400px", width: "100%", textAlign: "center" }}>
+        <SheetMusicComponent xml={musicXML} />
+      </div>
 
+      <div style={{ position: "absolute", bottom: "50px", width: "50%", display: "flex", justifyContent: "center" }}>
+        <PianoComponent
+          noteRange={{ first: MidiNumbers.fromNote("c5"), last: MidiNumbers.fromNote("f5") }}
+          oneNote={false}
+          isLesson={true}
+          playedNotes={playedNotes}
+          setPlayedNotes={setPlayedNotes}
+        />
+      </div>
 
-          <div style={{ position: 'absolute', bottom: '400px', width: '100%', textAlign: 'center' }}>
-              <SheetMusicComponent xml={musicXML}/>
-          </div>
-
-          <div style={{position: 'absolute', bottom: '50px', width: '50%', display: 'flex', justifyContent: 'center'}}>
-          <PianoComponent
-              noteRange={{first: MidiNumbers.fromNote('c5'), last: MidiNumbers.fromNote('f5')}}
-              oneNote={false}
-              isLesson={true}
-              playedNotes={playedNotes}
-              setPlayedNotes={setPlayedNotes}
-          />
-        </div>
-
-        <button onClick={handlePrevious}
+      <button
+        onClick={handlePrevious}
                 className={`border border-gray-500 px-6 py-3 text-xl rounded-lg hover:bg-blue-200`}
                 style={{
                   position: 'absolute',

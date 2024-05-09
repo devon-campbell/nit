@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {animated, config, useTransition} from "react-spring";
 import DimensionsProvider from "../../utils/DimensionProvider";
-import halfNoteSymbol from "../../assets/half-note-symbol.jpg";
+import halfNoteSymbol from "../../assets/half-note-symbol.svg";
 import {MidiNumbers} from "react-piano";
 import PianoComponent from "../PianoComponent";
 
@@ -93,7 +93,7 @@ const Lesson2 = () => {
                     <p className="w-max m-auto">{steps[item]}</p>
                     {item >= 2 && item <= 6 &&
                       <div style={{display: 'flex', justifyContent: 'center'}}>
-                        <img src={halfNoteSymbol} alt="Note Lengths Diagram" style={{paddingTop: '24px', width: '25%'}}/>
+                        <img src={halfNoteSymbol} alt="Note Lengths Diagram" style={{paddingTop: '24px', width: '15%'}}/>
                       </div>
                     }
                     <div>

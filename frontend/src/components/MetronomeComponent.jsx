@@ -4,8 +4,8 @@ import SoundfontProvider from '../utils/SoundfontProvider';
 const audioContext = new (window.AudioContext)();
 const soundfontHostname = 'https://d1pzp51pvbm36p.cloudfront.net';
 
-const MetronomeComponent = ({ bpm}) => {
-  const [isPlaying, setIsPlaying] = useState(false);
+const MetronomeComponent = ({ bpm }) => {
+  const [isPlaying, setIsPlaying] = useState(true);
   const intervalRef = useRef(null);
   const playNoteRef = useRef(null);
   const beatRef = useRef(0);
@@ -41,10 +41,6 @@ const MetronomeComponent = ({ bpm}) => {
     };
   }, [isPlaying, bpm, audioContext]);
 
-  const handleToggle = () => {
-    setIsPlaying((prevIsPlaying) => !prevIsPlaying);
-  };
-
   return (
     <SoundfontProvider
       instrumentName="agogo"
@@ -53,11 +49,7 @@ const MetronomeComponent = ({ bpm}) => {
       render={({ isLoading, playNote }) => {
         playNoteRef.current = playNote;
         return (
-          <div>
-            <button onClick={handleToggle} disabled={isLoading} style={{fontSize: '2em', padding: '10px'}}>
-              {isPlaying ? 'Stop Metronome' : 'Start Metronome'}
-            </button>
-          </div>
+          null
         );
       }}
     />

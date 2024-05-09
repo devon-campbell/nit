@@ -4,11 +4,13 @@ from datetime import datetime
 import xml.etree.ElementTree as ET
 
 
-def gen_n_notes(total_duration, include_8th, include_sharps, note_types, one_note):
-    if not one_note:  # Is the quiz for the SpacebarComponent or the PianoComponent
+def gen_n_notes(total_duration, include_8th, include_sharps, note_types, one_note, four_notes):
+    if not one_note and not four_notes:  # Is the XML for a single key or the whole piano?
         notes_list = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5']
-    else:
+    elif one_note:
         notes_list = ['C4']
+    elif four_notes:
+        notes_list = ['C5', 'D5', 'E5', 'F5']
 
     if include_sharps:
         notes_list.extend(['C#4', 'D#4', 'F#4', 'G#4', 'A#4', 'C#5', 'D#5'])

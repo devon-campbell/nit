@@ -18,15 +18,25 @@ def hello():
 @app.route('/get-quiz-musicxml/<int:quiz_number>')
 def get_quiz_musicxml(quiz_number):
     if quiz_number == 1:
-        return send_file(gen_n_notes(8, False, False, 'none', True), as_attachment=True)
+        return send_file(gen_n_notes(8, False, False, 'none', True, False), as_attachment=True)
     elif quiz_number == 2:
-        return send_file(gen_n_notes(16, False, False, 'half', True), as_attachment=True)
-    elif 3 <= quiz_number <= 4:
-        return send_file('../sheet_music/Test_Quiz1.musicxml', as_attachment=True)
+        return send_file(gen_n_notes(16, False, False, 'half', True, False), as_attachment=True)
+    elif quiz_number == 3:
+        return send_file(gen_n_notes(16, False, False, 'whole', True, False), as_attachment=True)
+    elif quiz_number == 4:
+        return send_file(gen_n_notes(16, False, False, 'whole', True, False), as_attachment=True)
     elif quiz_number == 5:
-        return send_file(gen_n_notes(8, False, False, 'whole', False), as_attachment=True)
+        return send_file(gen_n_notes(16, True, False, 'whole', True, False), as_attachment=True)
+    elif quiz_number == 6:
+        return send_file(gen_n_notes(8, False, False, 'none', False, True), as_attachment=True)
     else:
         return "Invalid quiz number", 400
+
+
+# Route to get the example XML for Lesson 6
+@app.route('/get-lesson-6-example')
+def get_lesson_6_example():
+    return send_file('../frontend/src/data/lesson6_example.musicxml', as_attachment=True)
 
 
 @app.route('/evaluate-user-playing', methods=['POST'])

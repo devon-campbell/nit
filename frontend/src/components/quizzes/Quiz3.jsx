@@ -6,7 +6,7 @@ import { MidiNumbers } from "react-piano";
 import { calculateNoteDuration } from '../../utils/musicUtils';
 import {useNavigate} from "react-router-dom";
 
-const Quiz2 = () => {
+const Quiz3 = () => {
   const navigate = useNavigate();
   const [musicXML, setMusicXML] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -19,7 +19,7 @@ const Quiz2 = () => {
     const fetchMusicXML = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch('http://localhost:8000/get-quiz-musicxml/2');
+        const response = await fetch('http://localhost:8000/get-quiz-musicxml/3');
         const data = await response.text();
         setMusicXML(data);
       } catch (error) {
@@ -85,7 +85,7 @@ const Quiz2 = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Quiz 2 - Half Note Quiz</h1>
+      <h1>Quiz 3 - Whole Note Quiz</h1>
       {isLoading ? (
         <p>Loading sheet music...</p>
       ) : (
@@ -118,7 +118,7 @@ const Quiz2 = () => {
                 <SheetMusicComponent xml={playedMusicWithEvaluations}/>
                 <div style={{textAlign: 'left', marginTop: '20px'}}>
                   <h2>Great Job!</h2>
-                  <button onClick={() => navigate('/lesson/3')}
+                  <button onClick={() => navigate('/lesson/4')}
                           style={{backgroundColor: 'green', color: 'white', padding: '10px', margin: '10px'}}>Next
                     Lesson
                   </button>
@@ -143,4 +143,4 @@ const Quiz2 = () => {
   );
 }
 
-export default Quiz2;
+export default Quiz3;

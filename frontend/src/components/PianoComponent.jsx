@@ -9,7 +9,7 @@ import SoundfontProvider from '../utils/SoundfontProvider';
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 const soundfontHostname = 'https://d1pzp51pvbm36p.cloudfront.net';
 
-const PianoComponent = ({ noteRange, bpm, setBpm, maxNumOfNotes, onFinishedPlaying, oneNote, isLesson, onNotesUpdate }) => {
+const PianoComponent = ({ noteRange, bpm, setBpm, maxNumOfNotes, onFinishedPlaying, oneNote, isLesson, onNotesUpdate, playedNotes, setPlayedNotes }) => {
   /**
    * This component renders a piano interface that allows users to play notes and record the played notes.
    * 
@@ -22,23 +22,22 @@ const PianoComponent = ({ noteRange, bpm, setBpm, maxNumOfNotes, onFinishedPlayi
    * ideally is a callback to the quiz state to handle logic after the user has finished playing all notes.
    */
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const [playedNotes, setPlayedNotes] = useState([]);
 
   const handleResize = (bounds) => {
     setDimensions(bounds);
   };
 
   const handlePlayNote = (midiNumber) => {
-  const noteName = fromMidi(midiNumber);
-  const startTime = new Date().getTime(); // Record start time in milliseconds
-  setPlayedNotes((prevNotes) => {
-    const newNotes = [...prevNotes, { name: noteName, startTime }];
-    if (onNotesUpdate) {
-      onNotesUpdate(newNotes);
-    }
-    return newNotes;
-  });
-};
+    const noteName = fromMidi(midiNumber);
+    const startTime = new Date().getTime(); // Record start time in milliseconds
+    setPlayedNotes((prevNotes) => {
+      const newNotes = [...prevNotes, { name: noteName, startTime }];
+      if (onNotesUpdate) {
+        onNotesUpdate(newNotes);
+      }
+      return newNotes;
+    });
+  };
 
   const handleStopNote = (midiNumber) => {
     const noteName = fromMidi(midiNumber);
@@ -60,8 +59,10 @@ const PianoComponent = ({ noteRange, bpm, setBpm, maxNumOfNotes, onFinishedPlayi
   const handleWidth = (oneNote) => {
       if (oneNote){
             return 75;
-      }else{
-            return dimensions.width / 2;
+      } else if (noteRange.first === MidiNumbers.fromNote('c5') && noteRange.last === MidiNumbers.fromNote('f5')) {
+        return dimensions.width / 2; // Dimensions for only four-key piano
+      } else {
+        return dimensions.width / 0.8; // Dimensions of piano for full piano
       }
   }
 

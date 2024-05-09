@@ -86,7 +86,20 @@
   margin-right: auto;
 }
 
-.center-with-large-left-margin-pianokey {
-  margin-left: 31rem; /* Adjust the value as needed */
+.center-with-large-left-margin-one-pianokey {
+  margin-left: 42.75rem; /* Adjust the value as needed */
   margin-right: auto;
+}
+
+.center-with-large-left-margin-four-pianokeys {
+  margin-left: 37rem; /* Adjust the value as needed */
+  margin-right: auto;
+}
+
+.center-with-large-left-margin-piano {
+  margin-left: 25rem; /* Adjust the value as needed */
+}
+
+.center-with-large-left-evaluated-music {
+  margin-left: 30rem; /* Adjust the value as needed */
 }

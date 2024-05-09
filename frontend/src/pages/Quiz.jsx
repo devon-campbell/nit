@@ -126,7 +126,7 @@ const Quiz = () => {
                   maxNumOfNotes={16}
                   onFinishedPlaying={handleFinishedPlaying}
                   oneNote={false}
-            />
+                />
               </div>
             ) : ( // If quizStarted is false, render the metronome, label, and button
               <div className="flex justify-center">
@@ -145,7 +145,7 @@ const Quiz = () => {
                     </div>
                   </div>
                   <div className="mb-4 flex justify-center">
-                    <button onClick={handleStartQuiz} className="border border-gray-500 px-6 py-3 text-xl rounded-lg">Start</button>
+                    <button onClick={handleStartQuiz} className="border border-gray-500 px-6 py-3 text-xl rounded-lg hover:bg-blue-200">Start</button>
                     {quizStarted && <MetronomeComponent bpm={bpm}/>}
                   </div>
                 </div>

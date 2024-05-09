@@ -4,7 +4,7 @@ from datetime import datetime
 import xml.etree.ElementTree as ET
 
 
-def gen_n_notes(total_duration, include_8th, include_sharps, note_types, one_note):
+def gen_n_notes(total_duration, include_8th, include_sharps, note_type, one_note):
     if not one_note:  # Is the quiz for the SpacebarComponent or the PianoComponent
         notes_list = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5']
     else:
@@ -15,9 +15,9 @@ def gen_n_notes(total_duration, include_8th, include_sharps, note_types, one_not
 
     durations_list = [1]  # Quarter notes
 
-    if note_types == 'half':  # Up to which note type to include
+    if note_type == 'half':  # Up to which note type to include
         durations_list.append(2)
-    elif note_types == 'whole':
+    elif note_type == 'whole':
         durations_list.append(4)
 
     paired_durations = [0.5]  # Eighth 

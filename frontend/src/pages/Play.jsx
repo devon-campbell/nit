@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavbarComponent from "../components/NavbarComponent";
-<img src={require("../assets/buffJellyFishing.gif")} alt="Fun GIF" className="mb-4"/>
-
 
 const Play = () => {
   const navigate = useNavigate();
   const [bpm, setBpm] = useState(120);
-  const [note, setNote] = useState('Whole');
+  const [longestNote, setNote] = useState('Whole');
   const [isEndless, setIsEndless] = useState(false);
   const [bars, setBars] = useState(1);
 
@@ -28,7 +26,23 @@ const Play = () => {
   };
 
   const handlePlay = () => {
-    navigate('/start', { state: { bpm, note, isEndless, bars } });
+    navigate('/start', { state: { bpm, longestNote, isEndless, bars } });
+  };
+
+  const surpriseMe = () => {
+    const randomBpm = Math.floor(Math.random() * (240 - 20 + 1)) + 20;
+    const noteOptions = ['Whole', 'Half', 'Quarter'];
+    const randomNote = noteOptions[Math.floor(Math.random() * noteOptions.length)];
+    const randomIsEndless = 0;
+    const randomBars = Math.floor(Math.random() * 6) + 1;
+
+    setBpm(randomBpm);
+    setNote(randomNote);
+    setIsEndless(randomIsEndless);
+    setBars(randomBars);
+
+    // Navigate after state is set
+    navigate('/start', { state: { bpm: randomBpm, longestNote: randomNote, isEndless: randomIsEndless, bars: randomBars } });
   };
 
   return (
@@ -46,22 +60,15 @@ const Play = () => {
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
-            Note Duration
+            Longest Note Duration
           </label>
-          <select value={note} onChange={handleNoteChange} className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+          <select value={longestNote} onChange={handleNoteChange} className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
             <option value="Whole">Whole</option>
             <option value="Half">Half</option>
             <option value="Quarter">Quarter</option>
-            <option value="Eighth">Eighth</option>
-            <option value="Sixteenth">Sixteenth</option>
           </select>
         </div>
         <div className="mb-4 flex items-center">
-          <input type="checkbox" checked={isEndless} onChange={handleEndlessChange}
-            className="mr-2 leading-tight" />
-          <span className="text-sm text-gray-700">
-            Endless Mode?
-          </span>
         </div>
         {!isEndless && (
           <div className="mb-4">
@@ -74,6 +81,9 @@ const Play = () => {
         )}
         <button onClick={handlePlay} className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline transition-colors duration-300">
           Let's Play
+        </button>
+        <button onClick={surpriseMe} className="mt-4 w-full bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-700 focus:outline-none focus:shadow-outline transition-colors duration-300">
+          Surprise Me!
         </button>
       </div>
     </div>

@@ -80,8 +80,8 @@ const Quiz2 = () => {
   }
 
   const handleSubmit = () => {
-  handleFinishedPlaying(playedNotes);
-}
+    handleFinishedPlaying(playedNotes);
+  }
 
   return (
     <div style={{ padding: '20px' }}>

@@ -93,7 +93,7 @@ const Lesson2 = () => {
                     <p className="w-max m-auto">{steps[item]}</p>
                     {item >= 2 && item <= 6 &&
                       <div style={{display: 'flex', justifyContent: 'center'}}>
-                        <img src={halfNoteSymbol} alt="Note Lengths Diagram" style={{paddingTop: '24px', width: '25%'}}/>
+                        <img src={halfNoteSymbol} alt="Note Lengths Diagram" style={{paddingTop: '24px', width: '15%'}}/>
                       </div>
                     }
                     <div>

@@ -1,10 +1,10 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+import {useLocation, useNavigate} from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
 import PianoComponent from "../components/PianoComponent";
 import SheetMusicComponent from "../components/SheetMusicComponent";
 import MetronomeComponent from "../components/MetronomeComponent";
-import { MidiNumbers } from "react-piano";
-import { calculateNoteDuration } from '../utils/musicUtils';
+import {MidiNumbers} from "react-piano";
+import {calculateNoteDuration} from '../utils/musicUtils';
 
 const Start = () => {
   const navigate = useNavigate();
@@ -93,7 +93,7 @@ const Start = () => {
   }
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div style={{ padding: '20px' }} className={`bg-base-300`}>
       <h1>Quiz 5 - Music Practice</h1>
       {isLoading ? (
         <p>Loading sheet music...</p>
@@ -104,14 +104,20 @@ const Start = () => {
             <div style={{ marginTop: '20px', marginBottom: '10px' }}>
               <MetronomeComponent bpm={bpm} setBpm={bpm}/>
             </div>
-            <PianoComponent
-              noteRange={{ first: MidiNumbers.fromNote('c4'), last: MidiNumbers.fromNote('f5') }}
-              bpm={bpm}
-              setBpm={bpm}
-              maxNumOfNotes={8}
-              onFinishedPlaying={handleFinishedPlaying}
-              onNotesUpdate={setPlayedNotes}
-            />
+            <div style={{position: 'absolute', bottom: '50px', width: '50%', display: 'flex', justifyContent: 'center'}}
+            className={`center-with-large-left-margin-piano max-w-lg max-h-lg mx-auto`}>
+              <PianoComponent
+                  noteRange={{ first: MidiNumbers.fromNote('c4'), last: MidiNumbers.fromNote('f5') }}
+                  bpm={bpm}
+                  setBpm={bpm}
+                  maxNumOfNotes={8}
+                  onFinishedPlaying={handleFinishedPlaying}
+                  onNotesUpdate={setPlayedNotes}
+                  playedNotes={playedNotes}
+                  setPlayedNotes={setPlayedNotes}
+              />
+            </div>
+
             <button onClick={() => handleSubmit()}
               style={{backgroundColor: 'gray', color: 'white', padding: '10px', margin: '10px'}}>Submit!
             </button>

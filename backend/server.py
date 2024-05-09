@@ -38,7 +38,7 @@ def get_quiz_musicxml(quiz_number):
         bars = request.args.get('bars', default=1, type=int)  # Get 'bars' from query params
         longestNote = request.args.get('longestNote', default='whole', type=str)  # Get 'longestNote' from query params
         print(bars, longestNote)
-        return send_file(gen_n_notes(notes_per_bar * bars, False, False, longestNote.lower(), False), as_attachment=True)
+        return send_file(gen_n_notes(notes_per_bar * bars, False, False, longestNote.lower(), False, False), as_attachment=True)
     else:
         return "Invalid quiz number", 400
 

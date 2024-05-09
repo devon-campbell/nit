@@ -100,11 +100,11 @@ const Lesson4 = () => {
                     <p style={{margin: 'auto', width: '100%'}}>{steps[item]}</p>
                     <div style={{display: 'flex', justifyContent: 'center'}}>
                       {item >= 3 && item <= 4 && <img src={eighthNoteSymbol} alt="Eighth Note Symbol"
-                                                      style={{paddingTop: '24px', width: '25%'}}/>}
+                                                      style={{paddingTop: '24px', width: '15%'}}/>}
                       {/*{item >= 5 && item <= 6 && <img src={eighthRestSymbol} alt="Eighth Rest Symbol"*/}
                       {/*                                style={{paddingTop: '24px', width: '25%'}}/>}*/}
                       {item >= 5 && item <= 9 && <img src={sixteenthNoteSymbol} alt="Sixteenth Note Symbol"
-                                                      style={{paddingTop: '24px', width: '25%'}}/>}
+                                                      style={{paddingTop: '24px', width: '15%'}}/>}
                       {/*{item >= 10 && item <= 11 && <img src={sixteenthRestSymbol} alt="Sixteenth Rest Symbol"*/}
                       {/*                                 style={{paddingTop: '24px', width: '25%'}}/>}*/}
                       </div>

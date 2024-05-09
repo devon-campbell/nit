@@ -2,10 +2,8 @@ import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {animated, config, useTransition} from "react-spring";
 import DimensionsProvider from "../../utils/DimensionProvider";
-import NavbarComponent from "../NavbarComponent";
-import quarterRestSymbol from "../../assets/quarter-rest-symbol.jpeg";
-import halfRestSymbol from "../../assets/Half-Rest-Symbol.jpg";
-import wholeRestSymbol from "../../assets/Whole-Rest-Symbol.jpeg";
+import eighthNoteSymbol from "../../assets/eighth-note-symbol.jpeg";
+import sixteenthNoteSymbol from "../../assets/sixteenth-note-symbol.jpeg";
 import PianoComponent from "../PianoComponent";
 import {MidiNumbers} from "react-piano";
 
@@ -15,16 +13,18 @@ const Lesson4 = () => {
   const [inTransition, setInTransition] = useState(false);
   const steps = useMemo(() => [
       '(Use your keyboard or mouse to navigate)',
-      'Now that we have a basic understanding of the components of music that makes sound, let’s learn about the parts that are silent.',
-      'In Lessons 2 \& 3, we delved into the world of notes and learned how different durations create rhythm and melody.',
-      'But what about the moments of silence in music?',
-      'Just as notes have their lengths, rests provide essential pauses and moments of silence within a piece.',
-      'Let\'s discover the counterparts to our note durations: rests.',
-      'Rests are symbols in music notation that indicate periods of silence. Just like notes, rests come in various lengths, each corresponding to a specific duration.',
-      'Similar to its quarter note counterpart, the quarter rest represents one beat of silence.',
-      'Similar to its half note counterpart, the half rest represents two beats of silence.',
-      'Similar to its whole note counterpart, the whole rest represents four beats of silence. To differentiate between this and the half rest, we can say \"whole hangs heavy\" since it hangs from the upper line!',
-      'Let\'s practice putting everything we\'ve learned together!'
+      'Making good progress I see! Now that we have some basic notes and rests under our belt, let’s introduce a few more.',
+      'After this lesson, you should be able to recognize pretty much any type of note and rest you come across!',
+      'As you can probably guess from the name, the eighth note lasts an eighth of the length of a whole note (half of a beat).',
+      'On its own, notice that it has a singular flag and when it comes with other eighth notes, it is connected with a SINGULAR bar. This will come in handy later.',
+      // 'If you’ve been following along, you probably guessed that the eighth rest represents a silence that is an eighth of a whole note, or half of a beat.',
+      // 'Notice that it looks like a seven with a dot at the tip!',
+      'Okay, so this is where things start to get fun. At this point, you are probably seeing a pattern.',
+      'The 16th note is very quick: two make up one eighth note, four make up one quarter note, so on and so forth.',
+      'Note that the eighth note representation is similar to that for the eighth note, the only difference being that there are two flags for an individual note, and TWO bars for groups of 16th notes.',
+      'With this, what do you think a 32nd note looks like? What about a 64th note?',
+      // 'The 16th rest does not need much explanation: it represents a moment of silence the same length as its counterpart the 16th note.',
+      // 'It bears resemblance to the eighth rest, only with two flags! Imagine how many flags the 128th rest has!'
   ], []);
 
   const transitions = useTransition(step, {
@@ -42,7 +42,7 @@ const Lesson4 = () => {
       setStep((prevStep) => {
         const nextStep = (prevStep + 1) % steps.length;
         if (nextStep === 0) { // If nextStep is 0, we've looped back to the start
-          navigate('/quiz/4'); // Navigate to /quiz/1
+          navigate('/quiz/5'); // Navigate to /quiz/1
         }
         return nextStep;
       });
@@ -56,20 +56,20 @@ const Lesson4 = () => {
   }, [inTransition, steps]);
 
   useEffect(() => {
-  const handleKeyDown = (event) => {
-    if (event.code === 'KeyA' || event.code === 'ArrowRight') {
-      handleNext();
-    } else if (event.code === 'ArrowLeft') {
-      handlePrevious();
-    }
-  };
+    const handleKeyDown = (event) => {
+      if (event.code === 'KeyA' || event.code === 'ArrowRight') {
+        handleNext();
+      } else if (event.code === 'ArrowLeft') {
+        handlePrevious();
+      }
+    };
 
-  window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
 
-  return () => {
-    window.removeEventListener('keydown', handleKeyDown);
-  };
-}, [handleNext, handlePrevious]);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleNext, handlePrevious]);
 
 
 
@@ -91,26 +91,28 @@ const Lesson4 = () => {
               textAlign: 'center',
               width: '100%', /* Set width to 100% of the parent */
             }}>
-            <h1>Lesson 4: Rests</h1>
+            <h1>Lesson 4: 8th Notes and Beyond</h1>
             <div style={{width: '100%', height: '10%'}}>
               {transitions((style, item) => (
                 <animated.div style={{...style, textAlign: 'center'}}>
                   <>
                     <p style={{margin: 'auto', width: '100%'}}>{steps[item]}</p>
                     <div style={{display: 'flex', justifyContent: 'center'}}>
-                      {item === 7 && <img src={quarterRestSymbol} alt="Quarter Rest Symbol"
-                                                    style={{paddingTop: '24px', width: '25%'}}/>}
-                      {item === 8 && <img src={halfRestSymbol} alt="Half Rest Symbol"
-                                       style={{paddingTop: '24px', width: '25%'}}/>}
-                      {item === 9 && <img src={wholeRestSymbol} alt="Whole Rest Symbol"
-                                       style={{paddingTop: '24px', width: '25%'}}/>}
-                    </div>
-                    <div>
-                      {item === 10 && <button onClick={handleNext}>Quiz Me</button>}
-                    </div>
-                  </>
+                      {item >= 3 && item <= 4 && <img src={eighthNoteSymbol} alt="Eighth Note Symbol"
+                                                      style={{paddingTop: '24px', width: '25%'}}/>}
+                      {/*{item >= 5 && item <= 6 && <img src={eighthRestSymbol} alt="Eighth Rest Symbol"*/}
+                      {/*                                style={{paddingTop: '24px', width: '25%'}}/>}*/}
+                      {item >= 5 && item <= 9 && <img src={sixteenthNoteSymbol} alt="Sixteenth Note Symbol"
+                                                      style={{paddingTop: '24px', width: '25%'}}/>}
+                      {/*{item >= 10 && item <= 11 && <img src={sixteenthRestSymbol} alt="Sixteenth Rest Symbol"*/}
+                      {/*                                 style={{paddingTop: '24px', width: '25%'}}/>}*/}
+                      </div>
+                      <div>
+                        {item === 12 && <button onClick={handleNext}>Quiz Me</button>}
+                      </div>
+                    </>
                 </animated.div>
-              ))}
+                ))}
             </div>
           </div>
         )}

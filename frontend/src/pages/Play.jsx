@@ -50,7 +50,7 @@ const Play = () => {
       <div className="min-h-screen flex flex-col items-center justify-center">
         <div className="w-full max-w-md p-8 bg-base-300 shadow-md rounded-lg">
           <h1 className="text-3xl font-bold text-primary mb-6 text-center">Let's Play!</h1>
-          <p className="text-base-content mb-4 text-center">Customize your playing settings:</p>
+          <p className="text-base-content mb-4 text-secondary-content text-center">Customize your playing settings:</p>
           <div className="mb-4">
             <label className="block text-base-content text-sm font-bold mb-2">
               BPM (Beats Per Minute)

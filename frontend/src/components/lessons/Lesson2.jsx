@@ -3,7 +3,6 @@ import {useNavigate} from "react-router-dom";
 import {animated, config, useTransition} from "react-spring";
 import DimensionsProvider from "../../utils/DimensionProvider";
 import halfNoteSymbol from "../../assets/half-note-symbol.jpg";
-import SpacebarComponent from "../SpacebarComponent";
 import {MidiNumbers} from "react-piano";
 import PianoComponent from "../PianoComponent";
 

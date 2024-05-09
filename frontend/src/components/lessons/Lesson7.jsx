@@ -2,13 +2,11 @@ import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {animated, config, useTransition} from "react-spring";
 import DimensionsProvider from "../../utils/DimensionProvider";
-import middleC from "../../assets/middle-c.jpeg";
-import trebleClefNotes from "../../assets/Treble-Clef-Notes.jpg";
-import trebleClefLedgerLines from "../../assets/Treble-Clef-Ledger-Lines.jpg";
+import labeledKeys from "../../assets/labeled_keys.jpg";
 import {MidiNumbers} from "react-piano";
 import PianoComponent from "../PianoComponent";
 
-const Lesson6 = () => {
+const Lesson7 = () => {
     const navigate = useNavigate();
     const [musicXML, setMusicXML] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -16,18 +14,15 @@ const Lesson6 = () => {
     const [inTransition, setInTransition] = useState(false);
     const steps = useMemo(() => [
         '(Use your spacebar or mouse to navigate)',
-        'Hey hey! It\'s time to level up! Let\'s learn how we can learn to read the pitches from the treble staff!',
-        'Just like English has an alphabet, music is the same. The only difference is that the musical alphabet is restricted to ABCDEFG.',
-        'What you see here is called "middle C."',
-        'It can be thought of a well-know reference point for other notes.',
-        'With this, we can easily map the notes on the staff to the other pitches.',
-        'To remember the notes on the lines from bottom to top, we can use the mnemonic "Every Good Boy Does Fine." (EGBDF)',
-        'To remember the notes in the spaces from bottom to top, we can simply remember "FACE"',
-        'In order to really hammer this in, we recommend you get a lot of practice in!',
-        'Additionally, since the musical alphabet wraps around, we can figure out notes beyond the staff!',
-        'These are the lower and higher notes.',
-        'The extra lines beyond the staff are called "ledger lines".',
-        'Take a good look at this! You\'ll be able to practice soon!',
+        'Look at you! It\'s time to put it all together!',
+        'Now that you hopefully have a good grasp of recognizing the notes on the staff, it\'s time to map them to the keys on the piano.',
+        'On your screen, you should see piano with some keys.',
+        'Note that there are 8 white keys and 5 black keys in between. We won\'t worry about the black keys for now.',
+        'Naming the white keys from left to right, they are CDEFGABC. Note how the musical alphabet wraps around at G an starts at A again!',
+        'This is called an "octave" because there are 8 main white notes.',
+        'For now, the leftmost key, which we said was C, is "middle C".',
+        'With this, can you figure out the mappings of the other notes?',
+        'Here is a labeling. It\'s time to practice and master this!',
         'Now for a quiz!',
     ], []);
 
@@ -110,7 +105,7 @@ const Lesson6 = () => {
                             textAlign: 'center',
                             width: '100%', /* Set width to 100% of the parent */
                         }}>
-                            <h1>Lesson 6: Pitch Perfect</h1>
+                            <h1>Lesson 7: 88 Reasons to Learn Sight Reading</h1>
                             <h2>Try Playing the Sheet Music!</h2>
                             <div style={{width: '100%', height: '10%'}}>
                                 {transitions((style, item) => (
@@ -118,12 +113,9 @@ const Lesson6 = () => {
                                         <>
                                             <p style={{margin: 'auto', width: '100%'}}>{steps[item]}</p>
                                             <div style={{display: 'flex', justifyContent: 'center'}}>
-                                                {item >= 3 && item <= 5 && <img src={middleC} alt="Middle C"
+                                                {item >= 9 && <img src={labeledKeys} alt="Labeled Keys"
                                                                                 style={{paddingTop: '24px', width: '25%'}}/>}
-                                                {item >= 6 && item <= 9 && <img src={trebleClefNotes} alt="Treble Clef Notes"
-                                                                                style={{paddingTop: '24px', width: '50%'}}/>}
-                                                {item >= 10 && <img src={trebleClefLedgerLines} alt="Treble Clef Ledger Lines"
-                                                                                style={{paddingTop: '24px', width: '50%'}}/>}
+
                                             </div>
                                         </>
                                     </animated.div>
@@ -167,4 +159,4 @@ const Lesson6 = () => {
 
 }
 
-export default Lesson6;
+export default Lesson7;

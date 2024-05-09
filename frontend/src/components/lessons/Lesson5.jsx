@@ -2,31 +2,33 @@ import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {animated, config, useTransition} from "react-spring";
 import DimensionsProvider from "../../utils/DimensionProvider";
-import NavbarComponent from "../NavbarComponent";
-import eighthNoteSymbol from "../../assets/eighth-note-symbol.jpeg";
-import eighthRestSymbol from "../../assets/Eighth-Rest-Symbol.jpg";
-import sixteenthNoteSymbol from "../../assets/sixteenth-note-symbol.jpeg";
-import sixteenthRestSymbol from "../../assets/Sixteenth-Rest-Symbol.jpg";
-import SpacebarComponent from "../SpacebarComponent";
+import musicStaff from "../../assets/music-staff.jpg";
+import trebleClefSymbol from "../../assets/Treble-Clef-Symbol.jpg";
+import {MidiNumbers} from "react-piano";
+import PianoComponent from "../PianoComponent";
+import SheetMusicComponent from "../SheetMusicComponent";
 
-const Lesson41 = () => {
+const Lesson5 = () => {
    const navigate = useNavigate();
+     const [musicXML, setMusicXML] = useState(null);
+       const [isLoading, setIsLoading] = useState(true);
   const [step, setStep] = useState(0);
   const [inTransition, setInTransition] = useState(false);
   const steps = useMemo(() => [
       '(Use your keyboard or mouse to navigate)',
-      'Making good progress I see! Now that we have some basic notes and rests under our belt, let’s introduce a few more.',
-      'After this lesson, you should be able to recognize pretty much any type of note and rest you come across! You won\'t be quizzed on this, but this is good knowledge to have!',
-      'As you can probably guess from the name, the eighth note lasts an eighth of the length of a whole note (half of a beat).',
-      'On its own, notice that it has a singular flag and when it comes with other eighth notes, it is connected with a SINGULAR bar. This will come in handy later.',
-      'If you’ve been following along, you probably guessed that the eighth rest represents a silence that is an eighth of a whole note, or half of a beat.',
-      'Notice that it looks like a seven with a dot at the tip!',
-      'Okay, so this is where things start to get fun. At this point, you are probably seeing a pattern.',
-      'The 16th note is very quick: two make up one eighth note, four make up one quarter note, so on and so forth.',
-      'Note that the eighth note representation is similar to that for the eighth note, the only difference being that there are two flags for an individual note, and TWO bars for groups of 16th notes.',
-      'With this, what do you think a 32nd note looks like? What about a 64th note?',
-      'The 16th rest does not need much explanation: it represents a moment of silence the same length as its counterpart the 16th note.',
-      'It bears resemblance to the eighth rest, only with two flags! Imagine how many flags the 128th rest has!'
+      'Now let’s add some color to what we’ve learned so far.',
+      'We\'ll explore two crucial elements of music notation: the staff and the treble clef. Let\'s dive in!',
+      'This is called \"staff.\"',
+      'Think of it as the musical canvas, comprising five lines and four spaces. These serve as our playground for placing notes to indicate pitch.',
+      'This is the treble clef.',
+      'Think of it as our musical compass, guiding us to higher-pitched notes.',
+      'When you see it, it generally signals to focus on the higher registers of your instrument or voice.',
+      'Together, the staff and treble clef provide a visual roadmap for understanding pitch in music.',
+      'Let\'s practice using the music in front of you!.',
+      'Without worrying about pitch and what consider the four keys in front of you and this piece of sheet music',
+      'This would be played as:',
+      'D, S, A, S, D, F, S, F (Press space to continue)',
+      'Now for a quiz!',
   ], []);
 
   const transitions = useTransition(step, {
@@ -44,7 +46,7 @@ const Lesson41 = () => {
       setStep((prevStep) => {
         const nextStep = (prevStep + 1) % steps.length;
         if (nextStep === 0) { // If nextStep is 0, we've looped back to the start
-          navigate('/quiz/2'); // Navigate to /quiz/1
+          navigate('/quiz/6'); // Navigate to /quiz/1
         }
         return nextStep;
       });
@@ -58,92 +60,115 @@ const Lesson41 = () => {
   }, [inTransition, steps]);
 
   useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.code === 'Space' || event.code === 'ArrowRight') {
-        handleNext();
-      } else if (event.code === 'ArrowLeft') {
-        handlePrevious();
+      const fetchMusicXML = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch('http://localhost:8000/get-lesson-6-example');
+        const data = await response.text();
+        setMusicXML(data);
+      } catch (error) {
+        console.error("Error fetching the music XML: ", error);
       }
+      setIsLoading(false);
     };
+      fetchMusicXML();
+  const handleKeyDown = (event) => {
+    // If the user is on step 12, ignore the keys A, S, D, F
+    if (step === 12 && ['KeyA', 'KeyS', 'KeyD', 'KeyF'].includes(event.code)) {
+      return;
+    }
 
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [handleNext, handlePrevious]);
-
-  const handleKeyPress = () => {
-    console.log('hi');
+      if (event.code === 'KeyA' || event.code === 'KeyS' || event.code === 'KeyD' ||  event.code === 'KeyF' || event.code === 'ArrowRight' || event.code === 'Space') {
+      handleNext();
+    } else if (event.code === 'ArrowLeft') {
+      handlePrevious();
+    }
   };
 
+  window.addEventListener('keydown', handleKeyDown);
 
+  return () => {
+    window.removeEventListener('keydown', handleKeyDown);
+  };
+}, [handleNext, handlePrevious, step]);
 
   return (
-  <div style={{ overflow: 'hidden', maxHeight: '100vh', maxWidth: '100vw' }}>
-      <div style={{ position: 'relative', height: '90vh'}}> {/* Set height to 100vh to fill the screen */}
-        <DimensionsProvider onResize={({ containerWidth, containerHeight }) => {}}>
-          {({ containerWidth, containerHeight }) => (
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              height: '100%',
-              position: 'relative',
-              top: '0',
-              left: '0',
-              textAlign: 'center',
-              width: '100%', /* Set width to 100% of the parent */
-            }}>
-              <NavbarComponent/>
-            <h1>Lesson 1: Basic Notes</h1>
-            <div style={{width: '100%', height: '10%'}}>
-              {transitions((style, item) => (
-                <animated.div style={{...style, textAlign: 'center'}}>
-                  <>
-                    <p style={{margin: 'auto', width: '100%'}}>{steps[item]}</p>
-                    {item >=3 && item <= 4 && <img src={eighthNoteSymbol} alt="Eighth Note Symbol"
-                                                    style={{paddingTop: '24px', width: '25%'}}/>}
-                    {item >=5 && item <= 6 && <img src={eighthRestSymbol} alt="Eighth Rest Symbol"
-                                       style={{paddingTop: '24px', width: '25%'}}/>}
-                    {item >=7 && item <= 9 && <img src={sixteenthNoteSymbol} alt="Sixteenth Note Symbol"
-                                       style={{paddingTop: '24px', width: '25%'}}/>}
-                    {item >=10 && item <= 11 && <img src={sixteenthRestSymbol} alt="Sixteenth Rest Symbol"
-                                                   style={{paddingTop: '24px', width: '25%'}}/>}
-                    <div>
-                      {item === 12 && <button onClick={handleNext}>Quiz Me</button>}
+      <div style={{overflow:'hidden', maxHeight: '100vh', maxWidth: '100vw'}}>
+        <div style={{position: 'relative', height: '90vh'}}> {/* Set height to 100vh to fill the screen */}
+          <DimensionsProvider onResize={({containerWidth, containerHeight}) => {
+          }}>
+            {({containerWidth, containerHeight}) => (
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: '100%',
+                    position: 'relative',
+                    top: '0',
+                    left: '0',
+                    textAlign: 'center',
+                    width: '100%', /* Set width to 100% of the parent */
+                }}>
+                    <h1>Lesson 5: Staff and Treble Clef</h1>
+                    <h2>Try Playing the Sheet Music!</h2>
+                    <div style={{width: '100%', height: '10%'}}>
+                        {transitions((style, item) => (
+                            <animated.div style={{...style, textAlign: 'center'}}>
+                                <>
+                                    <p style={{margin: 'auto', width: '100%'}}>{steps[item]}</p>
+                                    <div style={{display: 'flex', justifyContent: 'center'}}>
+                                        {item >= 3 && item <= 4 && <img src={musicStaff} alt="Music Staff"
+                                                                        style={{paddingTop: '24px', width: '25%'}}/>}
+                                        {item >= 5 && item <= 7 && <img src={trebleClefSymbol} alt="Treble Clef Symbol"
+                                                                        style={{paddingTop: '24px', width: '15%'}}/>}
+
+                                    </div>
+                                </>
+                            </animated.div>
+                        ))}
                     </div>
-                  </>
-                </animated.div>
-              ))}
-            </div>
+                </div>
+            )}
+          </DimensionsProvider>
+        </div>
+
+
+          <div style={{ position: 'absolute', bottom: '400px', width: '100%', textAlign: 'center' }}>
+              <SheetMusicComponent xml={musicXML}/>
           </div>
-        )}
-      </DimensionsProvider>
-    </div>
-    <div style={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      position: 'absolute',
-      bottom: '20px',
-      width: '90%',
-      overflow: 'hidden',
-    }}>
-      <div style={{width: '50%', height: '10%', paddingLeft: '50vw'}}>
-        <SpacebarComponent onKeyPress={handleKeyPress} noteDuration={2000} />
+
+          <div style={{position: 'absolute', bottom: '50px', width: '50%', display: 'flex', justifyContent: 'center'}}>
+          <PianoComponent
+              noteRange={{first: MidiNumbers.fromNote('c5'), last: MidiNumbers.fromNote('f5')}}
+              oneNote={false}
+              isLesson={true}
+          />
+        </div>
+
+        <button onClick={handlePrevious}
+                style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  left: '10px',
+                  fontSize: '2em',
+                  overflow: 'hidden',
+                  padding: '10px'
+                }}>Previous
+        </button>
+        <button onClick={handleNext}
+                style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  right: '10px',
+                  fontSize: '2em',
+                  overflow: 'hidden',
+                  padding: '10px'
+                }}>Next
+        </button>
       </div>
-    </div>
-    <button onClick={handlePrevious}
-            style={{position: 'absolute', bottom: 0, left: '10px', fontSize: '2em', overflow: 'hidden', padding: '10px'}}>Previous
-    </button>
-    <button onClick={handleNext}
-            style={{position: 'absolute', bottom: 0, right: '10px', fontSize: '2em', overflow: 'hidden', padding: '10px'}}>Next
-    </button>
-  </div>
-);
+  );
 
 }
 
-export default Lesson41;
+export default Lesson5;

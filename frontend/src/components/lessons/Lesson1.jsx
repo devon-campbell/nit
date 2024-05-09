@@ -1,13 +1,11 @@
 import React, {useState, useEffect, useCallback, useMemo} from 'react';
 import { useTransition, animated, config } from 'react-spring';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import NavbarComponent from "../NavbarComponent";
 import noteLengthsDiagram from '../../assets/note-lengths-diagram.jpg';
 import quarterNoteSymbol from '../../assets/quarter-note-symbol.jpg';
 import DimensionsProvider from "../../utils/DimensionProvider";
 import PianoComponent from "../PianoComponent";
 import { MidiNumbers } from 'react-piano';
-import SpacebarComponent from "../SpacebarComponent";
 
 const Lesson1 = () => {
     const navigate = useNavigate();

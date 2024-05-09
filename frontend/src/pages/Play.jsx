@@ -46,8 +46,9 @@ const Play = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
+    <div>
       <NavbarComponent />
+      <div className="min-h-screen flex flex-col items-center justify-center">
       <div className="w-full max-w-md p-8 bg-white shadow-md rounded-lg">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">Let's Play!</h1>
         <p className="text-gray-700 mb-4 text-center">Customize your playing settings:</p>
@@ -87,6 +88,8 @@ const Play = () => {
         </button>
       </div>
     </div>
+    </div>
+    
   );
 }
 

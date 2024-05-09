@@ -176,21 +176,28 @@ const Quiz = () => {
             {/* Render the new sheet music components here */}
             {playedMusicWithEvaluations ? (
               <React.Fragment>
+                <div className="mt-4 flex justify-center">
+                  <h2 className="text-2xl">Your results:</h2>
+                </div>
                 <SheetMusicComponent xml={musicXML}/>
                 <SheetMusicComponent xml={playedMusicWithEvaluations}/>
-                <div className="text-left mt-20">
-                  <h2>Great Job!</h2>
-                  <button onClick={() => navigate('/lesson/2')} className="bg-green-500 text-white px-4 py-2 mt-4 mr-4">
-                    Next Lesson
-                  </button>
-                  <h2>Let's Practice Some More!</h2>
-                  <button onClick={() => window.location.reload()} className="bg-red-500 text-white px-4 py-2 mt-4 mr-4">
-                    Try Again
-                  </button>
-                  <h2></h2>
-                  <button onClick={() => navigate('/learn')} className="bg-gray-500 text-white px-4 py-2 mt-4 mr-4">
-                    Back to Lesson Map
-                  </button>
+                <div className="flex justify-center mt-2">
+                  <div className="mb-4">
+                    <button onClick={() => navigate('/lesson/2')} className="border border-gray-500 px-6 py-3 text-xl rounded-lg hover:bg-blue-200">
+                      Next Lesson
+                    </button>
+                  </div>
+                  <div className="mb-4">
+                    <button onClick={() => window.location.reload()} className="border border-gray-500 px-6 py-3 text-xl rounded-lg hover:bg-blue-200">
+                      Try Again
+                    </button>
+                  </div>
+                  <div className="mb-4">
+                    <h2></h2>
+                    <button onClick={() => navigate('/learn')} className="border border-gray-500 px-6 py-3 text-xl rounded-lg hover:bg-blue-200">
+                      Back to Lesson Map
+                    </button>
+                  </div>
                 </div>
               </React.Fragment>
             ) : (

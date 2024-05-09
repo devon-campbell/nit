@@ -17,7 +17,7 @@ const quizPianoRanges = {
   5: ['c4', 'c4'],
   6: ['c5', 'f5'],
   7: ['c4', 'f5'],
-  55: ['c4', 'f5'],
+  8: ['c4', 'f5'],
 };
 
 const Quiz = () => {
@@ -29,6 +29,7 @@ const Quiz = () => {
   const [finishedPlaying, setFinishedPlaying] = useState(false);
   const [playedMusicWithEvaluations, setPlayedMusicWithEvaluations] = useState(null);
   const [quizStarted, setQuizStarted] = useState(false);
+  const [playedNotes, setPlayedNotes] = useState([]);
 
   useEffect(() => {
     const fetchMusicXML = async () => {
@@ -52,6 +53,11 @@ const Quiz = () => {
   const handleStartQuiz = () => {
     setQuizStarted(true);
   };
+
+  const handleFinishedPlayingButton = () => {
+    handleFinishedPlaying(playedNotes);
+    setFinishedPlaying(true);
+  }
 
   const handleFinishedPlaying = (playedNotes) => {
     /** Send the notes to backend, get back two new musicXML files, one for original sheet music and one for user's
@@ -118,16 +124,29 @@ const Quiz = () => {
               </div>
             </div>
             {quizStarted ? ( // If quizStarted is true, render the piano component
-              <div className="center-with-large-left-margin-pianokey">
+            <React.Fragment>
+              <div className={
+                (quizPianoRanges[id][0] === quizPianoRanges[id][1]) ? 
+                  "center-with-large-left-margin-one-pianokey max-w-lg max-h-lg mx-auto" :
+                (quizPianoRanges[id][0] === 'c5' && quizPianoRanges[id][1] === 'f5') ?
+                  "center-with-large-left-margin-four-pianokeys max-w-lg max-h-lg mx-auto" :
+                  "center-with-large-left-margin-piano max-w-lg max-h-lg mx-auto"
+                }>
                 <PianoComponent
                   noteRange={{ first: MidiNumbers.fromNote(quizPianoRanges[id][0]), last: MidiNumbers.fromNote(quizPianoRanges[id][1]) }}
                   bpm={bpm}
                   setBpm={setBpm}
                   maxNumOfNotes={16}
                   onFinishedPlaying={handleFinishedPlaying}
-                  oneNote={false}
+                  oneNote={quizPianoRanges[id][0] === quizPianoRanges[id][1]? true : false}
+                  playedNotes={playedNotes}
+                  setPlayedNotes={setPlayedNotes}
                 />
               </div>
+              <div className="mt-8 flex justify-center">
+                <button onClick={handleFinishedPlayingButton} className="border border-gray-500 px-6 py-3 text-xl rounded-lg hover:bg-blue-200">I'm done!</button>
+              </div>
+            </React.Fragment>
             ) : ( // If quizStarted is false, render the metronome, label, and button
               <div className="flex justify-center">
                 <div className="border border-gray-500 rounded p-4 mb-2 inline-block">

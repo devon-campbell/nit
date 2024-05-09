@@ -2,8 +2,8 @@ import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {animated, config, useTransition} from "react-spring";
 import DimensionsProvider from "../../utils/DimensionProvider";
-import musicStaff from "../../assets/music-staff.jpg";
-import trebleClefSymbol from "../../assets/Treble-Clef-Symbol.jpg";
+import musicStaff from "../../assets/music-staff.svg";
+import trebleClefSymbol from "../../assets/Treble-Clef-Symbol.svg";
 import {MidiNumbers} from "react-piano";
 import PianoComponent from "../PianoComponent";
 import SheetMusicComponent from "../SheetMusicComponent";
@@ -119,7 +119,7 @@ const Lesson5 = () => {
                                     <p style={{margin: 'auto', width: '100%'}}>{steps[item]}</p>
                                     <div style={{display: 'flex', justifyContent: 'center'}}>
                                         {item >= 3 && item <= 4 && <img src={musicStaff} alt="Music Staff"
-                                                                        style={{paddingTop: '24px', width: '25%'}}/>}
+                                                                        style={{paddingTop: '24px', width: '15%'}}/>}
                                         {item >= 5 && item <= 7 && <img src={trebleClefSymbol} alt="Treble Clef Symbol"
                                                                         style={{paddingTop: '24px', width: '15%'}}/>}
 

@@ -1,48 +1,36 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import PianoComponent from "../components/PianoComponent";
-import SheetMusicComponent from "../components/SheetMusicComponent";
-import MetronomeComponent from "../components/MetronomeComponent";
+import PianoComponent from "../PianoComponent";
+import SheetMusicComponent from "../SheetMusicComponent";
+import MetronomeComponent from "../MetronomeComponent";
 import { MidiNumbers } from "react-piano";
-import { calculateNoteDuration } from '../utils/musicUtils';
+import { calculateNoteDuration } from '../../utils/musicUtils';
 
-const Start = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { bpm, longestNote, isEndless, bars } = location.state;
-  
+const Quiz55 = () => {
   const [musicXML, setMusicXML] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [bpm, setBpm] = useState(80);
   const [finishedPlaying, setFinishedPlaying] = useState(false);
   const [playedMusicWithEvaluations, setPlayedMusicWithEvaluations] = useState(null);
   const [playedNotes, setPlayedNotes] = useState([]);
 
-  // Define fetchMusicXML outside of useEffect
-  const fetchMusicXML = async () => {
-    setIsLoading(true);
-    try {
-      const response = await fetch(`http://localhost:8000/get-quiz-musicxml/999?bars=${bars}&longestNote=${longestNote.toLowerCase()}`);
-      const data = await response.text();
-      setMusicXML(data);
-    } catch (error) {
-      console.error("Error fetching the music XML: ", error);
-    }
-    setIsLoading(false);
-  };
-
-  // Call fetchMusicXML on component mount or when bars or longestNote changes
   useEffect(() => {
-    fetchMusicXML();
-  }, [bars, longestNote]); // Only depend on bars and longestNote
+    const fetchMusicXML = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch('http://localhost:8000/get-quiz-musicxml/5');
+        const data = await response.text();
+        setMusicXML(data);
+      } catch (error) {
+        console.error("Error fetching the music XML: ", error);
+      }
+      setIsLoading(false);
+    };
 
-  const handleReset = () => {
-    setIsLoading(true);
-    setFinishedPlaying(false);
-    setPlayedMusicWithEvaluations(null);
-    setPlayedNotes([]);
-    // Call fetchMusicXML here
-    fetchMusicXML();
-  };
+    // Check if musicXML is null before fetching
+    if (!musicXML) {
+      fetchMusicXML();
+    }
+  }, [musicXML]); // Include musicXML in the dependencies array
 
   const handleFinishedPlaying = (playedNotes) => {
     /** Send the notes to backend, get back two new musicXML files, one for original sheet music and one for user's
@@ -102,14 +90,15 @@ const Start = () => {
           <React.Fragment>
             <SheetMusicComponent xml={musicXML}/>
             <div style={{ marginTop: '20px', marginBottom: '10px' }}>
-              <MetronomeComponent bpm={bpm} setBpm={bpm}/>
+              <MetronomeComponent bpm={bpm} setBpm={setBpm}/>
             </div>
             <PianoComponent
               noteRange={{ first: MidiNumbers.fromNote('c4'), last: MidiNumbers.fromNote('f5') }}
               bpm={bpm}
-              setBpm={bpm}
+              setBpm={setBpm}
               maxNumOfNotes={8}
               onFinishedPlaying={handleFinishedPlaying}
+              oneNote={false}
               onNotesUpdate={setPlayedNotes}
             />
             <button onClick={() => handleSubmit()}
@@ -118,6 +107,7 @@ const Start = () => {
           </React.Fragment>
         ) : (
           <React.Fragment>
+            {/* Render the new sheet music components here */}
             {playedMusicWithEvaluations ? (
               <React.Fragment>
                 <SheetMusicComponent xml={musicXML}/>
@@ -126,47 +116,6 @@ const Start = () => {
             ) : (
               <p>Loading your results...</p>
             )}
-            <button 
-              onClick={handleReset}
-              style={{
-                fontSize: '16px',
-                padding: '10px 20px',
-                marginTop: '20px',
-                backgroundColor: '#4CAF50', // Green color
-                color: 'white',
-                border: 'none',
-                borderRadius: '5px',
-                cursor: 'pointer',
-                transition: 'background-color 0.3s'
-              }}
-              onMouseOver={(e) => e.target.style.backgroundColor = '#45a049'} // Darker green on hover
-              onMouseOut={(e) => e.target.style.backgroundColor = '#4CAF50'}
-            >
-              From the top
-              <br />
-              <span style={{ fontSize: '12px' }}>Play again with the same settings</span>
-            </button>
-
-          <button 
-            onClick={() => navigate(-1)}
-            style={{
-              fontSize: '16px',
-              padding: '10px 20px',
-              marginTop: '20px',
-              marginLeft: '10px', // Add spacing between the buttons
-              backgroundColor: '#008CBA', // Blue color
-              color: 'white',
-              border: 'none',
-              borderRadius: '5px',
-              cursor: 'pointer',
-              transition: 'background-color 0.3s'
-            }}
-            onMouseOver={(e) => e.target.style.backgroundColor = '#007ba7'} // Darker blue on hover
-            onMouseOut={(e) => e.target.style.backgroundColor = '#008CBA'}
-          >
-            Customize new settings
-          </button>
-
           </React.Fragment>
         )
       )}
@@ -174,4 +123,4 @@ const Start = () => {
   );
 }
 
-export default Start;
+export default Quiz55;

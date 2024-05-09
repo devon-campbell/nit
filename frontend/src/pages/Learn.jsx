@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 const Learn = () => {
   const sections = [
@@ -9,16 +9,15 @@ const Learn = () => {
         { lesson: "Lesson 1: Your First Note", quiz: "Quiz 1: The Quarter Note", num: 1 },
         { lesson: "Lesson 2: We're Halfway There", quiz: "Quiz 2: Half Notes", num: 2 },
         { lesson: "Lesson 3: Filling the Holes in Sound", quiz: "Quiz 3: Whole Notes", num: 3 },
-        // { lesson: "Lesson 4: The Silent Partners", quiz: "Quiz 4: Rests", num: 4 },
-        { lesson: "Lesson 4: The Great Eight and Beyond", quiz: "Quiz 4: Intro to the Eighth Note", num: 5}
+        { lesson: "Lesson 4: The Great Eight and Beyond", quiz: "Quiz 4: Intro to the Eighth Note", num: 4}
       ]
     },
     {
       title: "advanced piano and sight reading (ap)",
       content: [
-        { lesson: "Lesson 5: Dynamic Duo: Staff and Treble Clef", quiz: "Quiz 5: Quarter Notes on the G Clef", num: 6},
-        { lesson: "Lesson 6: Pitch Perfect", quiz: "Quiz 6: Pitch Please", num: 7},
-        { lesson: "Lesson 7: 88 Reasons to Learn Sight Reading", quiz: "Quiz 7: All Together Now", num: 8},
+        { lesson: "Lesson 5: Dynamic Duo: Staff and Treble Clef", quiz: "Quiz 5: Quarter Notes on the G Clef", num: 5},
+        { lesson: "Lesson 6: Pitch Perfect", quiz: "Quiz 6: Pitch Please", num: 6},
+        { lesson: "Lesson 7: 88 Reasons to Learn Sight Reading", quiz: "Quiz 7: All Together Now", num: 7},
       ]
     }
   ];

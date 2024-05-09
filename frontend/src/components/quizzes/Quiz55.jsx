@@ -11,6 +11,7 @@ const Quiz55 = () => {
   const [bpm, setBpm] = useState(80);
   const [finishedPlaying, setFinishedPlaying] = useState(false);
   const [playedMusicWithEvaluations, setPlayedMusicWithEvaluations] = useState(null);
+  const [playedNotes, setPlayedNotes] = useState([]);
 
   useEffect(() => {
     const fetchMusicXML = async () => {
@@ -75,6 +76,9 @@ const Quiz55 = () => {
     };
     getDiffedMusicFiles();
   }
+  const handleSubmit = () => {
+    handleFinishedPlaying(playedNotes);
+  }
 
   return (
     <div style={{ padding: '20px' }}>
@@ -95,7 +99,11 @@ const Quiz55 = () => {
               maxNumOfNotes={8}
               onFinishedPlaying={handleFinishedPlaying}
               oneNote={false}
+              onNotesUpdate={setPlayedNotes}
             />
+            <button onClick={() => handleSubmit()}
+              style={{backgroundColor: 'gray', color: 'white', padding: '10px', margin: '10px'}}>Submit!
+            </button>
           </React.Fragment>
         ) : (
           <React.Fragment>

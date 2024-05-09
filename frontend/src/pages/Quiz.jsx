@@ -106,7 +106,6 @@ const Quiz = () => {
 
   return (
     <div>
-      <NavbarComponent />
       <div className="flex justify-center">
         <div>
           <div className="text-4xl font-semibold mt-8">Quiz {id}</div>
@@ -118,7 +117,7 @@ const Quiz = () => {
       ) : (
         !finishedPlaying ? (
           <React.Fragment>
-            <div>
+            <div className="bg-white my-4">
               <div className={`center-with-large-left-margin-sheetmusic-${id}`}>
                 <SheetMusicComponent xml={musicXML} />
               </div>
@@ -144,7 +143,7 @@ const Quiz = () => {
                 />
               </div>
               <div className="mt-8 flex justify-center">
-                <button onClick={handleFinishedPlayingButton} className="border border-gray-500 px-6 py-3 text-xl rounded-lg hover:bg-blue-200">I'm done!</button>
+                <button onClick={handleFinishedPlayingButton} className="border hover:bg-blue-200 border-gray-500 px-6 py-3 text-xl rounded-lg">I'm done!</button>
               </div>
             </React.Fragment>
             ) : ( // If quizStarted is false, render the metronome, label, and button
@@ -164,7 +163,7 @@ const Quiz = () => {
                     </div>
                   </div>
                   <div className="mb-4 flex justify-center">
-                    <button onClick={handleStartQuiz} className="border border-gray-500 px-6 py-3 text-xl rounded-lg hover:bg-blue-200">Start</button>
+                    <button onClick={handleStartQuiz} className="border hover:bg-blue-200 border-gray-500 px-6 py-3 text-xl rounded-lg">Start</button>
                     {quizStarted && <MetronomeComponent bpm={bpm}/>}
                   </div>
                 </div>
@@ -176,15 +175,17 @@ const Quiz = () => {
             {/* Render the new sheet music components here */}
             {playedMusicWithEvaluations ? (
               <React.Fragment>
-                <div className="flex flex-col center-with-large-left-evaluated-music">
-                  <div className="mt-4 ml-12">
-                    <h2 className="text-2xl">The sheet music:</h2>
+                <div className="bg-white my-4">
+                  <div className="flex flex-col center-with-large-left-evaluated-music">
+                    <div className="mt-4 ml-12">
+                      <h2 className="text-2xl">The sheet music:</h2>
+                      <SheetMusicComponent xml={musicXML}/>
+                    </div>
+                    <div className=" mt-4 ml-12">
+                      <h2 className="text-2xl">What you played:</h2>
+                      <SheetMusicComponent xml={playedMusicWithEvaluations}/>
+                    </div>
                   </div>
-                  <SheetMusicComponent xml={musicXML}/>
-                  <div className="mt-4 ml-12">
-                    <h2 className="text-2xl">What you played:</h2>
-                  </div>
-                  <SheetMusicComponent xml={playedMusicWithEvaluations}/>
                 </div>
                 
                 <div className="flex justify-center mt-2 space-x-2">

@@ -16,7 +16,6 @@ function App() {
   return (
     <Router>
         <NavbarComponent/>
-
             <Routes>
                 <Route path="/" element={<Home/>}/>
                 <Route path="/learn" element={<Learn/>}/>

@@ -1,6 +1,6 @@
 # Nit
 
-Nit is an app that learns users basic sight reading and piano. At its core, it functions based on an iteration of version control for music, which shows changes or differences in versions of sheet music. Our goal is to present music to users in a fun and engaging way. By implementing our own version of version control for music, it will enhance the user experience when it comes to calibration quizzes. In addition to our carefully curated lessons, we also present users with quizzes, which make use of generative UI to consistently provide users with new material. Learn to play piano without an actual piano!	
+Nit is an app that learns users basic sight reading and piano. At its core, it functions based on an iteration of version control for music, which shows changes or differences in versions of sheet music. Our goal is to present music to users in a fun and engaging way. By implementing our own version of version control for music, it will enhance the user experience when it comes to calibration quizzes. In addition to our carefully curated lessons, we also present users with quizzes, which make use of generative AI to consistently provide users with new material. Learn to play piano without an actual piano!	
 
 ## Installation
 

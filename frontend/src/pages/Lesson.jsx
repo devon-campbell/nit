@@ -24,7 +24,7 @@ const Lesson = () => {
   const LessonComponent = lessonComponents[id];
 
   return (
-    <div>
+    <div className="bg-secondary-content">
       <NavbarComponent />
       <div className="" style={{ marginTop: '60px' }}> {/* Adjust the marginTop value based on the height of your NavbarComponent */}
         {LessonComponent ? <LessonComponent /> : <p>This is the content for lesson {id}.</p>}

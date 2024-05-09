@@ -10,6 +10,7 @@ import PianoComponent from "../PianoComponent";
 
 const Lesson6 = () => {
     const navigate = useNavigate();
+    const [playedNotes, setPlayedNotes] = useState([]);
     const [musicXML, setMusicXML] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [step, setStep] = useState(0);
@@ -139,6 +140,8 @@ const Lesson6 = () => {
                     noteRange={{first: MidiNumbers.fromNote('c5'), last: MidiNumbers.fromNote('c6')}}
                     oneNote={false}
                     isLesson={true}
+                    playedNotes={playedNotes}
+                    setPlayedNotes={setPlayedNotes}
                 />
             </div>
 

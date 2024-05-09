@@ -9,6 +9,7 @@ import {MidiNumbers} from 'react-piano';
 
 const Lesson1 = () => {
     const navigate = useNavigate();
+  const [playedNotes, setPlayedNotes] = useState([]);
   const [step, setStep] = useState(0);
   const [inTransition, setInTransition] = useState(false);
   const steps = useMemo(() => ['(Use your keyboard or mouse to navigate)',
@@ -126,6 +127,8 @@ const Lesson1 = () => {
               noteRange={{ first: MidiNumbers.fromNote('c4'), last: MidiNumbers.fromNote('c4') }}
               oneNote={true}
               isLesson={true}
+              playedNotes={playedNotes}
+              setPlayedNotes={setPlayedNotes}
             />
       </div>
     </div>

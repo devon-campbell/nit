@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback, useMemo} from 'react';
 import { useTransition, animated, config } from 'react-spring';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import noteLengthsDiagram from '../../assets/note-lengths-diagram.jpg';
-import quarterNoteSymbol from '../../assets/quarter-note-symbol.jpg';
+import quarterNoteSymbol from '../../assets/quarter-note-symbol.svg';
 import DimensionsProvider from "../../utils/DimensionProvider";
 import PianoComponent from "../PianoComponent";
 import { MidiNumbers } from 'react-piano';
@@ -98,7 +98,7 @@ const Lesson1 = () => {
                     }
                     {item >= 7 &&
                       <div style={{display: 'flex', justifyContent: 'center'}}>
-                        <img src={quarterNoteSymbol} alt="Quarter Note Symbol" style={{paddingTop: '24px', width: '25%'}}/>
+                        <img src={quarterNoteSymbol} alt="Quarter Note Symbol" style={{paddingTop: '24px', width: '5%'}}/>
                       </div>
                     }
                     <div>

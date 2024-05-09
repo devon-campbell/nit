@@ -21,7 +21,6 @@ function App() {
   return (
     <Router>
         <div className={`app ${freakMode ? 'freak-mode' : ''}`}>
-            <NavbarComponent freakMode={freakMode} toggleFreakMode={toggleFreakMode} />
             <Routes>
                 <Route path="/" element={<Home/>}/>
                 <Route path="/learn" element={<Learn/>}/>

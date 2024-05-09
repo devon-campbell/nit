@@ -95,13 +95,6 @@ const PianoComponent = ({ noteRange, bpm, setBpm, maxNumOfNotes, onFinishedPlayi
         </DimensionsProvider>
       ) : (
         <>
-          <label htmlFor="bpm-select" style={{ fontWeight: 'bold', marginRight: '10px' }}>Select BPM:</label>
-          <select id="bpm-select" value={bpm} onChange={(e) => setBpm(Number(e.target.value))} style={{ margin: '10px', padding: '5px' }}>
-            <option value={60}>60 BPM</option>
-            <option value={80}>80 BPM</option>
-            <option value={100}>100 BPM</option>
-            <option value={120}>120 BPM</option>
-          </select>
           <DimensionsProvider onResize={handleResize}>
             {({containerWidth}) => (
               <SoundfontProvider
@@ -127,14 +120,14 @@ const PianoComponent = ({ noteRange, bpm, setBpm, maxNumOfNotes, onFinishedPlayi
               />
             )}
           </DimensionsProvider>
-          <h2>Played Notes:</h2>
+          {/*<h2>Played Notes:</h2>
           <ul style={{display: 'flex', flexWrap: 'wrap', padding: 0, justifyContent: 'center', listStyleType: 'none'}}>
             {playedNotes.map((note, index) => (
               <li key={index} style={{marginRight: '10px'}}>
                 {note.name} ({note.duration ? note.duration + 's' : 'Playing...'})
               </li>
             ))}
-          </ul>
+          </ul>*/}
         </>
       )}
     </div>

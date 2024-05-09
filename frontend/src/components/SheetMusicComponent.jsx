@@ -34,7 +34,7 @@ const SheetMusicComponent = ({ xml }) => {
 
   return (
     <div ref={osmdContainerRef}>
-      {loading && <div>Loading...</div>}
+        {loading && <div>Loading...</div>}
     </div>
   );
 };

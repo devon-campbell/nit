@@ -106,6 +106,7 @@ const Quiz = () => {
 
   return (
     <div>
+      <NavbarComponent/>
       <div className="flex justify-center">
         <div>
           <div className="text-4xl font-semibold mt-8">Quiz {id}</div>

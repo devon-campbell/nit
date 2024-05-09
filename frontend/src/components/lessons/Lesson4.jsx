@@ -6,7 +6,8 @@ import NavbarComponent from "../NavbarComponent";
 import quarterRestSymbol from "../../assets/quarter-rest-symbol.jpeg";
 import halfRestSymbol from "../../assets/Half-Rest-Symbol.jpg";
 import wholeRestSymbol from "../../assets/Whole-Rest-Symbol.jpeg";
-import SpacebarComponent from "../SpacebarComponent";
+import PianoComponent from "../PianoComponent";
+import {MidiNumbers} from "react-piano";
 
 const Lesson4 = () => {
    const navigate = useNavigate();
@@ -41,7 +42,7 @@ const Lesson4 = () => {
       setStep((prevStep) => {
         const nextStep = (prevStep + 1) % steps.length;
         if (nextStep === 0) { // If nextStep is 0, we've looped back to the start
-          navigate('/quiz/2'); // Navigate to /quiz/1
+          navigate('/quiz/4'); // Navigate to /quiz/1
         }
         return nextStep;
       });
@@ -55,24 +56,21 @@ const Lesson4 = () => {
   }, [inTransition, steps]);
 
   useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.code === 'Space' || event.code === 'ArrowRight') {
-        handleNext();
-      } else if (event.code === 'ArrowLeft') {
-        handlePrevious();
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [handleNext, handlePrevious]);
-
-  const handleKeyPress = () => {
-    console.log('hi');
+  const handleKeyDown = (event) => {
+    if (event.code === 'KeyA' || event.code === 'ArrowRight') {
+      handleNext();
+    } else if (event.code === 'ArrowLeft') {
+      handlePrevious();
+    }
   };
+
+  window.addEventListener('keydown', handleKeyDown);
+
+  return () => {
+    window.removeEventListener('keydown', handleKeyDown);
+  };
+}, [handleNext, handlePrevious]);
+
 
 
 
@@ -93,19 +91,20 @@ const Lesson4 = () => {
               textAlign: 'center',
               width: '100%', /* Set width to 100% of the parent */
             }}>
-              <NavbarComponent/>
-            <h1>Lesson 1: Basic Notes</h1>
+            <h1>Lesson 4: Rests</h1>
             <div style={{width: '100%', height: '10%'}}>
               {transitions((style, item) => (
                 <animated.div style={{...style, textAlign: 'center'}}>
                   <>
                     <p style={{margin: 'auto', width: '100%'}}>{steps[item]}</p>
-                    {item === 7 && <img src={quarterRestSymbol} alt="Quarter Rest Symbol"
+                    <div style={{display: 'flex', justifyContent: 'center'}}>
+                      {item === 7 && <img src={quarterRestSymbol} alt="Quarter Rest Symbol"
                                                     style={{paddingTop: '24px', width: '25%'}}/>}
-                    {item === 8 && <img src={halfRestSymbol} alt="Half Rest Symbol"
+                      {item === 8 && <img src={halfRestSymbol} alt="Half Rest Symbol"
                                        style={{paddingTop: '24px', width: '25%'}}/>}
-                    {item === 9 && <img src={wholeRestSymbol} alt="Whole Rest Symbol"
+                      {item === 9 && <img src={wholeRestSymbol} alt="Whole Rest Symbol"
                                        style={{paddingTop: '24px', width: '25%'}}/>}
+                    </div>
                     <div>
                       {item === 10 && <button onClick={handleNext}>Quiz Me</button>}
                     </div>
@@ -123,15 +122,26 @@ const Lesson4 = () => {
       alignItems: 'center',
       position: 'absolute',
       bottom: '20px',
-      width: '90%',
+      width: '100%',
       overflow: 'hidden',
     }}>
-      <div style={{width: '50%', height: '10%', paddingLeft: '50vw'}}>
-        <SpacebarComponent onKeyPress={handleKeyPress} noteDuration={2000} />
+      <div>
+        <PianoComponent
+            noteRange={{first: MidiNumbers.fromNote('c4'), last: MidiNumbers.fromNote('c4')}}
+            oneNote={true}
+            isLesson={true}
+        />
       </div>
     </div>
     <button onClick={handlePrevious}
-            style={{position: 'absolute', bottom: 0, left: '10px', fontSize: '2em', overflow: 'hidden', padding: '10px'}}>Previous
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              left: '10px',
+              fontSize: '2em',
+              overflow: 'hidden',
+              padding: '10px'
+            }}>Previous
     </button>
     <button onClick={handleNext}
             style={{position: 'absolute', bottom: 0, right: '10px', fontSize: '2em', overflow: 'hidden', padding: '10px'}}>Next

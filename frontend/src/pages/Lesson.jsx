@@ -12,7 +12,7 @@ const lessonComponents = {
   "1": Lesson1,
   "2": Lesson2,
   "3": Lesson3,
-  "4": Lesson4,
+  "4": Lesson5,
   "5": Lesson5,
     "6": Lesson6
 };

@@ -2,9 +2,10 @@ import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {animated, config, useTransition} from "react-spring";
 import DimensionsProvider from "../../utils/DimensionProvider";
-import NavbarComponent from "../NavbarComponent";
-import halfNoteSymbol from "../../assets/half-note-symbol.jpg";
-import SpacebarComponent from "../SpacebarComponent";
+import wholeNoteSymbol from "../../assets/Whole-note-symbol.jpg";
+import {MidiNumbers} from "react-piano";
+import PianoComponent from "../PianoComponent";
+
 
 const Lesson3 = () => {
    const navigate = useNavigate();
@@ -12,7 +13,12 @@ const Lesson3 = () => {
   const [inTransition, setInTransition] = useState(false);
   const steps = useMemo(() => [
       '(Use your keyboard or mouse to navigate)',
-      'Let\s continue to slow things down and talk about the whole note.'
+      'Let\'s continue slowing things down a bit and talk about Whole Notes.',
+        'A whole note is the longest note value in modern music notation.',
+        'It typically lasts for four beats, four seconds, four Quarter Notes, or two Half Notes!',
+        'In 4/4 time, a whole note takes up an entire measure.',
+        'Let\'s do some practice.'
+
   ], []);
 
   const transitions = useTransition(step, {
@@ -30,7 +36,7 @@ const Lesson3 = () => {
       setStep((prevStep) => {
         const nextStep = (prevStep + 1) % steps.length;
         if (nextStep === 0) { // If nextStep is 0, we've looped back to the start
-          navigate('/quiz/2'); // Navigate to /quiz/1
+          navigate('/quiz/3'); // Navigate to /quiz/1
         }
         return nextStep;
       });
@@ -43,30 +49,26 @@ const Lesson3 = () => {
     }
   }, [inTransition, steps]);
 
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.code === 'Space' || event.code === 'ArrowRight') {
-        handleNext();
-      } else if (event.code === 'ArrowLeft') {
-        handlePrevious();
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [handleNext, handlePrevious]);
-
-  const handleKeyPress = () => {
-    console.log('hi');
+ useEffect(() => {
+  const handleKeyDown = (event) => {
+    if (event.code === 'KeyA' || event.code === 'ArrowRight') {
+      handleNext();
+    } else if (event.code === 'ArrowLeft') {
+      handlePrevious();
+    }
   };
+
+  window.addEventListener('keydown', handleKeyDown);
+
+  return () => {
+    window.removeEventListener('keydown', handleKeyDown);
+  };
+}, [handleNext, handlePrevious]);
 
 
 
   return (
-  <div style={{ overflow: 'hidden', maxHeight: '100vh', maxWidth: '100vw' }}>
+  <div style={{maxHeight: '100vh', maxWidth: '100vw' }}>
       <div style={{ position: 'relative', height: '90vh'}}> {/* Set height to 100vh to fill the screen */}
         <DimensionsProvider onResize={({ containerWidth, containerHeight }) => {}}>
           {({ containerWidth, containerHeight }) => (
@@ -82,15 +84,17 @@ const Lesson3 = () => {
               textAlign: 'center',
               width: '100%', /* Set width to 100% of the parent */
             }}>
-              <NavbarComponent/>
-            <h1>Lesson 1: Basic Notes</h1>
+            <h1>Lesson 3: Whole Notes</h1>
             <div style={{width: '100%', height: '10%'}}>
               {transitions((style, item) => (
                 <animated.div style={{...style, textAlign: 'center'}}>
                   <>
-                    <p style={{margin: 'auto', width: '100%'}}>{steps[item]}</p>
-                    {item >= 3 && item <= 6 && <img src={halfNoteSymbol} alt="Half Note Symbol"
-                                                    style={{paddingTop: '24px', width: '25%'}}/>}
+                    <p className="w-max m-auto">{steps[item]}</p>
+                    {item >= 2 && item <= 6 &&
+                      <div style={{display: 'flex', justifyContent: 'center'}}>
+                        <img src={wholeNoteSymbol} alt="Note Lengths Diagram" style={{paddingTop: '24px', width: '25%'}}/>
+                      </div>
+                    }
                     <div>
                       {item === 10 && <button onClick={handleNext}>Quiz Me</button>}
                     </div>
@@ -108,11 +112,15 @@ const Lesson3 = () => {
       alignItems: 'center',
       position: 'absolute',
       bottom: '20px',
-      width: '90%',
+      width: '100%',
       overflow: 'hidden',
     }}>
-      <div style={{width: '50%', height: '10%', paddingLeft: '50vw'}}>
-        <SpacebarComponent onKeyPress={handleKeyPress} noteDuration={2000} />
+      <div>
+        <PianoComponent
+              noteRange={{ first: MidiNumbers.fromNote('c4'), last: MidiNumbers.fromNote('c4') }}
+              oneNote={true}
+              isLesson={true}
+            />
       </div>
     </div>
     <button onClick={handlePrevious}

@@ -8,7 +8,7 @@ To get started, follow these steps:
 
 1. **Clone the repository and navigate to it:**  
     ```
-    cd ui_tweakers
+    cd nit
     ```
 2. **Setup the backend:**  
     Navigate to the backend directory:
